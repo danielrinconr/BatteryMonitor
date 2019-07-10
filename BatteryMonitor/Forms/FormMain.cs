@@ -19,7 +19,7 @@ namespace BatteryMonitor.Forms
         public PcInnactivity PcInnactivity;
 
         private RegistryKey _reg;
-        private const string ApplicationName = "BatteryStatus";
+        private const string ApplicationName = "BatteryMonitor";
         private string _applicationPath;
 
         private bool VoiceNotify { get; set; }
@@ -41,7 +41,7 @@ namespace BatteryMonitor.Forms
 
         //private async Task CheckForUpdates()
         //{
-        //    using (var manager = new UpdateManager(@"E:\Documents\Daniel\Google_Drive\PROGRAMACIÓN\C#\BatteryStatus\Releases"))
+        //    using (var manager = new UpdateManager(@"E:\Documents\Daniel\Google_Drive\PROGRAMACIÓN\C#\BatteryMonitor\Releases"))
         //    {
         //        await manager.UpdateApp();
         //    }
@@ -211,7 +211,7 @@ namespace BatteryMonitor.Forms
                 return;
             }
             NewNotification(Battery.Msg);
-            if (Battery.Alert == Battery.Alerts.LowBattery) SpeakLifeRemaining(@"Tiempo de batería restante:");
+            if (Battery.Alert == Battery.Alerts.LowBattery) SpeakLifeRemaining(@"Tiempo restante:");
             TmWaitForResp.Enabled = true;
         }
 
