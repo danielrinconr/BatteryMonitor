@@ -13,6 +13,9 @@ namespace BatteryMonitor.Utilities
     {
         private readonly SpeechSynthesizer _synth;
         public List<string> Voices { get; private set; }
+
+        public string PcName { get; private set; }
+
         private readonly Queue<string> _msgs;
         private Thread _thSpeakMsgs;
         private readonly Action _spkCompleted;
@@ -104,6 +107,7 @@ namespace BatteryMonitor.Utilities
                 voiceName = voice;
             SelectVoice(voiceName);
         }
+
         private void ThLoadVolumeSett()
         {
             _defaultPlaybackDevice = new CoreAudioController().DefaultPlaybackDevice;
@@ -116,6 +120,8 @@ namespace BatteryMonitor.Utilities
             _synth.StateChanged -= SynthStateChanged;
             _msgs.Clear();
         }
+
+        public void ChangePcName(string pcName) => PcName = pcName;
 
         private void SelectVoice(string voiceName) => _synth.SelectVoice(voiceName);
 

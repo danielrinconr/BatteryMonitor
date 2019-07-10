@@ -122,6 +122,12 @@
     <Compile Include="Forms\FormNotSetTime.Designer.cs">
       <DependentUpon>FormNotSetTime.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\FormPcName.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FormPcName.Designer.cs">
+      <DependentUpon>FormPcName.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\FormVoiceSettings.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -133,6 +139,9 @@
     <Compile Include="Utilities\Battery.cs" />
     <Compile Include="Utilities\PcInnactivity.cs" />
     <Compile Include="Utilities\Voice.cs" />
+    <EmbeddedResource Include="Forms\FormPcName.resx">
+      <DependentUpon>FormPcName.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormVoiceSettings.resx">
       <DependentUpon>FormVoiceSettings.cs</DependentUpon>
     </EmbeddedResource>

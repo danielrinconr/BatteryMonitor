@@ -74,6 +74,8 @@ namespace BatteryMonitor.Forms
 
         private void LoadPropeties()
         {
+            if (Settings.Default.PcName == string.Empty)
+                ChangePcName(Environment.UserName);
             Battery.ChangeHighBattLevel(Settings.Default.BatteryHigh);
             Battery.ChangeLowBattLevel(Settings.Default.BatteryLow);
             PcInnactivity.ChangeMaxIdleTime(Settings.Default.PcIdleTime);
@@ -85,6 +87,18 @@ namespace BatteryMonitor.Forms
             else
             {
                 Settings.Default.VoiceName = Voice?.CurrenVoice;
+                Settings.Default.Save();
+            }
+        }
+
+        private void ChangePcName(string pcName)
+        {
+            FormPcName formPcName = new FormPcName(pcName);
+            formPcName.ShowDialog();
+            if (formPcName.HasChange)
+            {
+                Voice?.ChangePcName(formPcName.PcName);
+                Settings.Default.PcName = formPcName.PcName;
                 Settings.Default.Save();
             }
         }
@@ -210,7 +224,7 @@ namespace BatteryMonitor.Forms
                     BtnChecked.Enabled = false;
                 return;
             }
-            NewNotification(Battery.Msg);
+            NewNotification($"{Settings.Default.PcName}. {Battery.Msg}");
             if (Battery.Alert == Battery.Alerts.LowBattery) SpeakLifeRemaining(@"Tiempo restante:");
             TmWaitForResp.Enabled = true;
         }
@@ -309,6 +323,8 @@ namespace BatteryMonitor.Forms
 
         #region MenuStrip
 
+        private void UserNameToolStripMenuItem_Click(object sender, EventArgs e) => ChangePcName(Settings.Default.PcName);
+
         private void VoiceToolStripMenuItem_Click(object sender, EventArgs e)
         {
             try
@@ -373,7 +389,7 @@ namespace BatteryMonitor.Forms
 
         #endregion ContextMenuStrip
 
-        private void NotifyIcon1_MouseDoubleClick(object sender, MouseEventArgs e) => ShowForm();
+        private void NotifyIcon1_OnClick(object sender, EventArgs e) => ShowForm();
     }
 
     public static class ModifyProgressBarColor
