@@ -122,9 +122,15 @@ namespace BatteryMonitor.Forms
 
         private void FrmMain_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (MessageBox.Show(@"¿Esta seguro de cerrar la apliación?", @"Cierre de aplicación", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                Voice?.Close();
-            else e.Cancel = true;
+            if (e.CloseReason == CloseReason.UserClosing)
+                if (MessageBox.Show(@"¿Esta seguro de cerrar la apliación?", @"Cierre de aplicación",
+                        MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
+                {
+                    e.Cancel = true;
+                    return;
+                }
+
+            Voice?.Close();
         }
 
         private void FrmMain_Move(object sender, EventArgs e)
