@@ -54,6 +54,7 @@ namespace BatteryMonitor.Forms
             AutoRunLoad();
             Battery = new Battery();
             PcInnactivity = new PcInnactivity();
+            //TODO: Move to Battery Class.
             SystemEvents.PowerModeChanged += PowerModeChanged;
             ShowPowerStatus();
             BtnChecked.EnabledChanged += BtnChecked_EnabledChanged;
@@ -69,6 +70,8 @@ namespace BatteryMonitor.Forms
             }
 
             LoadPropeties();
+            if (Battery.BatteryLifePercent == 1 && TbChargeStatus.Text == "NoSystemBattery")
+                return;
             TmCheckPower.Start();
         }
 
@@ -182,6 +185,22 @@ namespace BatteryMonitor.Forms
         {
             ShowPowerStatus();
             Battery.PowerModeChanged();
+            switch (e.Mode)
+            {
+                case PowerModes.Resume:
+                    break;
+                case PowerModes.StatusChange:
+                    if (!Battery.IsCharging) break;
+                    var ham = Battery.BatteryLifePercent == 1 && TbChargeStatus.Text == "NoSystemBattery";
+                    TmCheckPower.Enabled = !ham;
+                    TmWaitForResp.Enabled = !ham;
+                    break;
+                case PowerModes.Suspend:
+                    Battery.PrevAlert = Battery.Alerts.Any;
+                    break;
+                default:
+                    break;
+            }
             if (Battery.IsCharging && Battery.Alert == Battery.Alerts.LowBattery)
                 AlertChecked();
 
@@ -192,7 +211,7 @@ namespace BatteryMonitor.Forms
         private void ShowPowerStatus()
         {
             ChangeCharge();
-            TbChargeStatus.Text = Battery.ChargeStatus;
+            TbChargeStatus.Text = Battery.ChargeStatus.ToString();
             TbFullLifetime.Text = Battery.BatteryFullLifetime;
             TbLifeRemaining.Text = Battery.BatteryLifeRemaining;
             TbLineStatus.Text = Battery.PowerLineStatus;

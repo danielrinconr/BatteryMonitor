@@ -52,14 +52,15 @@ namespace BatteryMonitor.Utilities
         /// Current alert
         /// </summary>
         public Alerts Alert { get; private set; } = Alerts.Any;
+       
         /// <summary>
         /// Previus alert.
         /// </summary>
-        public Alerts PrevAlert { get; private set; } = Alerts.Any;
+        public Alerts PrevAlert { get; /*TODO: Change to private set*/set; } = Alerts.Any;
 
         #region PowerStatusProperties
 
-        public string ChargeStatus => Status.BatteryChargeStatus == 0 ? "Normal" : Status.BatteryChargeStatus.ToString();
+        public BatteryChargeStatus ChargeStatus => Status.BatteryChargeStatus;
         public string BatteryFullLifetime => Status.BatteryFullLifetime == -1 ? "--" : Status.BatteryFullLifetime.ToString();
         public float BatteryLifePercent => Status.BatteryLifePercent;
         public string BatteryLifeRemaining => Status.BatteryLifeRemaining == -1 ? "--" : TimeSpan.FromSeconds(Status.BatteryLifeRemaining).ToString(@"hh\:mm");
