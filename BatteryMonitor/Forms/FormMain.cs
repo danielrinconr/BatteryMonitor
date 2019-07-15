@@ -26,6 +26,7 @@ namespace BatteryMonitor.Forms
 
         private uint _timeBattChk = 1;
         private uint _auxTimeBattChk = 1;
+        private uint _auxAlertTime = 60;
         private readonly bool _show;
 
         public Colors PbColor;
@@ -211,7 +212,8 @@ namespace BatteryMonitor.Forms
         private void ShowPowerStatus()
         {
             ChangeCharge();
-            TbChargeStatus.Text = Battery.ChargeStatus.ToString();
+            var chargeStatus = Battery.ChargeStatus;
+            TbChargeStatus.Text = chargeStatus == 0 ? "Normal" : chargeStatus.ToString();
             TbFullLifetime.Text = Battery.BatteryFullLifetime;
             TbLifeRemaining.Text = Battery.BatteryLifeRemaining;
             TbLineStatus.Text = Battery.PowerLineStatus;
@@ -251,18 +253,27 @@ namespace BatteryMonitor.Forms
             if (!Battery.CheckPowerLevel())
             {
                 if (BtnChecked.Enabled && Battery.Alert == Battery.Alerts.Any)
-                    BtnChecked.Enabled = false;
+                { BtnChecked.Enabled = false; Battery._auxAlert = false; }
                 return;
             }
             NewNotification($"{Settings.Default.PcName}. {Battery.Msg}");
             if (Battery.Alert == Battery.Alerts.LowBattery) SpeakLifeRemaining(@"Tiempo restante:");
             TmWaitForResp.Enabled = true;
+            Application.DoEvents();
         }
 
         private void TmWaitForResp_Tick(object sender, EventArgs e)
         {
-            Battery.WaitForResp();
-            TmWaitForResp.Enabled = false;
+            if (_auxAlertTime-- == 0)
+            {
+                _auxAlertTime = _auxTimeBattChk * 60;
+                TmWaitForResp.Enabled = false;
+                Battery.WaitForResp();
+                return;
+            }
+            TimeSpan time = TimeSpan.FromSeconds(_auxAlertTime);
+            LbTime.Text = time.ToString(@"mm\:ss");
+            PbNextAlert.Value = (int)_auxAlertTime;
         }
 
         private void NewNotification(string msg)
@@ -279,6 +290,7 @@ namespace BatteryMonitor.Forms
         {
             var _checked = Battery.Checked();
             TmWaitForResp.Enabled = false;
+            _auxAlertTime = _auxTimeBattChk * 60;
             if (!_checked)
                 NewNotification(Battery.Msg);
             BtnChecked.Enabled = false;
@@ -383,7 +395,7 @@ namespace BatteryMonitor.Forms
             if (!frmNotSetTime.Changes) return;
             //Stop timers.
             TmCheckPower.Stop();
-            TmWaitForResp.Stop();
+            TmWaitForResp.Enabled = false;
             //Get frmNotSetTime values.
             _timeBattChk = frmNotSetTime.TimeBattChk;
             _auxTimeBattChk = frmNotSetTime.AuxTimeBattChk;
@@ -399,10 +411,10 @@ namespace BatteryMonitor.Forms
             Settings.Default.Save();
             //Changes timer intervals.
             TmCheckPower.Interval = (int)_timeBattChk * 1000;
-            TmWaitForResp.Interval = (int)_auxTimeBattChk * 60000;
+            _auxAlertTime = _auxTimeBattChk * 60;
+            PbNextAlert.Maximum = (int)_auxAlertTime;
             //Restart timers.
             TmCheckPower.Start();
-            TmWaitForResp.Start();
         }
 
         #endregion MenuStrip

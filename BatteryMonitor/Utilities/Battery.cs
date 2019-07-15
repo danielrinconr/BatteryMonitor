@@ -18,7 +18,7 @@ namespace BatteryMonitor.Utilities
         /// <summary>
         /// Alert emmited.
         /// </summary>
-        private bool _auxAlert;
+        public bool _auxAlert { get; set; }
 
         /// <summary>
         /// Min battery level.
@@ -52,7 +52,7 @@ namespace BatteryMonitor.Utilities
         /// Current alert
         /// </summary>
         public Alerts Alert { get; private set; } = Alerts.Any;
-       
+
         /// <summary>
         /// Previus alert.
         /// </summary>
@@ -61,6 +61,7 @@ namespace BatteryMonitor.Utilities
         #region PowerStatusProperties
 
         public BatteryChargeStatus ChargeStatus => Status.BatteryChargeStatus;
+
         public string BatteryFullLifetime => Status.BatteryFullLifetime == -1 ? "--" : Status.BatteryFullLifetime.ToString();
         public float BatteryLifePercent => Status.BatteryLifePercent;
         public string BatteryLifeRemaining => Status.BatteryLifeRemaining == -1 ? "--" : TimeSpan.FromSeconds(Status.BatteryLifeRemaining).ToString(@"hh\:mm");

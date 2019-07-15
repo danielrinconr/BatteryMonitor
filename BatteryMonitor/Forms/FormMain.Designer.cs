@@ -63,10 +63,14 @@
             this.PbCharge = new System.Windows.Forms.ProgressBar();
             this.LbNivelCharge = new System.Windows.Forms.Label();
             this.GbVoiceBtns = new System.Windows.Forms.GroupBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.PbNextAlert = new System.Windows.Forms.ProgressBar();
+            this.LbTime = new System.Windows.Forms.Label();
             this.contextMenuStrip1.SuspendLayout();
             this.MenuStrip.SuspendLayout();
             this.GbBatteryStatus.SuspendLayout();
             this.GbVoiceBtns.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // LbChargeStatus
@@ -222,13 +226,13 @@
             // 
             // TmWaitForResp
             // 
-            this.TmWaitForResp.Interval = 60000;
+            this.TmWaitForResp.Interval = 1000;
             this.TmWaitForResp.Tick += new System.EventHandler(this.TmWaitForResp_Tick);
             // 
             // TbIdleTime
             // 
             this.TbIdleTime.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.TbIdleTime.Location = new System.Drawing.Point(208, 297);
+            this.TbIdleTime.Location = new System.Drawing.Point(208, 358);
             this.TbIdleTime.Margin = new System.Windows.Forms.Padding(2);
             this.TbIdleTime.Name = "TbIdleTime";
             this.TbIdleTime.ReadOnly = true;
@@ -239,7 +243,7 @@
             // 
             this.LbIdleTime.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.LbIdleTime.AutoSize = true;
-            this.LbIdleTime.Location = new System.Drawing.Point(14, 299);
+            this.LbIdleTime.Location = new System.Drawing.Point(14, 360);
             this.LbIdleTime.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.LbIdleTime.Name = "LbIdleTime";
             this.LbIdleTime.Size = new System.Drawing.Size(189, 13);
@@ -289,7 +293,7 @@
             // 
             this.ChBAutoRun.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.ChBAutoRun.AutoSize = true;
-            this.ChBAutoRun.Location = new System.Drawing.Point(9, 318);
+            this.ChBAutoRun.Location = new System.Drawing.Point(9, 379);
             this.ChBAutoRun.Margin = new System.Windows.Forms.Padding(2);
             this.ChBAutoRun.Name = "ChBAutoRun";
             this.ChBAutoRun.Size = new System.Drawing.Size(138, 17);
@@ -397,7 +401,7 @@
             this.GbVoiceBtns.Controls.Add(this.BtnSpeak);
             this.GbVoiceBtns.Controls.Add(this.BtnPause);
             this.GbVoiceBtns.Controls.Add(this.BtnResume);
-            this.GbVoiceBtns.Location = new System.Drawing.Point(9, 235);
+            this.GbVoiceBtns.Location = new System.Drawing.Point(11, 297);
             this.GbVoiceBtns.Margin = new System.Windows.Forms.Padding(2);
             this.GbVoiceBtns.Name = "GbVoiceBtns";
             this.GbVoiceBtns.Padding = new System.Windows.Forms.Padding(2);
@@ -406,11 +410,45 @@
             this.GbVoiceBtns.TabStop = false;
             this.GbVoiceBtns.Text = "Control de voz";
             // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.PbNextAlert);
+            this.groupBox1.Controls.Add(this.LbTime);
+            this.groupBox1.Enabled = false;
+            this.groupBox1.Location = new System.Drawing.Point(9, 236);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(261, 56);
+            this.groupBox1.TabIndex = 14;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Próxima notificacion";
+            // 
+            // PbNextAlert
+            // 
+            this.PbNextAlert.Location = new System.Drawing.Point(8, 33);
+            this.PbNextAlert.Margin = new System.Windows.Forms.Padding(2);
+            this.PbNextAlert.Maximum = 60;
+            this.PbNextAlert.Name = "PbNextAlert";
+            this.PbNextAlert.Size = new System.Drawing.Size(247, 18);
+            this.PbNextAlert.TabIndex = 16;
+            this.PbNextAlert.Value = 60;
+            // 
+            // LbTime
+            // 
+            this.LbTime.AutoSize = true;
+            this.LbTime.BackColor = System.Drawing.Color.Transparent;
+            this.LbTime.Location = new System.Drawing.Point(104, 16);
+            this.LbTime.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.LbTime.Name = "LbTime";
+            this.LbTime.Size = new System.Drawing.Size(34, 13);
+            this.LbTime.TabIndex = 17;
+            this.LbTime.Text = "01:00";
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(275, 342);
+            this.ClientSize = new System.Drawing.Size(275, 403);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.GbVoiceBtns);
             this.Controls.Add(this.GbBatteryStatus);
             this.Controls.Add(this.BtnChecked);
@@ -424,6 +462,7 @@
             this.Margin = new System.Windows.Forms.Padding(2);
             this.MaximizeBox = false;
             this.Name = "FormMain";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Monitor de nivel de batería";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmMain_FormClosing);
             this.Load += new System.EventHandler(this.FormMain_Load);
@@ -435,6 +474,8 @@
             this.GbBatteryStatus.ResumeLayout(false);
             this.GbBatteryStatus.PerformLayout();
             this.GbVoiceBtns.ResumeLayout(false);
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -475,6 +516,9 @@
         private System.Windows.Forms.ProgressBar PbCharge;
         private System.Windows.Forms.Label LbNivelCharge;
         private System.Windows.Forms.ToolStripMenuItem UserNameToolStripMenuItem;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.ProgressBar PbNextAlert;
+        private System.Windows.Forms.Label LbTime;
     }
 }
 
