@@ -71,7 +71,7 @@ namespace BatteryMonitor.Forms
             }
 
             LoadPropeties();
-            if (Battery.BatteryLifePercent == 1 && TbChargeStatus.Text == "NoSystemBattery")
+            if (Math.Abs(Battery.BatteryLifePercent - 1) < 0.001 && TbChargeStatus.Text == @"NoSystemBattery")
                 return;
             TmCheckPower.Start();
         }
