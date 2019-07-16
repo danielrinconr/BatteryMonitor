@@ -28,12 +28,12 @@
     <MapFileExtensions>true</MapFileExtensions>
     <InstallUrl>http://drbatteryutilities.somee.com/</InstallUrl>
     <UpdateUrl>http://drbatteryutilities.somee.com/</UpdateUrl>
-    <SupportUrl>https://danielrinconr.github.io/BatteryMonitor/</SupportUrl>
+    <SupportUrl>http://drbatteryutilities.somee.com/</SupportUrl>
     <ProductName>Monitor de Batería</ProductName>
     <PublisherName>DanielRincon</PublisherName>
     <SuiteName>Utilidades</SuiteName>
     <MinimumRequiredVersion>1.0.0.0</MinimumRequiredVersion>
-    <ApplicationRevision>1</ApplicationRevision>
+    <ApplicationRevision>3</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>

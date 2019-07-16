@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+    <configSections>
+        <sectionGroup name="userSettings" type="System.Configuration.UserSettingsGroup, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" >
+            <section name="BatteryMonitor.Properties.Settings" type="System.Configuration.ClientSettingsSection, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" allowExeDefinition="MachineToLocalUser" requirePermission="false" />
+        </sectionGroup>
+    </configSections>
+    <startup> 
+        <supportedRuntime version="v4.0" sku=".NETFramework,Version=v4.6.1" />
+    </startup>
+    <userSettings>
+        <BatteryMonitor.Properties.Settings>
+            <setting name="BatteryLow" serializeAs="String">
+                <value>20</value>
+            </setting>
+            <setting name="BatteryHigh" serializeAs="String">
+                <value>80</value>
+            </setting>
+            <setting name="PcIdleTime" serializeAs="String">
+                <value>2</value>
+            </setting>
+            <setting name="TimeBattChk" serializeAs="String">
+                <value>1</value>
+            </setting>
+            <setting name="TimeAuxBattChk" serializeAs="String">
+                <value>1</value>
+            </setting>
+            <setting name="VolNot" serializeAs="String">
+                <value>60</value>
+            </setting>
+            <setting name="VoiceName" serializeAs="String">
+                <value />
+            </setting>
+            <setting name="PcName" serializeAs="String">
+                <value />
+            </setting>
+        </BatteryMonitor.Properties.Settings>
+    </userSettings>
+</configuration>
