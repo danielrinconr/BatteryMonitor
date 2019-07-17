@@ -85,12 +85,12 @@ namespace BatteryMonitor.Utilities
         {
             if (!IsCharging && Status.BatteryLifePercent <= (double)LowBattLevel / 100)
             {
-                Msg = $@"Batería por debajo del {LowBattLevel} %. Conecte la fuente de poder";
+                Msg = $@"Batería al {BatteryLifePercent:P0}. Conecte la fuente de poder.";
                 Alert = Alerts.LowBattery;
             }
             else if (IsCharging && Status.BatteryLifePercent >= (double)HighBattLevel / 100)
             {
-                Msg = $@"Batería por encima del {HighBattLevel} %. Desconecte la fuente de poder";
+                Msg = $@"Batería al {BatteryLifePercent:P0}. Desconecte la fuente de poder.";
                 Alert = Alerts.HighBattery;
             }
             else

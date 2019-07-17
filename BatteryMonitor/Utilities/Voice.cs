@@ -144,6 +144,7 @@ namespace BatteryMonitor.Utilities
                 if (_defaultPlaybackDevice != null)
                 {
                     _prevVol = _defaultPlaybackDevice.Volume;
+                    if (_prevVol <= 5) _prevVol = 5;
                     _defaultPlaybackDevice.Volume = NotVolume;
                 }
                 if (_thSpeakMsgs != null) return;
@@ -164,7 +165,9 @@ namespace BatteryMonitor.Utilities
                 if (_synth.State != SynthesizerState.Paused)
                     while (_msgs.Count > 0)
                         _synth.Speak(_msgs.Dequeue());
-                if (_defaultPlaybackDevice != null) _defaultPlaybackDevice.Volume = _prevVol;
+
+                if (_defaultPlaybackDevice != null)
+                    _defaultPlaybackDevice.Volume = _prevVol;
                 _thSpeakMsgs = null;
             }
             catch (Exception exc)

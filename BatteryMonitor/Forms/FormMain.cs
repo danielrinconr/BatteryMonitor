@@ -234,12 +234,12 @@ namespace BatteryMonitor.Forms
             LbNivelCharge.Text = percent;
             batteryLife *= 100;
             PbCharge.Value = (int)batteryLife;
-            if (batteryLife < Battery.LowBattLevel)
+            if (batteryLife <= Battery.LowBattLevel)
             {
                 PbColor = Colors.Red;
                 PbCharge.SetState((int)PbColor);
             }
-            else if (batteryLife > Battery.HighBattLevel)
+            else if (batteryLife >= Battery.HighBattLevel)
             {
                 PbColor = Colors.Yellow;
                 PbCharge.SetState((int)PbColor);
@@ -263,8 +263,12 @@ namespace BatteryMonitor.Forms
                 BtnChecked.Enabled = false; Battery.AuxAlert = false;
                 return;
             }
-            NewNotification($"{Settings.Default.PcName}. {Battery.Msg}");
-            if (Battery.Alert == Battery.Alerts.LowBattery) SpeakLifeRemaining(@"Tiempo restante:");
+
+            var batteryMsg = Battery.Msg;
+            if (Battery.Alert == Battery.Alerts.LowBattery)
+                batteryMsg += SpeakLifeRemaining(@" Tiempo restante:");
+            BtnSpeak.Enabled = false;
+            NewNotification($"{Settings.Default.PcName}. {batteryMsg}");
             TmWaitForResp.Enabled = true;
             Application.DoEvents();
         }
@@ -311,11 +315,10 @@ namespace BatteryMonitor.Forms
         {
             try
             {
-                //NewNotification($@"Batería al {txtCharge.Text}");
-                Voice.AddMessage($@"Batería al {LbNivelCharge.Text}.");
-
+                var msg = $@"Batería al {LbNivelCharge.Text}.";
                 if (TbLifeRemaining.Text != @"--")
-                    SpeakLifeRemaining(@"Tiempo restante:");
+                    msg += SpeakLifeRemaining(@" Tiempo restante:");
+                Voice.AddMessage(msg);
                 if (!VoiceNotify) return;
                 BtnPause.Enabled = true;
                 BtnSpeak.Enabled = false;
@@ -326,21 +329,20 @@ namespace BatteryMonitor.Forms
             }
         }
 
-        private void SpeakLifeRemaining(string msg)
+        private string SpeakLifeRemaining(string msg)
         {
             var remaining = TbLifeRemaining.Text.Split(':');
             var hour = Convert.ToInt16(remaining[0]);
             var min = Convert.ToInt16(remaining[1]);
-            if (min > 0)
-            {
-                var hourtxt = "";
-                var mintxt = min == 1 ? $"{min} minuto" : $"{min} minutos";
-                if (hour > 0)
-                    hourtxt = hour == 1 ? $"{hour} hora" : $"{hour} horas";
-                msg += $@"{hourtxt} {mintxt}";
-            }
-            NewNotification(msg);
-            //Voice.AddMessage(msg);
+            if (min <= 0) return msg;
+            var hourtxt = "";
+            var mintxt = min == 1 ? $"{min} minuto" : $"{min} minutos";
+            if (hour > 0)
+                hourtxt = hour == 1 ? $"{hour} hora" : $"{hour} horas";
+            msg += $@" {hourtxt} {mintxt}";
+
+            return msg;
+            //NewNotification(msg);
         }
 
         private void BtnPause_Click(object sender, EventArgs e)
