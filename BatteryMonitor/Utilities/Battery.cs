@@ -18,7 +18,7 @@ namespace BatteryMonitor.Utilities
         /// <summary>
         /// Alert emmited.
         /// </summary>
-        public bool _auxAlert { get; set; }
+        public bool AuxAlert { get; set; }
 
         /// <summary>
         /// Min battery level.
@@ -97,9 +97,9 @@ namespace BatteryMonitor.Utilities
                 Alert = Alerts.Any;
 
             if (Alert == Alerts.Any) return false;
-            if (PrevAlert == Alert && _auxAlert) return false;
+            if (PrevAlert == Alert && AuxAlert) return false;
             PrevAlert = Alert;
-            _auxAlert = true;
+            AuxAlert = true;
             return true;
         }
 
@@ -109,7 +109,7 @@ namespace BatteryMonitor.Utilities
         public void WaitForResp()
         {
             if (!ChkAlert)
-                _auxAlert = false;
+                AuxAlert = false;
         }
 
         public bool Checked()

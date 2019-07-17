@@ -253,7 +253,7 @@ namespace BatteryMonitor.Forms
             if (!Battery.CheckPowerLevel())
             {
                 if (BtnChecked.Enabled && Battery.Alert == Battery.Alerts.Any)
-                { BtnChecked.Enabled = false; Battery._auxAlert = false; }
+                { BtnChecked.Enabled = false; Battery.AuxAlert = false; }
                 return;
             }
             NewNotification($"{Settings.Default.PcName}. {Battery.Msg}");
@@ -394,8 +394,9 @@ namespace BatteryMonitor.Forms
             frmNotSetTime.ShowDialog();
             if (!frmNotSetTime.Changes) return;
             //Stop timers.
+            var isTmCheckPowerEnabled = TmCheckPower.Enabled;
             TmCheckPower.Stop();
-            TmWaitForResp.Enabled = false;
+            TmWaitForResp.Stop();
             //Get frmNotSetTime values.
             _timeBattChk = frmNotSetTime.TimeBattChk;
             _auxTimeBattChk = frmNotSetTime.AuxTimeBattChk;
@@ -414,7 +415,7 @@ namespace BatteryMonitor.Forms
             _auxAlertTime = _auxTimeBattChk * 60;
             PbNextAlert.Maximum = (int)_auxAlertTime;
             //Restart timers.
-            TmCheckPower.Start();
+            TmCheckPower.Enabled = isTmCheckPowerEnabled;
         }
 
         #endregion MenuStrip
