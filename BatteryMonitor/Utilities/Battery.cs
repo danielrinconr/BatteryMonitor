@@ -140,5 +140,15 @@ namespace BatteryMonitor.Utilities
             // ReSharper disable once ConditionIsAlwaysTrueOrFalse
             return resp;
         }
+
+        internal void ChangeLowBattLevel(object lowBattery)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal void ChangeHighBattLevel(object highBattery)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

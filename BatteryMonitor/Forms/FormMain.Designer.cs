@@ -54,10 +54,8 @@
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.ChBAutoRun = new System.Windows.Forms.CheckBox();
             this.MenuStrip = new System.Windows.Forms.MenuStrip();
-            this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.UserNameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.voiceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.notificationsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.OptionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.SettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.GbBatteryStatus = new System.Windows.Forms.GroupBox();
             this.PbCharge = new System.Windows.Forms.ProgressBar();
@@ -305,7 +303,7 @@
             // 
             this.MenuStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.MenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.settingsToolStripMenuItem,
+            this.OptionsToolStripMenuItem,
             this.aboutToolStripMenuItem});
             this.MenuStrip.Location = new System.Drawing.Point(0, 0);
             this.MenuStrip.Name = "MenuStrip";
@@ -314,36 +312,20 @@
             this.MenuStrip.TabIndex = 5;
             this.MenuStrip.Text = "menuStrip1";
             // 
-            // settingsToolStripMenuItem
+            // OptionsToolStripMenuItem
             // 
-            this.settingsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.UserNameToolStripMenuItem,
-            this.voiceToolStripMenuItem,
-            this.notificationsToolStripMenuItem});
-            this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(95, 20);
-            this.settingsToolStripMenuItem.Text = "&Configuración";
+            this.OptionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.SettingsToolStripMenuItem});
+            this.OptionsToolStripMenuItem.Name = "OptionsToolStripMenuItem";
+            this.OptionsToolStripMenuItem.Size = new System.Drawing.Size(69, 20);
+            this.OptionsToolStripMenuItem.Text = "&Opciones";
             // 
-            // UserNameToolStripMenuItem
+            // SettingsToolStripMenuItem
             // 
-            this.UserNameToolStripMenuItem.Name = "UserNameToolStripMenuItem";
-            this.UserNameToolStripMenuItem.Size = new System.Drawing.Size(179, 22);
-            this.UserNameToolStripMenuItem.Text = "&Nombre del usuario";
-            this.UserNameToolStripMenuItem.Click += new System.EventHandler(this.UserNameToolStripMenuItem_Click);
-            // 
-            // voiceToolStripMenuItem
-            // 
-            this.voiceToolStripMenuItem.Name = "voiceToolStripMenuItem";
-            this.voiceToolStripMenuItem.Size = new System.Drawing.Size(179, 22);
-            this.voiceToolStripMenuItem.Text = "&Voz";
-            this.voiceToolStripMenuItem.Click += new System.EventHandler(this.VoiceToolStripMenuItem_Click);
-            // 
-            // notificationsToolStripMenuItem
-            // 
-            this.notificationsToolStripMenuItem.Name = "notificationsToolStripMenuItem";
-            this.notificationsToolStripMenuItem.Size = new System.Drawing.Size(179, 22);
-            this.notificationsToolStripMenuItem.Text = "&Notificationes";
-            this.notificationsToolStripMenuItem.Click += new System.EventHandler(this.NotificationsToolStripMenuItem_Click);
+            this.SettingsToolStripMenuItem.Name = "SettingsToolStripMenuItem";
+            this.SettingsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.SettingsToolStripMenuItem.Text = "Configuración";
+            this.SettingsToolStripMenuItem.Click += new System.EventHandler(this.SettingsToolStripMenuItem_Click);
             // 
             // aboutToolStripMenuItem
             // 
@@ -507,18 +489,16 @@
         private System.Windows.Forms.CheckBox ChBAutoRun;
         private System.Windows.Forms.MenuStrip MenuStrip;
         private System.Windows.Forms.GroupBox GbBatteryStatus;
-        private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem voiceToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem notificationsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem OptionsToolStripMenuItem;
         private System.Windows.Forms.GroupBox GbVoiceBtns;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem informeToolStripMenuItem;
         private System.Windows.Forms.ProgressBar PbCharge;
         private System.Windows.Forms.Label LbNivelCharge;
-        private System.Windows.Forms.ToolStripMenuItem UserNameToolStripMenuItem;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.ProgressBar PbNextAlert;
         private System.Windows.Forms.Label LbTime;
+        private System.Windows.Forms.ToolStripMenuItem SettingsToolStripMenuItem;
     }
 }
 

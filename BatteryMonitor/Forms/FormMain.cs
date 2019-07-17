@@ -365,44 +365,23 @@ namespace BatteryMonitor.Forms
 
         #region MenuStrip
 
-        private void UserNameToolStripMenuItem_Click(object sender, EventArgs e) => ChangePcName(Settings.Default.PcName);
-
-        private void VoiceToolStripMenuItem_Click(object sender, EventArgs e)
+        private void SettingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            try
-            {
-                //Recall for check if ther is an installed voice.
-                Voice.GetVoices();
-                var voiceSettings = new FormVoiceSettings(Voice);
-                voiceSettings.ShowDialog();
-                if (!voiceSettings.Changes) return;
-                Settings.Default.VoiceName = voiceSettings.CurrenVoice;
-                Settings.Default.VolNot = voiceSettings.NotVolume;
-                Settings.Default.Save();
-                Voice.ChangeCurrentVoice(voiceSettings.CurrenVoice);
-                Voice.ChangeNotVolume(voiceSettings.NotVolume);
-            }
-            catch (Exception exc)
-            {
-                MessageBox.Show(exc.Message, @"Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private void NotificationsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var frmNotSetTime = new FormNotSetTime(_timeBattChk, _auxTimeBattChk, PcInnactivity.MaxIdleTime, Battery.LowBattLevel, Battery.HighBattLevel);
-            frmNotSetTime.ShowDialog();
-            if (!frmNotSetTime.Changes) return;
+            Voice.GetVoices();
+            FormSettings formSettings = new FormSettings(_timeBattChk, _auxTimeBattChk, PcInnactivity.MaxIdleTime, Battery.LowBattLevel, Battery.HighBattLevel, Voice);
+            formSettings.ShowDialog();
+            if (!formSettings.HasChanges) return;
+            #region Notification
             //Stop timers.
             var isTmCheckPowerEnabled = TmCheckPower.Enabled;
             TmCheckPower.Stop();
             TmWaitForResp.Stop();
-            //Get frmNotSetTime values.
-            _timeBattChk = frmNotSetTime.TimeBattChk;
-            _auxTimeBattChk = frmNotSetTime.AuxTimeBattChk;
-            Battery.ChangeLowBattLevel(frmNotSetTime.LowBattery);
-            Battery.ChangeHighBattLevel(frmNotSetTime.HighBattery);
-            PcInnactivity.ChangeMaxIdleTime(frmNotSetTime.IdleTime);
+            //Get formSettings values.
+            _timeBattChk = formSettings.TimeBattChk;
+            _auxTimeBattChk = formSettings.AuxTimeBattChk;
+            Battery.ChangeLowBattLevel(formSettings.LowBattery);
+            Battery.ChangeHighBattLevel(formSettings.HighBattery);
+            PcInnactivity.ChangeMaxIdleTime(formSettings.IdleTime);
             //Save in properties
             Settings.Default.BatteryHigh = Battery.HighBattLevel;
             Settings.Default.BatteryLow = Battery.LowBattLevel;
@@ -416,6 +395,22 @@ namespace BatteryMonitor.Forms
             PbNextAlert.Maximum = (int)_auxAlertTime;
             //Restart timers.
             TmCheckPower.Enabled = isTmCheckPowerEnabled;
+            #endregion
+            #region Voz
+            try
+            {
+                //Recall for check if ther is an installed voice.
+                Settings.Default.VoiceName = formSettings.CurrenVoice;
+                Settings.Default.VolNot = formSettings.NotVolume;
+                Settings.Default.Save();
+                Voice.ChangeCurrentVoice(formSettings.CurrenVoice);
+                Voice.ChangeNotVolume(formSettings.NotVolume);
+            }
+            catch (Exception exc)
+            {
+                MessageBox.Show(exc.Message, @"Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            } 
+            #endregion
         }
 
         #endregion MenuStrip
@@ -433,6 +428,7 @@ namespace BatteryMonitor.Forms
         #endregion ContextMenuStrip
 
         private void NotifyIcon1_OnClick(object sender, EventArgs e) => ShowForm();
+
     }
 
     public static class ModifyProgressBarColor
