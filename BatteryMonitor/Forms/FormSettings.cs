@@ -1,15 +1,9 @@
-﻿using BatteryMonitor.Utilities;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using BatteryMonitor.Utilities;
 
-namespace BatteryMonitor
+namespace BatteryMonitor.Forms
 {
     public partial class FormSettings : Form
     {
@@ -24,6 +18,9 @@ namespace BatteryMonitor
         public string CurrenVoice => _voice.CurrenVoice;
         public uint NotVolume => _voice.NotVolume;
 
+        public string PcName { get; private set; }
+
+
         public FormSettings(uint timeBattChk, uint auxTimeBattChk, uint idleTime, uint lowBattery, uint highBattery, Voice voice)
         {
             InitializeComponent();
@@ -37,6 +34,8 @@ namespace BatteryMonitor
             #region Voz
             _voice = voice;
             #endregion
+            PcName = PcName;
+            TbPcName.Text = voice.PcName;
         }
 
         private void NotVol_ValueChanged(object sender, EventArgs e)
@@ -90,6 +89,8 @@ namespace BatteryMonitor
             _voice.ChangeSyntVolume(TbTestVol.Value);
             _voice.ChangeNotVolume((uint)NudNotVol.Value);
 
+            PcName = TbPcName.Text;
+
             Close();
         }
 
@@ -142,6 +143,19 @@ namespace BatteryMonitor
             TbNotVol.ValueChanged += NotVol_ValueChanged;
             //Set the Notification volume.
             NudNotVol.Value = _voice.NotVolume;
+        }
+
+        private void TbPcName_Validating(object sender, CancelEventArgs e)
+        {
+            if (TbPcName.Text.Length == 0)
+            {
+                e.Cancel = true;
+                errorProvider1.SetError(TbPcName, "El nombre no puede quedar vacío. Especifique un nombre.");
+            }
+            else
+            {
+                if (errorProvider1.GetError(TbPcName).Length > 0) errorProvider1.Clear();
+            }
         }
     }
 }

@@ -34,10 +34,5 @@ namespace BatteryMonitor.Utilities
         }
 
         public void ChangeMaxIdleTime(uint maxIdleTime) => MaxIdleTime = maxIdleTime;
-
-        internal void ChangeMaxIdleTime(object idleTime)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
