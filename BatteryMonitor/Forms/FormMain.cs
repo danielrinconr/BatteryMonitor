@@ -42,7 +42,7 @@ namespace BatteryMonitor.Forms
 
         private uint AuxAlertTime { get; set; } = 60;
 
-        private readonly bool StartMinimized;
+        private readonly bool _startMinimized;
 
         /// <summary>
         /// Color to ProgressBar.
@@ -52,7 +52,7 @@ namespace BatteryMonitor.Forms
         public FormMain(bool startMinimized)
         {
             InitializeComponent();
-            StartMinimized = startMinimized;
+            _startMinimized = startMinimized;
 #pragma warning disable 4014
             //CheckForUpdates();
 #pragma warning restore 4014
@@ -141,7 +141,7 @@ namespace BatteryMonitor.Forms
 
         private void FrmMain_Shown(object sender, EventArgs e)
         {
-            if (!StartMinimized) return;
+            if (!_startMinimized) return;
             WindowState = FormWindowState.Minimized;
         }
 
@@ -205,18 +205,32 @@ namespace BatteryMonitor.Forms
 
         private void PowerModeChanged(object sender, PowerModeChangedEventArgs e)
         {
-            ShowPowerStatus();
             Battery.PowerModeChanged();
+            ShowPowerStatus();
             switch (e.Mode)
             {
                 case PowerModes.Resume:
                     Battery.PrevAlert = Battery.Alerts.Any;
                     break;
                 case PowerModes.StatusChange:
-                    if (!Battery.IsCharging) break;
-                    var ham = Math.Abs(Battery.BatteryLifePercent - 1) < 0.001 && Battery.ChargeStatus == BatteryChargeStatus.NoSystemBattery;
-                    TmCheckPower.Enabled = !ham;
-                    TmWaitForResp.Enabled = !ham;
+                    switch (Battery.ChargeStatus)
+                    {
+                        case BatteryChargeStatus.NoSystemBattery:
+                            var ham = Math.Abs(Battery.BatteryLifePercent - 1) < 0.001;
+                            TmCheckPower.Enabled = !ham;
+                            TmWaitForResp.Enabled = !ham;
+                            break;
+                        case BatteryChargeStatus.Unknown:
+                            TmCheckPower.Enabled = false;
+                            TmWaitForResp.Enabled = false;
+                            break;
+                        default:
+                            var notifyIcon = Battery.IsCharging ? Resources.ico_chargingNormal : Resources.ico_DisconectNormal;
+                            notifyIcon1.Icon = notifyIcon;
+                            Icon = notifyIcon;
+                            break;
+                    }
+
                     break;
                 case PowerModes.Suspend:
                     break;
@@ -247,16 +261,25 @@ namespace BatteryMonitor.Forms
             {
                 PbColor = Colors.Red;
                 PbCharge.SetState((int)PbColor);
+                var notifyIcon = Battery.IsCharging ? Resources.ico_chargingLow : Resources.ico_DisconectLow;
+                notifyIcon1.Icon = notifyIcon;
+                Icon = notifyIcon;
             }
             else if (batteryLife >= Battery.HighBattLevel)
             {
                 PbColor = Colors.Yellow;
                 PbCharge.SetState((int)PbColor);
+                var notifyIcon = Battery.IsCharging ? Resources.ico_chargingHigh : Resources.ico_DisconectHigh;
+                notifyIcon1.Icon = notifyIcon;
+                Icon = notifyIcon;
             }
             else if (PbColor != Colors.Green)
             {
                 PbColor = Colors.Green;
                 PbCharge.SetState((int)PbColor);
+                var notifyIcon = Battery.IsCharging ? Resources.ico_chargingNormal : Resources.ico_DisconectNormal;
+                notifyIcon1.Icon = notifyIcon;
+                Icon = notifyIcon;
             }
         }
 
@@ -264,7 +287,7 @@ namespace BatteryMonitor.Forms
         {
             ShowPowerStatus();
             var idleTimeMin = PcInnactivity.GetIdleTimeMin();
-            IdleVoiceNotify = NotifyWind ? idleTimeMin >= PcInnactivity.MaxIdleTime : true;
+            IdleVoiceNotify = !NotifyWind || idleTimeMin >= PcInnactivity.MaxIdleTime;
             TbIdleTime.Text = idleTimeMin.ToString("D");
             if (!Battery.CheckPowerLevel())
             {
@@ -428,9 +451,9 @@ namespace BatteryMonitor.Forms
             #region Voz
             try
             {
-                Settings.Default.VoiceName = formSettings.CurrenVoice;
+                Settings.Default.VoiceName = formSettings.CurrentVoice;
                 Settings.Default.VolNot = formSettings.NotifyVolume;
-                Voice.ChangeCurrentVoice(formSettings.CurrenVoice);
+                Voice.ChangeCurrentVoice(formSettings.CurrentVoice);
                 Voice.ChangeNotVolume(formSettings.NotifyVolume);
             }
             catch (Exception exc)

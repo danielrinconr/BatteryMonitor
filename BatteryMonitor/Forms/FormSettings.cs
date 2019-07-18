@@ -1,6 +1,5 @@
 ﻿using BatteryMonitor.Utilities;
 using System;
-using System.Linq;
 using System.ComponentModel;
 using System.Windows.Forms;
 
@@ -8,7 +7,7 @@ namespace BatteryMonitor.Forms
 {
     public partial class FormSettings : Form
     {
-        public bool HasChanges { get; private set; } = false;
+        public bool HasChanges { get; private set; }
         public uint TimeBattChk => (uint)NudTimeChk.Value;
         public uint AuxTimeBattChk => (uint)NudTimeNot.Value;
         public uint LowBattery => (uint)NudLowBattLevel.Value;
@@ -18,12 +17,8 @@ namespace BatteryMonitor.Forms
         public bool NotifyVoice => ChkBNotifyVoice.Checked;
 
         private readonly Voice _voice;
-        public string ChangeCurrentVoice => CbVoices.SelectedItem.ToString();
-        public uint ChangeSyntVolume => (uint)TbTestVol.Value;
-        public uint ChangeNotVolume => (uint)NudNotVol.Value;
-
-        public string CurrenVoice => _voice.CurrenVoice;
-        public uint NotifyVolume => _voice.NotVolume;
+        public string CurrentVoice => CbVoices.SelectedItem.ToString();
+        public uint NotifyVolume => (uint)NudNotVol.Value;
 
         public string PcName => TbPcName.Text;
 
@@ -84,14 +79,6 @@ namespace BatteryMonitor.Forms
                     break;
             }
         }
-
-        private void BtnSave_Click(object sender, EventArgs e)
-        {
-            HasChanges = true;
-            Close();
-        }
-
-        private void BtnCancel_Click(object sender, EventArgs e) => Close();
 
         private void NudBattLevel_Validating(object sender, CancelEventArgs e)
         {
@@ -155,16 +142,11 @@ namespace BatteryMonitor.Forms
             }
         }
 
-        private void ChkBNotifyTypes_CheckedChanged(object sender, EventArgs e)
-        {
-            GbNotifyTypes.GetNextControl((Control)sender, GbNotifyTypes.Controls[0] == (Control)sender).Focus();
-        }
-
         private void ChkBNotifyTypes_Click(object sender, EventArgs e)
         {
             var chkNotify = (CheckBox)sender;
             var nextChkB = ((CheckBox)GbNotifyTypes.GetNextControl((Control)sender, GbNotifyTypes.Controls[0] == (Control)sender));
-            if (chkNotify.Checked && !nextChkB.Checked)
+            if (nextChkB != null && (chkNotify.Checked && !nextChkB.Checked))
             {
                 //e.Cancel = true;
                 errorProvider1.SetError(chkNotify, "Debe haber al menos un tipo de notificación.");
@@ -173,10 +155,18 @@ namespace BatteryMonitor.Forms
             {
                 if (errorProvider1.GetError(chkNotify).Length > 0)
                     errorProvider1.SetError(chkNotify, string.Empty);
-                if (errorProvider1.GetError(nextChkB).Length > 0)
+                if (nextChkB != null && errorProvider1.GetError(nextChkB).Length > 0)
                     errorProvider1.SetError(nextChkB, string.Empty);
                 chkNotify.Checked = !chkNotify.Checked;
             }
         }
+
+        private void BtnSave_Click(object sender, EventArgs e)
+        {
+            HasChanges = true;
+            Close();
+        }
+
+        private void BtnCancel_Click(object sender, EventArgs e) => Close();
     }
 }

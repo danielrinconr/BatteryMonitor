@@ -117,4 +117,26 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="ico_chargingHigh" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Imgs\ico\ico_chargingHigh.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ico_chargingLow" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Imgs\ico\ico_chargingLow.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ico_chargingNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Imgs\ico\ico_chargingNormal.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ico_DisconectHigh" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Imgs\ico\ico_DisconectHigh.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ico_DisconectLow" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Imgs\ico\ico_DisconectLow.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ico_DisconectNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Imgs\ico\ico_DisconectNormal.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ico_WithoutBatt" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Imgs\ico\ico_WithoutBatt.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

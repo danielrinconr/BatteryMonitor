@@ -177,6 +177,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="BatteryMonitor_TemporaryKey.pfx" />
     <None Include="packages.config" />
@@ -207,6 +208,13 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="iconfinder_battery_charging.ico" />
+    <None Include="Imgs\ico\ico_WithoutBatt.ico" />
+    <None Include="Imgs\ico\ico_DisconectNormal.ico" />
+    <None Include="Imgs\ico\ico_DisconectLow.ico" />
+    <None Include="Imgs\ico\ico_DisconectHigh.ico" />
+    <None Include="Imgs\ico\ico_chargingNormal.ico" />
+    <None Include="Imgs\ico\ico_chargingLow.ico" />
+    <None Include="Imgs\ico\ico_chargingHigh.ico" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Utilities\SerializedObjects\" />
