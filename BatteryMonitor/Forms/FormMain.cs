@@ -89,8 +89,13 @@ namespace BatteryMonitor.Forms
             }
 
             LoadPropeties();
-            if (Math.Abs(Battery.BatteryLifePercent - 1) < 0.001 && TbChargeStatus.Text == @"NoSystemBattery")
+            if (Battery.ChargeStatus == BatteryChargeStatus.NoSystemBattery)
+            {
+                notifyIcon1.Icon = Resources.ico_WithoutBatt;
+                Icon = Resources.ico_WithoutBatt;
                 return;
+            }
+
             TmCheckPower.Start();
         }
 
@@ -216,9 +221,10 @@ namespace BatteryMonitor.Forms
                     switch (Battery.ChargeStatus)
                     {
                         case BatteryChargeStatus.NoSystemBattery:
-                            var ham = Math.Abs(Battery.BatteryLifePercent - 1) < 0.001;
-                            TmCheckPower.Enabled = !ham;
-                            TmWaitForResp.Enabled = !ham;
+                            TmCheckPower.Enabled = false;
+                            TmWaitForResp.Enabled = false;
+                            notifyIcon1.Icon = Resources.ico_WithoutBatt;
+                            Icon = Resources.ico_WithoutBatt;
                             break;
                         case BatteryChargeStatus.Unknown:
                             TmCheckPower.Enabled = false;
@@ -228,6 +234,9 @@ namespace BatteryMonitor.Forms
                             var notifyIcon = Battery.IsCharging ? Resources.ico_chargingNormal : Resources.ico_DisconectNormal;
                             notifyIcon1.Icon = notifyIcon;
                             Icon = notifyIcon;
+                            if (!TmCheckPower.Enabled)
+                                TmCheckPower.Enabled = true;
+                            Battery.AuxAlert = false;
                             break;
                     }
 
@@ -265,7 +274,7 @@ namespace BatteryMonitor.Forms
                 notifyIcon1.Icon = notifyIcon;
                 Icon = notifyIcon;
             }
-            else if (batteryLife >= Battery.HighBattLevel)
+            else if (batteryLife >= Battery.HighBattLevel && Battery.ChargeStatus != BatteryChargeStatus.NoSystemBattery)
             {
                 PbColor = Colors.Yellow;
                 PbCharge.SetState((int)PbColor);
