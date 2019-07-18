@@ -129,7 +129,7 @@ namespace BatteryMonitor.Utilities
                     break;
 
                 case Alerts.Any:
-                    Msg = @"No había ninguna notificación";
+                    resp = true;
                     break;
 
                 default:

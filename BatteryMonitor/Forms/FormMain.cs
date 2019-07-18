@@ -256,7 +256,7 @@ namespace BatteryMonitor.Forms
             if (!Battery.CheckPowerLevel())
             {
                 if (!BtnChecked.Enabled || Battery.Alert != Battery.Alerts.Any) return;
-                if (!Voice.IsSpeaking) BtnChecked.Enabled = false;
+                if (!Voice.IsSpeaking) AlertChecked();
                 Battery.AuxAlert = false;
                 return;
             }
@@ -295,8 +295,8 @@ namespace BatteryMonitor.Forms
 
         private void BtnChecked_Click(object sender, EventArgs e)
         {
-            AlertChecked();
             Voice.Checked();
+            AlertChecked();
         }
 
         private void AlertChecked()
@@ -305,7 +305,7 @@ namespace BatteryMonitor.Forms
             TmWaitForResp.Enabled = false;
             AuxAlertTime = AuxTimeBattChk * 60;
             if (!_checked)
-                NewNotification(Battery.Msg);
+                notifyIcon1.ShowBalloonTip(1000, "Notificación del estado de batería", Battery.Msg, ToolTipIcon.Info);
             BtnChecked.Enabled = false;
         }
 
@@ -365,11 +365,6 @@ namespace BatteryMonitor.Forms
 
         private void VoiceCompleted() => Invoke(new Action(() =>
         {
-            if (Battery.IsCharging && Battery.Alert == Battery.Alerts.LowBattery)
-                AlertChecked();
-
-            if (!Battery.IsCharging && Battery.Alert == Battery.Alerts.HighBattery)
-                AlertChecked();
             BtnPause.Enabled = false;
             BtnSpeak.Enabled = true;
         }));
@@ -394,6 +389,7 @@ namespace BatteryMonitor.Forms
             AuxTimeBattChk = formSettings.AuxTimeBattChk;
             Battery.ChangeLowBattLevel(formSettings.LowBattery);
             Battery.ChangeHighBattLevel(formSettings.HighBattery);
+            Battery.PrevAlert = Battery.Alerts.Any;
             PcInnactivity.ChangeMaxIdleTime(formSettings.IdleTime);
             //Save in properties
             Settings.Default.BatteryHigh = Battery.HighBattLevel;
@@ -441,8 +437,14 @@ namespace BatteryMonitor.Forms
 
         #endregion ContextMenuStrip
 
-        private void NotifyIcon1_OnClick(object sender, EventArgs e) => ShowForm();
+        private void NotifyIcon1_OnClick(object sender, EventArgs e)
+        {
+            if (!BtnChecked.Enabled) return;
+            Voice.Checked();
+            AlertChecked();
+        }
 
+        private void notifyIcon1_DoubleClick(object sender, EventArgs e) => ShowForm();
     }
 
     public static class ModifyProgressBarColor
