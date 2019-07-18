@@ -63,7 +63,9 @@ namespace BatteryMonitor.Utilities
         public BatteryChargeStatus ChargeStatus => Status.BatteryChargeStatus;
 
         public string BatteryFullLifetime => Status.BatteryFullLifetime == -1 ? "--" : Status.BatteryFullLifetime.ToString();
+
         public float BatteryLifePercent => Status.BatteryLifePercent;
+
         public string BatteryLifeRemaining => Status.BatteryLifeRemaining == -1 ? "--" : TimeSpan.FromSeconds(Status.BatteryLifeRemaining).ToString(@"hh\:mm");
 
         public string PowerLineStatus => Status.PowerLineStatus == System.Windows.Forms.PowerLineStatus.Offline ? "Desconectado" : "Cargando";

@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Threading;
 //using System.Threading.Tasks;
 using System.Windows.Forms;
 using BatteryMonitor.Properties;
@@ -196,6 +197,7 @@ namespace BatteryMonitor.Forms
             switch (e.Mode)
             {
                 case PowerModes.Resume:
+                    Battery.PrevAlert = Battery.Alerts.Any;
                     break;
                 case PowerModes.StatusChange:
                     if (!Battery.IsCharging) break;
@@ -204,16 +206,10 @@ namespace BatteryMonitor.Forms
                     TmWaitForResp.Enabled = !ham;
                     break;
                 case PowerModes.Suspend:
-                    Battery.PrevAlert = Battery.Alerts.Any;
                     break;
                 default:
                     throw new NotImplementedException();
             }
-            if (Battery.IsCharging && Battery.Alert == Battery.Alerts.LowBattery)
-                AlertChecked();
-
-            if (!Battery.IsCharging && Battery.Alert == Battery.Alerts.HighBattery)
-                AlertChecked();
         }
 
         private void ShowPowerStatus()
@@ -260,7 +256,8 @@ namespace BatteryMonitor.Forms
             if (!Battery.CheckPowerLevel())
             {
                 if (!BtnChecked.Enabled || Battery.Alert != Battery.Alerts.Any) return;
-                BtnChecked.Enabled = false; Battery.AuxAlert = false;
+                if (!Voice.IsSpeaking) BtnChecked.Enabled = false;
+                Battery.AuxAlert = false;
                 return;
             }
 
@@ -290,12 +287,17 @@ namespace BatteryMonitor.Forms
         private void NewNotification(string msg)
         {
             BtnChecked.Enabled = true;
-            if (VoiceNotify)
-                Voice.AddMessage(msg);
             notifyIcon1.ShowBalloonTip(1000, "Notificación del estado de batería", msg, ToolTipIcon.Info);
+            if (!VoiceNotify) return;
+            Thread.Sleep(1000);
+            Voice.AddMessage(msg);
         }
 
-        private void BtnChecked_Click(object sender, EventArgs e) => AlertChecked();
+        private void BtnChecked_Click(object sender, EventArgs e)
+        {
+            AlertChecked();
+            Voice.Checked();
+        }
 
         private void AlertChecked()
         {
@@ -363,6 +365,11 @@ namespace BatteryMonitor.Forms
 
         private void VoiceCompleted() => Invoke(new Action(() =>
         {
+            if (Battery.IsCharging && Battery.Alert == Battery.Alerts.LowBattery)
+                AlertChecked();
+
+            if (!Battery.IsCharging && Battery.Alert == Battery.Alerts.HighBattery)
+                AlertChecked();
             BtnPause.Enabled = false;
             BtnSpeak.Enabled = true;
         }));

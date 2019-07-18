@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Speech.Synthesis;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using AudioSwitcher.AudioApi.CoreAudio;
 
@@ -17,14 +18,22 @@ namespace BatteryMonitor.Utilities
         public string PcName { get; private set; }
 
         private readonly Queue<string> _msgs;
-        private Thread _thSpeakMsgs;
+
+        private Task TskSpeakMsgs { get; set; }
+        private CancellationTokenSource Cts { get; set; }
+
         private readonly Action _spkCompleted;
 
         private CoreAudioDevice _defaultPlaybackDevice;
+
         private double _prevVol;
+
         public uint NotVolume = 60;
-        private Thread ThVolumeSett { get; }
+
+        private Task TskLoadVolController { get; }
+
         public string CurrenVoice { get; private set; }
+        public bool IsSpeaking => _synth.State == SynthesizerState.Speaking;
 
         public Voice(Action speakCompleted)
         {
@@ -37,8 +46,7 @@ namespace BatteryMonitor.Utilities
                 _msgs = new Queue<string>();
                 _spkCompleted = speakCompleted;
                 _synth.StateChanged += SynthStateChanged;
-                ThVolumeSett = new Thread(ThLoadVolumeSett);
-                ThVolumeSett.Start();
+                TskLoadVolController = Task.Run((Action)LoadVolumeSett);
             }
             catch (Exception exc)
             {
@@ -108,7 +116,7 @@ namespace BatteryMonitor.Utilities
             SelectVoice(voiceName);
         }
 
-        private void ThLoadVolumeSett()
+        private void LoadVolumeSett()
         {
             _defaultPlaybackDevice = new CoreAudioController().DefaultPlaybackDevice;
             Debug.WriteLine("Volume control Loaded");
@@ -129,17 +137,12 @@ namespace BatteryMonitor.Utilities
 
         public void ChangeNotVolume(uint vol) => NotVolume = vol;
 
-        private void SynthStateChanged(object sender, StateChangedEventArgs e)
-        {
-            if (e.State != SynthesizerState.Ready) return;
-            if (_msgs.Count > 0) return;
-            _spkCompleted();
-        }
-
-        public void AddMessage(string msg)
+        public async void AddMessage(string msg)
         {
             try
             {
+                if (TskLoadVolController.Status == TaskStatus.Running)
+                    TskLoadVolController.Wait();
                 _msgs.Enqueue(msg);
                 if (_defaultPlaybackDevice != null)
                 {
@@ -147,9 +150,7 @@ namespace BatteryMonitor.Utilities
                     if (_prevVol <= 5) _prevVol = 5;
                     _defaultPlaybackDevice.Volume = NotVolume;
                 }
-                if (_thSpeakMsgs != null) return;
-                _thSpeakMsgs = new Thread(SpeakMsgs);
-                _thSpeakMsgs.Start();
+                await SpeakMsgs();
                 Debug.WriteLine($"Launching new thread with the message: {msg}");
             }
             catch (Exception exc)
@@ -158,23 +159,45 @@ namespace BatteryMonitor.Utilities
             }
         }
 
-        private void SpeakMsgs()
+        private Task SpeakMsgs()
         {
-            try
+            Cts = new CancellationTokenSource();
+            var token = Cts.Token;
+            TskSpeakMsgs = Task.Run(() =>
             {
-                if (_synth.State != SynthesizerState.Paused)
-                    while (_msgs.Count > 0)
-                        _synth.Speak(_msgs.Dequeue());
+                Prompt promp = null;
+                try
+                {
+                    if (_synth.State != SynthesizerState.Paused)
+                    {
+                        while (_msgs.Count > 0)
+                        {
+                            promp = _synth.SpeakAsync(_msgs.Dequeue());
+                            Thread.Sleep(100);
+                            while (_synth.State == SynthesizerState.Speaking)
+                            {
+                                token.ThrowIfCancellationRequested();
+                                Thread.Sleep(100);
+                            }
+                        }
+                        _spkCompleted();
+                    }
+                    if (_defaultPlaybackDevice != null)
+                        _defaultPlaybackDevice.Volume = _prevVol;
+                }
+                catch (Exception canceledException)
+                {
+                    if (promp != null) _synth.SpeakAsyncCancel(promp);
+                    else _synth.SpeakAsyncCancelAll();
+                    Debug.WriteLine("Task was cancelled");
+                    Debug.WriteLine(canceledException.Message);
+                }
+            }, token);
+            return TskSpeakMsgs;
+        }
 
-                if (_defaultPlaybackDevice != null)
-                    _defaultPlaybackDevice.Volume = _prevVol;
-                _thSpeakMsgs = null;
-            }
-            catch (Exception exc)
-            {
-                //Debug.WriteLine(exc.Message);
-                throw new Exception(exc.Message);
-            }
+        private void SynthStateChanged(object sender, StateChangedEventArgs e)
+        {
         }
 
         public void Pause()
@@ -199,6 +222,11 @@ namespace BatteryMonitor.Utilities
             {
                 MessageBox.Show(exc.Message, @"Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        public void Checked()
+        {
+            Cts.Cancel();
         }
     }
 }
