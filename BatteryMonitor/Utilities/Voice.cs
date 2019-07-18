@@ -224,9 +224,6 @@ namespace BatteryMonitor.Utilities
             }
         }
 
-        public void Checked()
-        {
-            Cts.Cancel();
-        }
+        public void Checked() => Cts?.Cancel();
     }
 }
