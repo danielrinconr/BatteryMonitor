@@ -1,27 +1,34 @@
-﻿using System;
+﻿using BatteryMonitor.Utilities;
+using System;
+using System.Linq;
 using System.ComponentModel;
 using System.Windows.Forms;
-using BatteryMonitor.Utilities;
 
 namespace BatteryMonitor.Forms
 {
     public partial class FormSettings : Form
     {
-        public bool HasChanges { get; internal set; }
-        public uint TimeBattChk { get; internal set; }
-        public uint AuxTimeBattChk { get; internal set; }
-        public uint LowBattery { get; internal set; }
-        public uint HighBattery { get; internal set; }
-        public uint IdleTime { get; internal set; }
+        public bool HasChanges { get; private set; } = false;
+        public uint TimeBattChk => (uint)NudTimeChk.Value;
+        public uint AuxTimeBattChk => (uint)NudTimeNot.Value;
+        public uint LowBattery => (uint)NudLowBattLevel.Value;
+        public uint HighBattery => (uint)NudHighBattLevel.Value;
+        public uint IdleTime => (uint)NudIdleTime.Value;
+        public bool NotifyWind => ChkBNotifyWind.Checked;
+        public bool NotifyVoice => ChkBNotifyVoice.Checked;
 
         private readonly Voice _voice;
+        public string ChangeCurrentVoice => CbVoices.SelectedItem.ToString();
+        public uint ChangeSyntVolume => (uint)TbTestVol.Value;
+        public uint ChangeNotVolume => (uint)NudNotVol.Value;
+
         public string CurrenVoice => _voice.CurrenVoice;
-        public uint NotVolume => _voice.NotVolume;
+        public uint NotifyVolume => _voice.NotVolume;
 
-        public string PcName { get; private set; }
+        public string PcName => TbPcName.Text;
 
 
-        public FormSettings(uint timeBattChk, uint auxTimeBattChk, uint idleTime, uint lowBattery, uint highBattery, Voice voice)
+        public FormSettings(uint timeBattChk, uint auxTimeBattChk, uint idleTime, uint lowBattery, uint highBattery, Voice voice, bool notifyWind, bool notifyVoice)
         {
             InitializeComponent();
             #region Not
@@ -34,8 +41,10 @@ namespace BatteryMonitor.Forms
             #region Voz
             _voice = voice;
             #endregion
-            PcName = PcName;
+            ChkBNotifyWind.Checked = notifyWind;
+            ChkBNotifyVoice.Checked = notifyVoice;
             TbPcName.Text = voice.PcName;
+            TbPcName.Text = PcName;
         }
 
         private void NotVol_ValueChanged(object sender, EventArgs e)
@@ -79,18 +88,6 @@ namespace BatteryMonitor.Forms
         private void BtnSave_Click(object sender, EventArgs e)
         {
             HasChanges = true;
-            TimeBattChk = (uint)NudTimeChk.Value;
-            AuxTimeBattChk = (uint)NudTimeNot.Value;
-            IdleTime = (uint)NudIdleTime.Value;
-            LowBattery = (uint)NudLowBattLevel.Value;
-            HighBattery = (uint)NudHighBattLevel.Value;
-
-            _voice.ChangeCurrentVoice(CbVoices.SelectedItem.ToString());
-            _voice.ChangeSyntVolume(TbTestVol.Value);
-            _voice.ChangeNotVolume((uint)NudNotVol.Value);
-
-            PcName = TbPcName.Text;
-
             Close();
         }
 
@@ -155,6 +152,30 @@ namespace BatteryMonitor.Forms
             else
             {
                 if (errorProvider1.GetError(TbPcName).Length > 0) errorProvider1.Clear();
+            }
+        }
+
+        private void ChkBNotifyTypes_CheckedChanged(object sender, EventArgs e)
+        {
+            GbNotifyTypes.GetNextControl((Control)sender, GbNotifyTypes.Controls[0] == (Control)sender).Focus();
+        }
+
+        private void ChkBNotifyTypes_Click(object sender, EventArgs e)
+        {
+            var chkNotify = (CheckBox)sender;
+            var nextChkB = ((CheckBox)GbNotifyTypes.GetNextControl((Control)sender, GbNotifyTypes.Controls[0] == (Control)sender));
+            if (chkNotify.Checked && !nextChkB.Checked)
+            {
+                //e.Cancel = true;
+                errorProvider1.SetError(chkNotify, "Debe haber al menos un tipo de notificación.");
+            }
+            else
+            {
+                if (errorProvider1.GetError(chkNotify).Length > 0)
+                    errorProvider1.SetError(chkNotify, string.Empty);
+                if (errorProvider1.GetError(nextChkB).Length > 0)
+                    errorProvider1.SetError(nextChkB, string.Empty);
+                chkNotify.Checked = !chkNotify.Checked;
             }
         }
     }

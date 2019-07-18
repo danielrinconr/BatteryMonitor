@@ -74,9 +74,10 @@
             // LbChargeStatus
             // 
             this.LbChargeStatus.AutoSize = true;
-            this.LbChargeStatus.Location = new System.Drawing.Point(5, 28);
+            this.LbChargeStatus.Location = new System.Drawing.Point(4, 23);
+            this.LbChargeStatus.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.LbChargeStatus.Name = "LbChargeStatus";
-            this.LbChargeStatus.Size = new System.Drawing.Size(127, 17);
+            this.LbChargeStatus.Size = new System.Drawing.Size(96, 13);
             this.LbChargeStatus.TabIndex = 0;
             this.LbChargeStatus.Text = "Estado de la carga";
             // 
@@ -84,11 +85,11 @@
             // 
             this.TbChargeStatus.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.TbChargeStatus.Location = new System.Drawing.Point(177, 25);
-            this.TbChargeStatus.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.TbChargeStatus.Location = new System.Drawing.Point(133, 20);
+            this.TbChargeStatus.Margin = new System.Windows.Forms.Padding(2);
             this.TbChargeStatus.Name = "TbChargeStatus";
             this.TbChargeStatus.ReadOnly = true;
-            this.TbChargeStatus.Size = new System.Drawing.Size(156, 22);
+            this.TbChargeStatus.Size = new System.Drawing.Size(118, 20);
             this.TbChargeStatus.TabIndex = 1;
             this.TbChargeStatus.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -96,28 +97,30 @@
             // 
             this.TbFullLifetime.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.TbFullLifetime.Location = new System.Drawing.Point(177, 54);
-            this.TbFullLifetime.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.TbFullLifetime.Location = new System.Drawing.Point(133, 44);
+            this.TbFullLifetime.Margin = new System.Windows.Forms.Padding(2);
             this.TbFullLifetime.Name = "TbFullLifetime";
             this.TbFullLifetime.ReadOnly = true;
-            this.TbFullLifetime.Size = new System.Drawing.Size(156, 22);
+            this.TbFullLifetime.Size = new System.Drawing.Size(118, 20);
             this.TbFullLifetime.TabIndex = 3;
             this.TbFullLifetime.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // LbFullLifetime
             // 
-            this.LbFullLifetime.Location = new System.Drawing.Point(5, 57);
+            this.LbFullLifetime.Location = new System.Drawing.Point(4, 46);
+            this.LbFullLifetime.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.LbFullLifetime.Name = "LbFullLifetime";
-            this.LbFullLifetime.Size = new System.Drawing.Size(148, 44);
+            this.LbFullLifetime.Size = new System.Drawing.Size(111, 36);
             this.LbFullLifetime.TabIndex = 2;
             this.LbFullLifetime.Text = "Tiempo para carga completa (sec)";
             // 
             // LbCharge
             // 
             this.LbCharge.AutoSize = true;
-            this.LbCharge.Location = new System.Drawing.Point(5, 107);
+            this.LbCharge.Location = new System.Drawing.Point(4, 87);
+            this.LbCharge.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.LbCharge.Name = "LbCharge";
-            this.LbCharge.Size = new System.Drawing.Size(50, 17);
+            this.LbCharge.Size = new System.Drawing.Size(38, 13);
             this.LbCharge.TabIndex = 4;
             this.LbCharge.Text = "Carga:";
             // 
@@ -125,20 +128,21 @@
             // 
             this.TbLifeRemaining.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.TbLifeRemaining.Location = new System.Drawing.Point(177, 143);
-            this.TbLifeRemaining.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.TbLifeRemaining.Location = new System.Drawing.Point(133, 116);
+            this.TbLifeRemaining.Margin = new System.Windows.Forms.Padding(2);
             this.TbLifeRemaining.Name = "TbLifeRemaining";
             this.TbLifeRemaining.ReadOnly = true;
-            this.TbLifeRemaining.Size = new System.Drawing.Size(156, 22);
+            this.TbLifeRemaining.Size = new System.Drawing.Size(118, 20);
             this.TbLifeRemaining.TabIndex = 7;
             this.TbLifeRemaining.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // LifeRemaining
             // 
             this.LifeRemaining.AutoSize = true;
-            this.LifeRemaining.Location = new System.Drawing.Point(5, 146);
+            this.LifeRemaining.Location = new System.Drawing.Point(4, 119);
+            this.LifeRemaining.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.LifeRemaining.Name = "LifeRemaining";
-            this.LifeRemaining.Size = new System.Drawing.Size(167, 17);
+            this.LifeRemaining.Size = new System.Drawing.Size(123, 13);
             this.LifeRemaining.TabIndex = 6;
             this.LifeRemaining.Text = "Tiempo restante (hh:mm)";
             // 
@@ -146,20 +150,21 @@
             // 
             this.TbLineStatus.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.TbLineStatus.Location = new System.Drawing.Point(177, 182);
-            this.TbLineStatus.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.TbLineStatus.Location = new System.Drawing.Point(133, 148);
+            this.TbLineStatus.Margin = new System.Windows.Forms.Padding(2);
             this.TbLineStatus.Name = "TbLineStatus";
             this.TbLineStatus.ReadOnly = true;
-            this.TbLineStatus.Size = new System.Drawing.Size(156, 22);
+            this.TbLineStatus.Size = new System.Drawing.Size(118, 20);
             this.TbLineStatus.TabIndex = 9;
             this.TbLineStatus.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // LineStatus
             // 
             this.LineStatus.AutoSize = true;
-            this.LineStatus.Location = new System.Drawing.Point(5, 185);
+            this.LineStatus.Location = new System.Drawing.Point(4, 150);
+            this.LineStatus.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.LineStatus.Name = "LineStatus";
-            this.LineStatus.Size = new System.Drawing.Size(147, 17);
+            this.LineStatus.Size = new System.Drawing.Size(112, 13);
             this.LineStatus.TabIndex = 8;
             this.LineStatus.Text = "Estado de la conexión";
             // 
@@ -171,10 +176,10 @@
             // BtnSpeak
             // 
             this.BtnSpeak.Enabled = false;
-            this.BtnSpeak.Location = new System.Drawing.Point(5, 21);
-            this.BtnSpeak.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.BtnSpeak.Location = new System.Drawing.Point(4, 17);
+            this.BtnSpeak.Margin = new System.Windows.Forms.Padding(2);
             this.BtnSpeak.Name = "BtnSpeak";
-            this.BtnSpeak.Size = new System.Drawing.Size(75, 30);
+            this.BtnSpeak.Size = new System.Drawing.Size(56, 24);
             this.BtnSpeak.TabIndex = 10;
             this.BtnSpeak.Text = "&Informe";
             this.BtnSpeak.UseVisualStyleBackColor = true;
@@ -183,10 +188,10 @@
             // BtnPause
             // 
             this.BtnPause.Enabled = false;
-            this.BtnPause.Location = new System.Drawing.Point(109, 21);
-            this.BtnPause.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.BtnPause.Location = new System.Drawing.Point(82, 17);
+            this.BtnPause.Margin = new System.Windows.Forms.Padding(2);
             this.BtnPause.Name = "BtnPause";
-            this.BtnPause.Size = new System.Drawing.Size(75, 30);
+            this.BtnPause.Size = new System.Drawing.Size(56, 24);
             this.BtnPause.TabIndex = 11;
             this.BtnPause.Text = "&Pausar";
             this.BtnPause.UseVisualStyleBackColor = true;
@@ -195,10 +200,10 @@
             // BtnResume
             // 
             this.BtnResume.Enabled = false;
-            this.BtnResume.Location = new System.Drawing.Point(213, 21);
-            this.BtnResume.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.BtnResume.Location = new System.Drawing.Point(160, 17);
+            this.BtnResume.Margin = new System.Windows.Forms.Padding(2);
             this.BtnResume.Name = "BtnResume";
-            this.BtnResume.Size = new System.Drawing.Size(80, 30);
+            this.BtnResume.Size = new System.Drawing.Size(60, 24);
             this.BtnResume.TabIndex = 12;
             this.BtnResume.Text = "&Continuar";
             this.BtnResume.UseVisualStyleBackColor = true;
@@ -208,10 +213,10 @@
             // 
             this.BtnChecked.BackColor = System.Drawing.SystemColors.Control;
             this.BtnChecked.Enabled = false;
-            this.BtnChecked.Location = new System.Drawing.Point(12, 254);
-            this.BtnChecked.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.BtnChecked.Location = new System.Drawing.Point(9, 206);
+            this.BtnChecked.Margin = new System.Windows.Forms.Padding(2);
             this.BtnChecked.Name = "BtnChecked";
-            this.BtnChecked.Size = new System.Drawing.Size(85, 30);
+            this.BtnChecked.Size = new System.Drawing.Size(64, 24);
             this.BtnChecked.TabIndex = 13;
             this.BtnChecked.Text = "&Entendido";
             this.BtnChecked.UseVisualStyleBackColor = true;
@@ -225,22 +230,25 @@
             // TbIdleTime
             // 
             this.TbIdleTime.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.TbIdleTime.Location = new System.Drawing.Point(277, 441);
-            this.TbIdleTime.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.TbIdleTime.Location = new System.Drawing.Point(208, 358);
+            this.TbIdleTime.Margin = new System.Windows.Forms.Padding(2);
             this.TbIdleTime.Name = "TbIdleTime";
             this.TbIdleTime.ReadOnly = true;
-            this.TbIdleTime.Size = new System.Drawing.Size(56, 22);
+            this.TbIdleTime.Size = new System.Drawing.Size(43, 20);
             this.TbIdleTime.TabIndex = 3;
+            this.TbIdleTime.Visible = false;
             // 
             // LbIdleTime
             // 
             this.LbIdleTime.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.LbIdleTime.AutoSize = true;
-            this.LbIdleTime.Location = new System.Drawing.Point(19, 443);
+            this.LbIdleTime.Location = new System.Drawing.Point(14, 360);
+            this.LbIdleTime.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.LbIdleTime.Name = "LbIdleTime";
-            this.LbIdleTime.Size = new System.Drawing.Size(252, 17);
+            this.LbIdleTime.Size = new System.Drawing.Size(189, 13);
             this.LbIdleTime.TabIndex = 2;
             this.LbIdleTime.Text = "Tiempo de inactividad del equipo (Min)";
+            this.LbIdleTime.Visible = false;
             // 
             // contextMenuStrip1
             // 
@@ -250,26 +258,26 @@
             this.ShowToolStripMenuItem,
             this.CloseToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(131, 76);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(117, 70);
             // 
             // informeToolStripMenuItem
             // 
             this.informeToolStripMenuItem.Name = "informeToolStripMenuItem";
-            this.informeToolStripMenuItem.Size = new System.Drawing.Size(130, 24);
+            this.informeToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
             this.informeToolStripMenuItem.Text = "Informe";
             this.informeToolStripMenuItem.Click += new System.EventHandler(this.InformeToolStripMenuItem_Click);
             // 
             // ShowToolStripMenuItem
             // 
             this.ShowToolStripMenuItem.Name = "ShowToolStripMenuItem";
-            this.ShowToolStripMenuItem.Size = new System.Drawing.Size(130, 24);
+            this.ShowToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
             this.ShowToolStripMenuItem.Text = "Mostart";
             this.ShowToolStripMenuItem.Click += new System.EventHandler(this.ShowToolStripMenuItem_Click);
             // 
             // CloseToolStripMenuItem
             // 
             this.CloseToolStripMenuItem.Name = "CloseToolStripMenuItem";
-            this.CloseToolStripMenuItem.Size = new System.Drawing.Size(130, 24);
+            this.CloseToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
             this.CloseToolStripMenuItem.Text = "Cerrar";
             this.CloseToolStripMenuItem.Click += new System.EventHandler(this.CloseToolStripMenuItem_Click);
             // 
@@ -280,18 +288,18 @@
             this.notifyIcon1.Text = "Settings";
             this.notifyIcon1.Visible = true;
             this.notifyIcon1.Click += new System.EventHandler(this.NotifyIcon1_OnClick);
-            this.notifyIcon1.DoubleClick += new System.EventHandler(this.notifyIcon1_DoubleClick);
+            this.notifyIcon1.DoubleClick += new System.EventHandler(this.NotifyIcon1_DoubleClick);
             // 
             // ChBAutoRun
             // 
             this.ChBAutoRun.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.ChBAutoRun.AutoSize = true;
-            this.ChBAutoRun.Location = new System.Drawing.Point(12, 466);
-            this.ChBAutoRun.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.ChBAutoRun.Location = new System.Drawing.Point(9, 379);
+            this.ChBAutoRun.Margin = new System.Windows.Forms.Padding(2);
             this.ChBAutoRun.Name = "ChBAutoRun";
-            this.ChBAutoRun.Size = new System.Drawing.Size(179, 21);
+            this.ChBAutoRun.Size = new System.Drawing.Size(229, 17);
             this.ChBAutoRun.TabIndex = 4;
-            this.ChBAutoRun.Text = "Iniciar &automáticamente";
+            this.ChBAutoRun.Text = "Cargar &automáticamente al iniciar Windows";
             this.ChBAutoRun.UseVisualStyleBackColor = true;
             // 
             // MenuStrip
@@ -302,8 +310,8 @@
             this.aboutToolStripMenuItem});
             this.MenuStrip.Location = new System.Drawing.Point(0, 0);
             this.MenuStrip.Name = "MenuStrip";
-            this.MenuStrip.Padding = new System.Windows.Forms.Padding(5, 2, 0, 2);
-            this.MenuStrip.Size = new System.Drawing.Size(367, 28);
+            this.MenuStrip.Padding = new System.Windows.Forms.Padding(4, 2, 0, 2);
+            this.MenuStrip.Size = new System.Drawing.Size(275, 24);
             this.MenuStrip.TabIndex = 5;
             this.MenuStrip.Text = "menuStrip1";
             // 
@@ -312,20 +320,20 @@
             this.OptionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.SettingsToolStripMenuItem});
             this.OptionsToolStripMenuItem.Name = "OptionsToolStripMenuItem";
-            this.OptionsToolStripMenuItem.Size = new System.Drawing.Size(83, 24);
+            this.OptionsToolStripMenuItem.Size = new System.Drawing.Size(69, 20);
             this.OptionsToolStripMenuItem.Text = "&Opciones";
             // 
             // SettingsToolStripMenuItem
             // 
             this.SettingsToolStripMenuItem.Name = "SettingsToolStripMenuItem";
-            this.SettingsToolStripMenuItem.Size = new System.Drawing.Size(177, 26);
+            this.SettingsToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
             this.SettingsToolStripMenuItem.Text = "Configuración";
             this.SettingsToolStripMenuItem.Click += new System.EventHandler(this.SettingsToolStripMenuItem_Click);
             // 
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(87, 24);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(71, 20);
             this.aboutToolStripMenuItem.Text = "&Acerca de";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.AboutToolStripMenuItem_Click);
             // 
@@ -344,21 +352,21 @@
             this.GbBatteryStatus.Controls.Add(this.TbLifeRemaining);
             this.GbBatteryStatus.Controls.Add(this.LineStatus);
             this.GbBatteryStatus.Controls.Add(this.TbLineStatus);
-            this.GbBatteryStatus.Location = new System.Drawing.Point(12, 31);
-            this.GbBatteryStatus.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.GbBatteryStatus.Location = new System.Drawing.Point(9, 25);
+            this.GbBatteryStatus.Margin = new System.Windows.Forms.Padding(2);
             this.GbBatteryStatus.Name = "GbBatteryStatus";
-            this.GbBatteryStatus.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.GbBatteryStatus.Size = new System.Drawing.Size(348, 217);
+            this.GbBatteryStatus.Padding = new System.Windows.Forms.Padding(2);
+            this.GbBatteryStatus.Size = new System.Drawing.Size(261, 176);
             this.GbBatteryStatus.TabIndex = 0;
             this.GbBatteryStatus.TabStop = false;
             this.GbBatteryStatus.Text = "Estado de la batería";
             // 
             // PbCharge
             // 
-            this.PbCharge.Location = new System.Drawing.Point(177, 103);
-            this.PbCharge.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.PbCharge.Location = new System.Drawing.Point(133, 84);
+            this.PbCharge.Margin = new System.Windows.Forms.Padding(2);
             this.PbCharge.Name = "PbCharge";
-            this.PbCharge.Size = new System.Drawing.Size(124, 22);
+            this.PbCharge.Size = new System.Drawing.Size(93, 18);
             this.PbCharge.TabIndex = 14;
             this.PbCharge.Value = 50;
             // 
@@ -366,9 +374,10 @@
             // 
             this.LbNivelCharge.AutoSize = true;
             this.LbNivelCharge.BackColor = System.Drawing.Color.Transparent;
-            this.LbNivelCharge.Location = new System.Drawing.Point(221, 84);
+            this.LbNivelCharge.Location = new System.Drawing.Point(166, 68);
+            this.LbNivelCharge.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.LbNivelCharge.Name = "LbNivelCharge";
-            this.LbNivelCharge.Size = new System.Drawing.Size(36, 17);
+            this.LbNivelCharge.Size = new System.Drawing.Size(27, 13);
             this.LbNivelCharge.TabIndex = 15;
             this.LbNivelCharge.Text = "50%";
             // 
@@ -377,11 +386,11 @@
             this.GbVoiceBtns.Controls.Add(this.BtnSpeak);
             this.GbVoiceBtns.Controls.Add(this.BtnPause);
             this.GbVoiceBtns.Controls.Add(this.BtnResume);
-            this.GbVoiceBtns.Location = new System.Drawing.Point(15, 366);
-            this.GbVoiceBtns.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.GbVoiceBtns.Location = new System.Drawing.Point(11, 297);
+            this.GbVoiceBtns.Margin = new System.Windows.Forms.Padding(2);
             this.GbVoiceBtns.Name = "GbVoiceBtns";
-            this.GbVoiceBtns.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.GbVoiceBtns.Size = new System.Drawing.Size(309, 66);
+            this.GbVoiceBtns.Padding = new System.Windows.Forms.Padding(2);
+            this.GbVoiceBtns.Size = new System.Drawing.Size(232, 54);
             this.GbVoiceBtns.TabIndex = 1;
             this.GbVoiceBtns.TabStop = false;
             this.GbVoiceBtns.Text = "Control de voz";
@@ -391,22 +400,20 @@
             this.groupBox1.Controls.Add(this.PbNextAlert);
             this.groupBox1.Controls.Add(this.LbTime);
             this.groupBox1.Enabled = false;
-            this.groupBox1.Location = new System.Drawing.Point(12, 290);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox1.Location = new System.Drawing.Point(9, 236);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.groupBox1.Size = new System.Drawing.Size(348, 69);
+            this.groupBox1.Size = new System.Drawing.Size(261, 56);
             this.groupBox1.TabIndex = 14;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Próxima notificacion";
             // 
             // PbNextAlert
             // 
-            this.PbNextAlert.Location = new System.Drawing.Point(11, 41);
-            this.PbNextAlert.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.PbNextAlert.Location = new System.Drawing.Point(8, 33);
+            this.PbNextAlert.Margin = new System.Windows.Forms.Padding(2);
             this.PbNextAlert.Maximum = 60;
             this.PbNextAlert.Name = "PbNextAlert";
-            this.PbNextAlert.Size = new System.Drawing.Size(329, 22);
+            this.PbNextAlert.Size = new System.Drawing.Size(247, 18);
             this.PbNextAlert.TabIndex = 16;
             this.PbNextAlert.Value = 60;
             // 
@@ -414,17 +421,18 @@
             // 
             this.LbTime.AutoSize = true;
             this.LbTime.BackColor = System.Drawing.Color.Transparent;
-            this.LbTime.Location = new System.Drawing.Point(139, 20);
+            this.LbTime.Location = new System.Drawing.Point(104, 16);
+            this.LbTime.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.LbTime.Name = "LbTime";
-            this.LbTime.Size = new System.Drawing.Size(44, 17);
+            this.LbTime.Size = new System.Drawing.Size(34, 13);
             this.LbTime.TabIndex = 17;
             this.LbTime.Text = "01:00";
             // 
             // FormMain
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(367, 496);
+            this.ClientSize = new System.Drawing.Size(275, 403);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.GbVoiceBtns);
             this.Controls.Add(this.GbBatteryStatus);
@@ -436,7 +444,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.MenuStrip;
-            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.MaximizeBox = false;
             this.Name = "FormMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

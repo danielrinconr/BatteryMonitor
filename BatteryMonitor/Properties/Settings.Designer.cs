@@ -118,5 +118,29 @@ namespace BatteryMonitor.Properties {
                 this["PcName"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool NotifyVoice {
+            get {
+                return ((bool)(this["NotifyVoice"]));
+            }
+            set {
+                this["NotifyVoice"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool NotifyWind {
+            get {
+                return ((bool)(this["NotifyWind"]));
+            }
+            set {
+                this["NotifyWind"] = value;
+            }
+        }
     }
 }
