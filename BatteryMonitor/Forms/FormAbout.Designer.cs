@@ -30,12 +30,12 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormAbout));
             this.lb_InfoAuthor = new System.Windows.Forms.Label();
-            this.lnklb_emailAuthor = new System.Windows.Forms.LinkLabel();
+            this.LnkLbEmailContact = new System.Windows.Forms.LinkLabel();
             this.label1 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.LbVersionTxt = new System.Windows.Forms.Label();
             this.LbVersion = new System.Windows.Forms.Label();
-            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
+            this.LnkLbWebPage = new System.Windows.Forms.LinkLabel();
             this.label2 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -49,15 +49,16 @@
             this.lb_InfoAuthor.TabIndex = 0;
             this.lb_InfoAuthor.Text = "Creado por: Daniel Rincón";
             // 
-            // lnklb_emailAuthor
+            // LnkLbEmailContact
             // 
-            this.lnklb_emailAuthor.AutoSize = true;
-            this.lnklb_emailAuthor.Location = new System.Drawing.Point(178, 45);
-            this.lnklb_emailAuthor.Name = "lnklb_emailAuthor";
-            this.lnklb_emailAuthor.Size = new System.Drawing.Size(232, 17);
-            this.lnklb_emailAuthor.TabIndex = 1;
-            this.lnklb_emailAuthor.TabStop = true;
-            this.lnklb_emailAuthor.Text = "danielrinconr@usantotomas.edu.co";
+            this.LnkLbEmailContact.AutoSize = true;
+            this.LnkLbEmailContact.Location = new System.Drawing.Point(178, 45);
+            this.LnkLbEmailContact.Name = "LnkLbEmailContact";
+            this.LnkLbEmailContact.Size = new System.Drawing.Size(191, 17);
+            this.LnkLbEmailContact.TabIndex = 1;
+            this.LnkLbEmailContact.TabStop = true;
+            this.LnkLbEmailContact.Text = "danielrinconr213@gmail.com";
+            this.LnkLbEmailContact.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LnkLbEmailContact_LinkClicked);
             // 
             // label1
             // 
@@ -97,15 +98,16 @@
             this.LbVersion.TabIndex = 5;
             this.LbVersion.Text = "V.1";
             // 
-            // linkLabel1
+            // LnkLbWebPage
             // 
-            this.linkLabel1.AutoSize = true;
-            this.linkLabel1.Location = new System.Drawing.Point(178, 93);
-            this.linkLabel1.Name = "linkLabel1";
-            this.linkLabel1.Size = new System.Drawing.Size(284, 17);
-            this.linkLabel1.TabIndex = 3;
-            this.linkLabel1.TabStop = true;
-            this.linkLabel1.Text = "https://danielrinconr.github.io/BatteryStatus/";
+            this.LnkLbWebPage.AutoSize = true;
+            this.LnkLbWebPage.Location = new System.Drawing.Point(178, 93);
+            this.LnkLbWebPage.Name = "LnkLbWebPage";
+            this.LnkLbWebPage.Size = new System.Drawing.Size(291, 17);
+            this.LnkLbWebPage.TabIndex = 3;
+            this.LnkLbWebPage.TabStop = true;
+            this.LnkLbWebPage.Text = "https://danielrinconr.github.io/BatteryMonitor/";
+            this.LnkLbWebPage.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LnkLbWebPage_LinkClicked);
             // 
             // label2
             // 
@@ -124,16 +126,15 @@
             this.Controls.Add(this.LbVersion);
             this.Controls.Add(this.LbVersionTxt);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.linkLabel1);
-            this.Controls.Add(this.lnklb_emailAuthor);
+            this.Controls.Add(this.LnkLbWebPage);
+            this.Controls.Add(this.LnkLbEmailContact);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.lb_InfoAuthor);
             this.Controls.Add(this.pictureBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "FormAbout";
-            this.Text = "Acerca de";
-            this.Load += new System.EventHandler(this.FormAbout_Load);
+            this.Text = "Acerca de ";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -142,12 +143,12 @@
 
         #endregion
         private System.Windows.Forms.Label lb_InfoAuthor;
-        private System.Windows.Forms.LinkLabel lnklb_emailAuthor;
+        private System.Windows.Forms.LinkLabel LnkLbEmailContact;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Label LbVersionTxt;
         private System.Windows.Forms.Label LbVersion;
-        private System.Windows.Forms.LinkLabel linkLabel1;
+        private System.Windows.Forms.LinkLabel LnkLbWebPage;
         private System.Windows.Forms.Label label2;
     }
 }

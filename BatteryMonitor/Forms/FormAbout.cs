@@ -6,24 +6,15 @@ namespace BatteryMonitor.Forms
 {
     public partial class FormAbout : Form
     {
-        public FormAbout()
+        public FormAbout(string name, string version)
         {
             InitializeComponent();
+            Text += name;
+            LbVersion.Text = version;
         }
 
-        private void FormAbout_Load(object sender, System.EventArgs e)
-        {
-            LbVersion.Text = ApplicationDeployment.IsNetworkDeployed ? $@"v{ApplicationDeployment.CurrentDeployment.CurrentVersion.ToString(4)}" : Assembly.GetExecutingAssembly().GetName().Version.ToString();
-        }
+        private void LnkLbWebPage_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) => System.Diagnostics.Process.Start(LnkLbWebPage.Text);
 
-        //private void LinkLabel_DoubleClick(object sender, EventArgs e)
-        //{
-        //    Clipboard.SetText(((Label)sender).Text);
-        //    MessageBox.Show(@"URL copiada al portapeles");
-        //}        //private void LinkLabel_DoubleClick(object sender, EventArgs e)
-        //{
-        //    Clipboard.SetText(((Label)sender).Text);
-        //    MessageBox.Show(@"URL copiada al portapeles");
-        //}
+        private void LnkLbEmailContact_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) => System.Diagnostics.Process.Start($"mailto:{LnkLbEmailContact.Text}?subject={Text} v.{LbVersion.Text}");
     }
 }

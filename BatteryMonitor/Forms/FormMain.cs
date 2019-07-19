@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Deployment.Application;
 using System.Drawing;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -23,7 +24,8 @@ namespace BatteryMonitor.Forms
 
         private RegistryKey Reg { get; set; }
 
-        private const string ApplicationName = "BatteryMonitor";
+        private string AppName { get; set; }
+        private string AppVersion { get; set; }
 
         private string ApplicationPath { get; set; }
 
@@ -182,11 +184,13 @@ namespace BatteryMonitor.Forms
 
         private void AutoRunLoad()
         {
+            AppName = Assembly.GetExecutingAssembly().GetName().Name;
+            AppVersion = ApplicationDeployment.IsNetworkDeployed ? $@"v{ApplicationDeployment.CurrentDeployment.CurrentVersion.ToString(4)}" : Assembly.GetExecutingAssembly().GetName().Version.ToString();
             Reg = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true);
-            var autoRun = Reg?.GetValue(ApplicationName) != null;
-            ChBAutoRun.Checked = autoRun;
-            ChBAutoRun.CheckStateChanged += ChBAutoRun_CheckStateChanged;
             ApplicationPath = Assembly.GetEntryAssembly()?.Location;
+            var autoRun = Reg?.GetValue(AppName);
+            if (ApplicationPath != null && autoRun != null) ChBAutoRun.Checked = autoRun.ToString() == ApplicationPath;
+            ChBAutoRun.CheckStateChanged += ChBAutoRun_CheckStateChanged;
         }
 
         private void ChBAutoRun_CheckStateChanged(object sender, EventArgs e) => ChangeAutoRun(((CheckBox)sender).Checked);
@@ -196,9 +200,9 @@ namespace BatteryMonitor.Forms
             try
             {
                 if (autoRun)
-                    Reg.SetValue(ApplicationName, $"{ApplicationPath} auto");
+                    Reg.SetValue(AppName, ApplicationPath);
                 else
-                    Reg?.DeleteValue(ApplicationName);
+                    Reg?.DeleteValue(AppName);
             }
             catch (Exception exc)
             {
@@ -423,56 +427,58 @@ namespace BatteryMonitor.Forms
         private void SettingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //TODO: Fix the way to pass parameters.
-            //Recall for check if ther is an installed voice.
-            Voice.GetVoices();
-            var formSettings = new FormSettings(TimeBattChk, AuxTimeBattChk, PcInnactivity.MaxIdleTime, Battery.LowBattLevel, Battery.HighBattLevel, Voice, NotifyWind, NotifyVoice);
-            formSettings.ShowDialog();
-            if (!formSettings.HasChanges) return;
-            #region Notification
-            //Stop timers.
-            var isTmCheckPowerEnabled = TmCheckPower.Enabled;
-            TmCheckPower.Stop();
-            TmWaitForResp.Stop();
-            //Get formSettings values.
-            NotifyWind = formSettings.NotifyWind;
-            NotifyVoice = formSettings.NotifyVoice;
-            TimeBattChk = formSettings.TimeBattChk;
-            AuxTimeBattChk = formSettings.AuxTimeBattChk;
-            Battery.ChangeLowBattLevel(formSettings.LowBattery);
-            Battery.ChangeHighBattLevel(formSettings.HighBattery);
-            Battery.PrevAlert = Battery.Alerts.Any;
-            PcInnactivity.ChangeMaxIdleTime(formSettings.IdleTime);
-            //Save in properties
-            Settings.Default.BatteryHigh = Battery.HighBattLevel;
-            Settings.Default.BatteryLow = Battery.LowBattLevel;
-            Settings.Default.PcIdleTime = PcInnactivity.MaxIdleTime;
-            Settings.Default.TimeBattChk = TimeBattChk;
-            Settings.Default.TimeAuxBattChk = AuxTimeBattChk;
-            Settings.Default.NotifyWind = NotifyWind;
-            Settings.Default.NotifyVoice = NotifyVoice;
-            //Changes timer intervals.
-            TmCheckPower.Interval = (int)TimeBattChk * 1000;
-            AuxAlertTime = AuxTimeBattChk * 60;
-            PbNextAlert.Maximum = (int)AuxAlertTime;
-            //Restart timers.
-            TmCheckPower.Enabled = isTmCheckPowerEnabled;
-            #endregion
-            #region Voz
-            try
+            using (var formSettings = new FormSettings(TimeBattChk, AuxTimeBattChk, PcInnactivity.MaxIdleTime, Battery.LowBattLevel, Battery.HighBattLevel, Voice, NotifyWind, NotifyVoice))
             {
-                Settings.Default.VoiceName = formSettings.CurrentVoice;
-                Settings.Default.VolNot = formSettings.NotifyVolume;
-                Voice.ChangeCurrentVoice(formSettings.CurrentVoice);
-                Voice.ChangeNotVolume(formSettings.NotifyVolume);
+                //Recall for check if ther is an installed voice.
+                Voice.GetVoices();
+                formSettings.ShowDialog();
+                if (!formSettings.HasChanges) return;
+                #region Notification
+                //Stop timers.
+                var isTmCheckPowerEnabled = TmCheckPower.Enabled;
+                TmCheckPower.Stop();
+                TmWaitForResp.Stop();
+                //Get formSettings values.
+                NotifyWind = formSettings.NotifyWind;
+                NotifyVoice = formSettings.NotifyVoice;
+                TimeBattChk = formSettings.TimeBattChk;
+                AuxTimeBattChk = formSettings.AuxTimeBattChk;
+                Battery.ChangeLowBattLevel(formSettings.LowBattery);
+                Battery.ChangeHighBattLevel(formSettings.HighBattery);
+                Battery.PrevAlert = Battery.Alerts.Any;
+                PcInnactivity.ChangeMaxIdleTime(formSettings.IdleTime);
+                //Save in properties
+                Settings.Default.BatteryHigh = Battery.HighBattLevel;
+                Settings.Default.BatteryLow = Battery.LowBattLevel;
+                Settings.Default.PcIdleTime = PcInnactivity.MaxIdleTime;
+                Settings.Default.TimeBattChk = TimeBattChk;
+                Settings.Default.TimeAuxBattChk = AuxTimeBattChk;
+                Settings.Default.NotifyWind = NotifyWind;
+                Settings.Default.NotifyVoice = NotifyVoice;
+                //Changes timer intervals.
+                TmCheckPower.Interval = (int)TimeBattChk * 1000;
+                AuxAlertTime = AuxTimeBattChk * 60;
+                PbNextAlert.Maximum = (int)AuxAlertTime;
+                //Restart timers.
+                TmCheckPower.Enabled = isTmCheckPowerEnabled;
+                #endregion
+                #region Voz
+                try
+                {
+                    Settings.Default.VoiceName = formSettings.CurrentVoice;
+                    Settings.Default.VolNot = formSettings.NotifyVolume;
+                    Voice.ChangeCurrentVoice(formSettings.CurrentVoice);
+                    Voice.ChangeNotVolume(formSettings.NotifyVolume);
+                }
+                catch (Exception exc)
+                {
+                    MessageBox.Show(exc.Message, @"Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                #endregion
+                Voice?.ChangePcName(formSettings.PcName);
+                Settings.Default.PcName = formSettings.PcName;
+                Settings.Default.Save();
             }
-            catch (Exception exc)
-            {
-                MessageBox.Show(exc.Message, @"Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            #endregion
-            Voice?.ChangePcName(formSettings.PcName);
-            Settings.Default.PcName = formSettings.PcName;
-            Settings.Default.Save();
         }
 
         #endregion MenuStrip
@@ -485,7 +491,7 @@ namespace BatteryMonitor.Forms
 
         private void InformeToolStripMenuItem_Click(object sender, EventArgs e) => SpeakInfo();
 
-        private void AboutToolStripMenuItem_Click(object sender, EventArgs e) => new FormAbout().ShowDialog();
+        private void AboutToolStripMenuItem_Click(object sender, EventArgs e) => new FormAbout(AppName, AppVersion).ShowDialog();
 
         #endregion ContextMenuStrip
 
