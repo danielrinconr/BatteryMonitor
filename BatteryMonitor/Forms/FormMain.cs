@@ -215,7 +215,7 @@ namespace BatteryMonitor.Forms
             switch (e.Mode)
             {
                 case PowerModes.Resume:
-                    Battery.PrevAlert = Battery.Alerts.Any;
+                    Battery.AuxAlert = false;
                     break;
                 case PowerModes.StatusChange:
                     switch (Battery.ChargeStatus)
