@@ -26,14 +26,19 @@ Nuestra novedad, la aplicación detecta el tiempo de inactividad del equipo, si 
 
 ![FormSettings](http://gg.gg/BattMonFormSettings)
 
-* En la pestaña **Notificaciones** puede configurar:
-* La voz del sintetizador.
-* El volumen que cambiará a la hora de emitirse una notificación.
+* En la pestaña **Sintetizador de voz** puede configurar:
+* La voz que usará el sintetizador.
+* El volumen al que cambiará a la hora de emitirse una notificación.
 
 ![FormSettings2](https://danielrinconr.github.io/BatteryMonitor/BatteryMonitor/Imgs/ScreenShots/FormSettings2.jpg)
 
 ## Uso
 
+## Acerca de
+* En esta ventana se encuentra el correo de contacto y la página web de la aplicación.
+* Además de la versión actual de la versión.
+
+![FormAbout](http://gg.gg/BattMonFormAbout)
 
 ---
 ### Actualizaciones automáticas.
