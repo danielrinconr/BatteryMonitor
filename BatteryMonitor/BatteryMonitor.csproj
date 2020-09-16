@@ -26,14 +26,16 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>true</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <InstallUrl>http://drbatteryutilities.somee.com/</InstallUrl>
+    <InstallUrl>http://drutilities.somee.com/</InstallUrl>
     <UpdateUrl>http://drbatteryutilities.somee.com/</UpdateUrl>
-    <SupportUrl>http://drbatteryutilities.somee.com/</SupportUrl>
+    <SupportUrl>http://drutilities.somee.com/</SupportUrl>
     <ProductName>Monitor de Batería</ProductName>
     <PublisherName>DanielRincon</PublisherName>
     <SuiteName>Utilidades</SuiteName>
     <MinimumRequiredVersion>1.0.0.0</MinimumRequiredVersion>
-    <ApplicationRevision>7</ApplicationRevision>
+    <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
+    <WebPage>publish.htm</WebPage>
+    <ApplicationRevision>9</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -63,7 +65,7 @@
     <ApplicationIcon>iconfinder_battery_charging.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>5722FEBAF20AF9667181331591644DFE4B0A5E91</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>3D198E47BDC58D4BA66224F80ACD53387952F0FB</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestKeyFile>BatteryMonitor_TemporaryKey.pfx</ManifestKeyFile>
