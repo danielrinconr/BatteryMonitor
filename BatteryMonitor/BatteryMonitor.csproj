@@ -160,7 +160,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\Battery.cs" />
-    <Compile Include="Utilities\PcInnactivity.cs" />
+    <Compile Include="Utilities\PcIdle.cs" />
     <Compile Include="Utilities\Voice.cs" />
     <EmbeddedResource Include="Forms\FormPcName.resx">
       <DependentUpon>FormPcName.cs</DependentUpon>
@@ -185,6 +185,7 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <None Include="BatteryMonitor_TemporaryKey.pfx" />
+    <None Include="ClassDiagram1.cd" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

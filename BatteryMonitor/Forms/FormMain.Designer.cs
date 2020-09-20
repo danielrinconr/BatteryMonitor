@@ -61,14 +61,14 @@
             this.PbCharge = new System.Windows.Forms.ProgressBar();
             this.LbNivelCharge = new System.Windows.Forms.Label();
             this.GbVoiceBtns = new System.Windows.Forms.GroupBox();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.GbNextNot = new System.Windows.Forms.GroupBox();
             this.PbNextAlert = new System.Windows.Forms.ProgressBar();
             this.LbTime = new System.Windows.Forms.Label();
             this.contextMenuStrip1.SuspendLayout();
             this.MenuStrip.SuspendLayout();
             this.GbBatteryStatus.SuspendLayout();
             this.GbVoiceBtns.SuspendLayout();
-            this.groupBox1.SuspendLayout();
+            this.GbNextNot.SuspendLayout();
             this.SuspendLayout();
             // 
             // LbChargeStatus
@@ -234,7 +234,8 @@
             this.TbIdleTime.ReadOnly = true;
             this.TbIdleTime.Size = new System.Drawing.Size(56, 22);
             this.TbIdleTime.TabIndex = 3;
-            this.TbIdleTime.Visible = false;
+            this.TbIdleTime.Text = "0";
+            this.TbIdleTime.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // LbIdleTime
             // 
@@ -245,7 +246,6 @@
             this.LbIdleTime.Size = new System.Drawing.Size(252, 17);
             this.LbIdleTime.TabIndex = 2;
             this.LbIdleTime.Text = "Tiempo de inactividad del equipo (Min)";
-            this.LbIdleTime.Visible = false;
             // 
             // contextMenuStrip1
             // 
@@ -262,7 +262,7 @@
             this.informeToolStripMenuItem.Name = "informeToolStripMenuItem";
             this.informeToolStripMenuItem.Size = new System.Drawing.Size(130, 24);
             this.informeToolStripMenuItem.Text = "Informe";
-            this.informeToolStripMenuItem.Click += new System.EventHandler(this.InformeToolStripMenuItem_Click);
+            this.informeToolStripMenuItem.Click += new System.EventHandler(this.InfoToolStripMenuItem_Click);
             // 
             // ShowToolStripMenuItem
             // 
@@ -298,6 +298,7 @@
             this.ChBAutoRun.TabIndex = 4;
             this.ChBAutoRun.Text = "Cargar &automáticamente al iniciar Windows";
             this.ChBAutoRun.UseVisualStyleBackColor = true;
+            this.ChBAutoRun.CheckedChanged += new System.EventHandler(this.ChBAutoRun_CheckedChanged);
             // 
             // MenuStrip
             // 
@@ -396,21 +397,21 @@
             this.GbVoiceBtns.TabStop = false;
             this.GbVoiceBtns.Text = "Control de voz";
             // 
-            // groupBox1
+            // GbNextNot
             // 
-            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.GbNextNot.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox1.Controls.Add(this.PbNextAlert);
-            this.groupBox1.Controls.Add(this.LbTime);
-            this.groupBox1.Enabled = false;
-            this.groupBox1.Location = new System.Drawing.Point(12, 290);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(4);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox1.Size = new System.Drawing.Size(425, 69);
-            this.groupBox1.TabIndex = 14;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Próxima notificacion";
+            this.GbNextNot.Controls.Add(this.PbNextAlert);
+            this.GbNextNot.Controls.Add(this.LbTime);
+            this.GbNextNot.Enabled = false;
+            this.GbNextNot.Location = new System.Drawing.Point(12, 290);
+            this.GbNextNot.Margin = new System.Windows.Forms.Padding(4);
+            this.GbNextNot.Name = "GbNextNot";
+            this.GbNextNot.Padding = new System.Windows.Forms.Padding(4);
+            this.GbNextNot.Size = new System.Drawing.Size(425, 69);
+            this.GbNextNot.TabIndex = 14;
+            this.GbNextNot.TabStop = false;
+            this.GbNextNot.Text = "Próxima notificacion";
             // 
             // PbNextAlert
             // 
@@ -428,7 +429,7 @@
             // 
             this.LbTime.AutoSize = true;
             this.LbTime.BackColor = System.Drawing.Color.Transparent;
-            this.LbTime.Location = new System.Drawing.Point(139, 20);
+            this.LbTime.Location = new System.Drawing.Point(196, 19);
             this.LbTime.Name = "LbTime";
             this.LbTime.Size = new System.Drawing.Size(44, 17);
             this.LbTime.TabIndex = 17;
@@ -439,7 +440,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(442, 496);
-            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.GbNextNot);
             this.Controls.Add(this.GbVoiceBtns);
             this.Controls.Add(this.GbBatteryStatus);
             this.Controls.Add(this.BtnChecked);
@@ -465,8 +466,8 @@
             this.GbBatteryStatus.ResumeLayout(false);
             this.GbBatteryStatus.PerformLayout();
             this.GbVoiceBtns.ResumeLayout(false);
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
+            this.GbNextNot.ResumeLayout(false);
+            this.GbNextNot.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -504,7 +505,7 @@
         private System.Windows.Forms.ToolStripMenuItem informeToolStripMenuItem;
         private System.Windows.Forms.ProgressBar PbCharge;
         private System.Windows.Forms.Label LbNivelCharge;
-        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox GbNextNot;
         private System.Windows.Forms.ProgressBar PbNextAlert;
         private System.Windows.Forms.Label LbTime;
         private System.Windows.Forms.ToolStripMenuItem SettingsToolStripMenuItem;

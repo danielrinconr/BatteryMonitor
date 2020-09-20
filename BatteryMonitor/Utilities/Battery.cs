@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using System.Windows.Forms;
 using static BatteryMonitor.Utilities.Battery.Alerts;
 
@@ -51,7 +52,7 @@ namespace BatteryMonitor.Utilities
             LowBattery, HighBattery, Any
         }
 
-        private bool[] _enableAlert;
+        public bool[] AlertStatus { get; private set; }
 
         /// <summary>
         /// Current alert
@@ -80,10 +81,17 @@ namespace BatteryMonitor.Utilities
 
         public Battery()
         {
-            if (_enableAlert == null)
-                _enableAlert = new[] { true, true };
+            if (AlertStatus == null)
+                AlertStatus = new[] { true, true };
         }
-        public Battery(bool[] enableAlert) => _enableAlert = enableAlert;
+        public Battery(bool[] enableAlert) => AlertStatus = enableAlert;
+
+        public void changeAlertStatus(bool[] newAlertStatus)
+        {
+            if (newAlertStatus.Length != AlertStatus.Length)
+                throw new Exception($"El arreglo debe tener tamaño {AlertStatus.Length}");
+            AlertStatus = newAlertStatus;
+        }
 
         #region Change Private Properties
         public void ChangeLowBatteryLvl(uint lowBatteryLvl) => LowBatteryLvl = lowBatteryLvl;
@@ -96,17 +104,17 @@ namespace BatteryMonitor.Utilities
         //TODO: Add condition to each alert
         public bool CheckPowerLevel()
         {
-            if(_enableAlert[(int)LowBattery])
+            if (AlertStatus[(int)LowBattery])
             {
-                if (!IsCharging && Status.BatteryLifePercent <= (double) LowBatteryLvl / 100)
+                if (!IsCharging && Status.BatteryLifePercent <= (double)LowBatteryLvl / 100)
                 {
                     Msg = $@"Batería al {BatteryLifePercent:P0}. Conecte la fuente de poder.";
                     Alert = LowBattery;
                 }
             }
-            if(_enableAlert[(int)HighBattery])
+            if (AlertStatus[(int)HighBattery])
             {
-                if (IsCharging && Status.BatteryLifePercent >= (double) HighBatteryLvl / 100)
+                if (IsCharging && Status.BatteryLifePercent >= (double)HighBatteryLvl / 100)
                 {
                     Msg = $@"Batería al {BatteryLifePercent:P0}. Desconecte la fuente de poder.";
                     Alert = HighBattery;
@@ -124,11 +132,11 @@ namespace BatteryMonitor.Utilities
         /// <summary>
         /// Check if the alert was checked.
         /// </summary>
-        public void WaitForResp()
-        {
-            if (!ChkAlert)
-                AuxAlert = false;
-        }
+        //public void WaitForResp()
+        //{
+        //    if (!ChkAlert)
+        //        AuxAlert = false;
+        //}
 
         /// <summary>
         /// Occur when the user press BtnChecked and check if an warning message should be sent.
@@ -157,5 +165,7 @@ namespace BatteryMonitor.Utilities
             ChkAlert = true;
             return alert;
         }
+
+        public void ResetAlert() => Alert = Any;
     }
 }

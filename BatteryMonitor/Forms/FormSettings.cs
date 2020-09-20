@@ -1,5 +1,6 @@
 ﻿using BatteryMonitor.Utilities;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Forms;
 
@@ -7,6 +8,7 @@ namespace BatteryMonitor.Forms
 {
     public partial class FormSettings : Form
     {
+        #region Access to this Controls.
         public bool HasChanges { get; private set; }
         public uint TimeBattChk => (uint)NudTimeChk.Value;
         public uint AuxTimeBattChk => (uint)NudTimeNot.Value;
@@ -16,6 +18,10 @@ namespace BatteryMonitor.Forms
         public bool NotifyWind => ChkBNotifyWind.Checked;
         public bool NotifyVoice => ChkBNotifyVoice.Checked;
 
+        public bool ChBoxLowBat => ChBoxLowBattery.Checked;
+        public bool ChBoxHighBat => ChhBoxHighBattery.Checked;
+        #endregion
+
         private readonly Voice _voice;
         public string CurrentVoice => CbVoices.SelectedItem.ToString();
         public uint NotifyVolume => (uint)NudNotVol.Value;
@@ -23,14 +29,16 @@ namespace BatteryMonitor.Forms
         public string PcName => TbPcName.Text;
 
 
-        public FormSettings(uint timeBattChk, uint auxTimeBattChk, uint idleTime, uint lowBattery, uint highBattery, Voice voice, bool notifyWind, bool notifyVoice)
+        public FormSettings(uint timeBatChk, uint auxTimeBatChk, uint idleTime, uint lowBattery, uint highBattery, Voice voice, bool notifyWind, bool notifyVoice, IReadOnlyList<bool> alertStatus)
         {
             InitializeComponent();
             #region Not
+            ChBoxLowBattery.Checked = alertStatus[0];
+            ChhBoxHighBattery.Checked = alertStatus[1];
             NudLowBattLevel.Value = lowBattery;
             NudHighBattLevel.Value = highBattery;
-            NudTimeChk.Value = timeBattChk;
-            NudTimeNot.Value = auxTimeBattChk;
+            NudTimeChk.Value = timeBatChk;
+            NudTimeNot.Value = auxTimeBatChk;
             NudIdleTime.Value = idleTime;
             #endregion
             #region Voz

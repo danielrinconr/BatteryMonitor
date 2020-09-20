@@ -22,9 +22,9 @@ namespace BatteryMonitor.Forms
 
         public Battery Battery { get; set; }
 
-        public PcInnactivity PcIdle { get; set; }
+        public PcIdle PcIdle { get; set; }
 
-        private RegistryKey Reg { get; set; } 
+        private RegistryKey Reg { get; set; }
         #endregion
 
         private string AppName { get; set; }
@@ -45,7 +45,7 @@ namespace BatteryMonitor.Forms
 
         private uint AuxTimeBatteryCheck { get; set; } = 1;
 
-        private uint AuxAlertTime { get; set; } = 60;
+        private int AuxAlertTime { get; set; } = 60;
 
         private readonly bool _startMinimized;
 
@@ -80,7 +80,7 @@ namespace BatteryMonitor.Forms
         {
             AutoRunLoad();
             Battery = new Battery();
-            PcIdle = new PcInnactivity();
+            PcIdle = new PcIdle();
             //TODO: Move to Battery Class.
             SystemEvents.PowerModeChanged += PowerModeChanged;
             ShowPowerStatus();
@@ -118,6 +118,7 @@ namespace BatteryMonitor.Forms
             NotifyVoice = Settings.Default.NotifyVoice;
             Battery.ChangeHighBatteryLvl(Settings.Default.BatteryHigh);
             Battery.ChangeLowBatteryLvl(Settings.Default.BatteryLow);
+            Battery.changeAlertStatus(Array.ConvertAll(Settings.Default.AlertStatus.Split(','), bool.Parse));
             PcIdle.ChangeMaxIdleTime(Settings.Default.PcIdleTime);
             TimeBatteryCheck = Settings.Default.TimeBattChk;
             AuxTimeBatteryCheck = Settings.Default.TimeAuxBattChk;
@@ -160,14 +161,15 @@ namespace BatteryMonitor.Forms
 
         private void FrmMain_FormClosing(object sender, FormClosingEventArgs e)
         {
+#if !DEBUG
             if (e.CloseReason == CloseReason.UserClosing)
                 if (MessageBox.Show(@"¿Esta seguro de cerrar la apliación?", @"Cierre de aplicación",
                         MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
                 {
                     e.Cancel = true;
                     return;
-                }
-
+                } 
+#endif
             Voice?.Close();
         }
 
@@ -315,29 +317,25 @@ namespace BatteryMonitor.Forms
 
         private void TmCheckPower_Tick(object sender, EventArgs e)
         {
-            var idleTimeMin = PcInnactivity.GetIdleTimeMin();
-            // Check if activate Voice notification for idle time.
-            IdleVoiceNotify = !NotifyWind || idleTimeMin >= PcIdle.MaxIdleTime;
+            var idleTimeMin = PcIdle.GetIdleTimeMin();
             // Refresh Form data.
             ShowPowerStatus();
             TbIdleTime.Text = idleTimeMin.ToString("D");
 
+            if (NotifyVoice && NotifyWind)
+                // Check if activate Voice notification for idle time.
+                IdleVoiceNotify = !NotifyWind || idleTimeMin >= PcIdle.MaxIdleTime;
+
             if (!Battery.CheckPowerLevel())
             {
-                //TODO: Check this TWO conditions.
-                // If the user press the Checked Button or if the Alert is set, return.
-                if (!BtnChecked.Enabled || Battery.Alert != Any) return;
-                if (!Voice.IsSpeaking) AlertChecked();
                 Battery.AuxAlert = false;
                 return;
             }
-
-            var batteryMsg = Battery.Msg;
-            if (Battery.Alert == LowBattery)
-                batteryMsg += SpeakLifeRemaining(@" Tiempo restante:");
             BtnSpeak.Enabled = false;
-            NewNotification($"{Settings.Default.PcName}. {batteryMsg}");
-            TmWaitForResp.Enabled = true;
+            NewNotification($"{Settings.Default.PcName}. {Battery.Msg}");
+            TmCheckPower.Stop();
+            TmWaitForResp.Start();
+            GbNextNot.Enabled = true;
             Application.DoEvents();
         }
 
@@ -345,38 +343,39 @@ namespace BatteryMonitor.Forms
         {
             if (AuxAlertTime-- == 0)
             {
-                AuxAlertTime = AuxTimeBatteryCheck * 60;
-                TmWaitForResp.Enabled = false;
-                Battery.WaitForResp();
+                GbNextNot.Enabled = false;
+                // Reset time.
+                AuxAlertTime = (int)(AuxTimeBatteryCheck * 60);
+                TmWaitForResp.Stop();
+                TmCheckPower.Start();
                 return;
             }
-            var time = TimeSpan.FromSeconds(AuxAlertTime);
-            LbTime.Text = time.ToString(@"mm\:ss");
-            PbNextAlert.Value = (int)AuxAlertTime;
+            LbTime.Text = TimeSpan.FromSeconds(AuxAlertTime).ToString(@"mm\:ss");
+            //LbTime.Text = time.ToString(@"mm\:ss");
+            PbNextAlert.Value = AuxAlertTime;
         }
 
         private void NewNotification(string msg)
         {
             BtnChecked.Enabled = true;
-            if (NotifyWind) notifyIcon1.ShowBalloonTip(1000, "Notificación del estado de batería", msg, ToolTipIcon.Warning);
+            if (NotifyWind) notifyIcon1.ShowBalloonTip(2000, "Notificación del estado de batería", msg, ToolTipIcon.Warning);
             if (!NotifyVoice) return;
             if (!IdleVoiceNotify) return;
             //Wait for NotifyWindow sound.
             Thread.Sleep(1000);
-            Voice.AddMessage(msg);
+            Voice.AddMessage(Battery.Alert != LowBattery ?
+                msg :
+                msg + SpeakLifeRemaining(@"Tiempo Restante"));
         }
 
-        private void BtnChecked_Click(object sender, EventArgs e)
-        {
-            Voice.Checked();
-            AlertChecked();
-        }
+        private void BtnChecked_Click(object sender, EventArgs e) => AlertChecked();
 
         private void AlertChecked()
         {
+            if (NotifyVoice) Voice.Checked();
             var hasWarningMsg = Battery.Checked();
             TmWaitForResp.Enabled = false;
-            AuxAlertTime = AuxTimeBatteryCheck * 60;
+            AuxAlertTime = (int)(AuxTimeBatteryCheck * 60);
             if (hasWarningMsg && NotifyWind)
                 notifyIcon1.ShowBalloonTip(1000, "Notificación del estado de batería", Battery.Msg, ToolTipIcon.Info);
             BtnChecked.Enabled = false;
@@ -410,11 +409,11 @@ namespace BatteryMonitor.Forms
             var hour = Convert.ToInt16(remaining[0]);
             var min = Convert.ToInt16(remaining[1]);
             if (min <= 0) return msg;
-            var hourtxt = "";
-            var mintxt = min == 1 ? $"{min} minuto" : $"{min} minutos";
+            var hourTxt = "";
+            var minTxt = min == 1 ? $"{min} minuto" : $"{min} minutos";
             if (hour > 0)
-                hourtxt = hour == 1 ? $"{hour} hora" : $"{hour} horas";
-            msg += $@" {hourtxt} {mintxt}";
+                hourTxt = hour == 1 ? $"{hour} hora" : $"{hour} horas";
+            msg += $@" {hourTxt} {minTxt}";
 
             return msg;
             //NewNotification(msg);
@@ -449,19 +448,27 @@ namespace BatteryMonitor.Forms
         private void SettingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //TODO: Fix the way to pass parameters.
-            using (var formSettings = new FormSettings(TimeBatteryCheck, AuxTimeBatteryCheck, PcIdle.MaxIdleTime, Battery.LowBatteryLvl, Battery.HighBatteryLvl, Voice, NotifyWind, NotifyVoice))
+            using (var formSettings = new FormSettings(TimeBatteryCheck, AuxTimeBatteryCheck, PcIdle.MaxIdleTime, Battery.LowBatteryLvl, Battery.HighBatteryLvl, Voice, NotifyWind, NotifyVoice, Battery.AlertStatus))
             {
                 //Recall for check if there is an installed voice.
                 Voice.GetVoices();
+                // SHOW Form
                 formSettings.ShowDialog();
+                // Check if the user make any change.
                 if (!formSettings.HasChanges) return;
                 #region Notification
                 //Stop timers.
-                var isTmCheckPowerEnabled = TmCheckPower.Enabled;
+                // Save the Status of the Timer.
+                //var isTmCheckPowerEnabled = TmCheckPower.Enabled;
                 TmCheckPower.Stop();
                 TmWaitForResp.Stop();
+                GbNextNot.Enabled = false;
+                BtnChecked.Enabled = false;
+                BtnSpeak.Enabled = true;
                 //
+                Battery.changeAlertStatus(new[] { formSettings.ChBoxLowBat, formSettings.ChBoxHighBat });
                 Battery.ChangePrevAlert(Any);
+                Battery.ResetAlert();
                 //Get formSettings values.
                 NotifyWind = formSettings.NotifyWind;
                 NotifyVoice = formSettings.NotifyVoice;
@@ -470,6 +477,7 @@ namespace BatteryMonitor.Forms
                 Battery.ChangeLowBatteryLvl(formSettings.LowBattery);
                 Battery.ChangeHighBatteryLvl(formSettings.HighBattery);
                 PcIdle.ChangeMaxIdleTime(formSettings.IdleTime);
+
                 //Save in properties
                 Settings.Default.BatteryHigh = Battery.HighBatteryLvl;
                 Settings.Default.BatteryLow = Battery.LowBatteryLvl;
@@ -478,12 +486,14 @@ namespace BatteryMonitor.Forms
                 Settings.Default.TimeAuxBattChk = AuxTimeBatteryCheck;
                 Settings.Default.NotifyWind = NotifyWind;
                 Settings.Default.NotifyVoice = NotifyVoice;
+                Settings.Default.AlertStatus = string.Join(",", Battery.AlertStatus);
                 //Changes timer intervals.
                 TmCheckPower.Interval = (int)TimeBatteryCheck * 1000;
-                AuxAlertTime = AuxTimeBatteryCheck * 60;
-                PbNextAlert.Maximum = (int)AuxAlertTime;
+                AuxAlertTime = (int)(AuxTimeBatteryCheck * 60);
+                PbNextAlert.Maximum = AuxAlertTime;
                 //Restart timers.
-                TmCheckPower.Enabled = isTmCheckPowerEnabled;
+                //TmCheckPower.Enabled = isTmCheckPowerEnabled;
+                TmCheckPower.Start();
                 #endregion
                 #region Voz
                 try
@@ -512,7 +522,7 @@ namespace BatteryMonitor.Forms
 
         private void CloseToolStripMenuItem_Click(object sender, EventArgs e) => Close();
 
-        private void InformeToolStripMenuItem_Click(object sender, EventArgs e) => SpeakInfo();
+        private void InfoToolStripMenuItem_Click(object sender, EventArgs e) => SpeakInfo();
 
         private void AboutToolStripMenuItem_Click(object sender, EventArgs e) => new FormAbout(AppName, AppVersion).ShowDialog();
 
@@ -526,6 +536,11 @@ namespace BatteryMonitor.Forms
         }
 
         private void NotifyIcon1_DoubleClick(object sender, EventArgs e) => ShowForm();
+
+        private void ChBAutoRun_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 
     public static class ModifyProgressBarColor
