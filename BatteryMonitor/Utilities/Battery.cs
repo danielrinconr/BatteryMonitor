@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Windows.Forms;
+using static BatteryMonitor.Utilities.Battery.Alerts;
 
 namespace BatteryMonitor.Utilities
 {
     public class Battery
     {
+        #region Properties
+
         /// <summary>
         /// Pc charging status.
         /// </summary>
-        public bool IsCharging { get; private set; }
+        public bool IsCharging => Status.PowerLineStatus == System.Windows.Forms.PowerLineStatus.Online;
 
         /// <summary>
         /// Alert checked.
@@ -16,19 +19,19 @@ namespace BatteryMonitor.Utilities
         public bool ChkAlert { get; private set; }
 
         /// <summary>
-        /// Alert emmited.
+        /// Alert emitted.
         /// </summary>
         public bool AuxAlert { get; set; }
 
         /// <summary>
         /// Min battery level.
         /// </summary>
-        public uint LowBattLevel { get; private set; } = 20;
+        public uint LowBatteryLvl { get; private set; } = 20;
 
         /// <summary>
         /// Max battery level.
         /// </summary>
-        public uint HighBattLevel { get; private set; } = 80;
+        public uint HighBatteryLvl { get; private set; } = 80;
 
         /// <summary>
         /// Alert Message.
@@ -45,61 +48,74 @@ namespace BatteryMonitor.Utilities
         /// </summary>
         public enum Alerts
         {
-            Any, LowBattery, HighBattery
+            LowBattery, HighBattery, Any
         }
+
+        private bool[] _enableAlert;
 
         /// <summary>
         /// Current alert
         /// </summary>
-        public Alerts Alert { get; private set; } = Alerts.Any;
+        public Alerts Alert { get; private set; } = Any;
 
         /// <summary>
-        /// Previus alert.
+        /// Previous alert.
         /// </summary>
-        public Alerts PrevAlert { get; /*TODO: Change to private set*/set; } = Alerts.Any;
+        public Alerts PrevAlert { get; private set; } = Any;
 
+        #endregion
         #region PowerStatusProperties
 
         public BatteryChargeStatus ChargeStatus => Status.BatteryChargeStatus;
 
         public string BatteryFullLifetime => Status.BatteryFullLifetime == -1 ? "--" : Status.BatteryFullLifetime.ToString();
 
-        public float BatteryLifePercent => Status.BatteryLifePercent;
-
         public string BatteryLifeRemaining => Status.BatteryLifeRemaining == -1 ? "--" : TimeSpan.FromSeconds(Status.BatteryLifeRemaining).ToString(@"hh\:mm");
+
+        public float BatteryLifePercent => Status.BatteryLifePercent;
 
         public string PowerLineStatus => Status.PowerLineStatus == System.Windows.Forms.PowerLineStatus.Offline ? "Desconectado" : "Cargando";
 
         #endregion PowerStatusProperties
 
-        public Battery() => PowerModeChanged();
+        public Battery()
+        {
+            if (_enableAlert == null)
+                _enableAlert = new[] { true, true };
+        }
+        public Battery(bool[] enableAlert) => _enableAlert = enableAlert;
 
-        public void ChangeLowBattLevel(uint lowBattLevel) => LowBattLevel = lowBattLevel;
+        #region Change Private Properties
+        public void ChangeLowBatteryLvl(uint lowBatteryLvl) => LowBatteryLvl = lowBatteryLvl;
 
-        public void ChangeHighBattLevel(uint highBattLevel) => HighBattLevel = highBattLevel;
+        public void ChangeHighBatteryLvl(uint highBatteryLvl) => HighBatteryLvl = highBatteryLvl;
 
-        /// <summary>
-        /// Check if the pc is charging.
-        /// </summary>
-        public void PowerModeChanged() => IsCharging = Status.PowerLineStatus == System.Windows.Forms.PowerLineStatus.Online;
+        public void ChangePrevAlert(Alerts alert) => PrevAlert = alert;
+        #endregion
 
+        //TODO: Add condition to each alert
         public bool CheckPowerLevel()
         {
-            if (!IsCharging && Status.BatteryLifePercent <= (double)LowBattLevel / 100)
+            if(_enableAlert[(int)LowBattery])
             {
-                Msg = $@"Batería al {BatteryLifePercent:P0}. Conecte la fuente de poder.";
-                Alert = Alerts.LowBattery;
+                if (!IsCharging && Status.BatteryLifePercent <= (double) LowBatteryLvl / 100)
+                {
+                    Msg = $@"Batería al {BatteryLifePercent:P0}. Conecte la fuente de poder.";
+                    Alert = LowBattery;
+                }
             }
-            else if (IsCharging && Status.BatteryLifePercent >= (double)HighBattLevel / 100)
+            if(_enableAlert[(int)HighBattery])
             {
-                Msg = $@"Batería al {BatteryLifePercent:P0}. Desconecte la fuente de poder.";
-                Alert = Alerts.HighBattery;
+                if (IsCharging && Status.BatteryLifePercent >= (double) HighBatteryLvl / 100)
+                {
+                    Msg = $@"Batería al {BatteryLifePercent:P0}. Desconecte la fuente de poder.";
+                    Alert = HighBattery;
+                }
             }
             else
-                Alert = Alerts.Any;
+                Alert = Any;
 
-            if (Alert == Alerts.Any) return false;
-            if (PrevAlert == Alert && AuxAlert) return false;
+            if (Alert == Any || PrevAlert == Alert && AuxAlert) return false;
             PrevAlert = Alert;
             AuxAlert = true;
             return true;
@@ -114,33 +130,32 @@ namespace BatteryMonitor.Utilities
                 AuxAlert = false;
         }
 
+        /// <summary>
+        /// Occur when the user press BtnChecked and check if an warning message should be sent.
+        /// </summary>
+        /// <returns></returns>
         public bool Checked()
         {
-            // ReSharper disable once RedundantAssignment
-            var resp = false;
+            var alert = false;
             switch (Alert)
             {
-                case Alerts.HighBattery when IsCharging:
+                case HighBattery when IsCharging:
                     Msg = @"Recuerde que la vida de la batería podría verse afectada";
+                    alert = true;
                     break;
 
-                case Alerts.LowBattery when !IsCharging:
-                    Msg = @"No se ha detectado la conexión, puede perder información no salvada";
+                case LowBattery when !IsCharging:
+                    Msg = @"No se ha detectado la conexión, puede perder información no guardada";
+                    alert = true;
                     break;
 
-                case Alerts.Any:
-                    resp = true;
+                case Any:
                     break;
-
                 default:
-                    //throw new ArgumentOutOfRangeException();
-                    resp = true;
-                    break;
+                    throw new ArgumentOutOfRangeException();
             }
-
             ChkAlert = true;
-            // ReSharper disable once ConditionIsAlwaysTrueOrFalse
-            return resp;
+            return alert;
         }
     }
 }
