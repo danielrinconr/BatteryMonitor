@@ -99,7 +99,7 @@ namespace BatteryMonitor.Forms
             LoadProperties();
             if (Battery.ChargeStatus == BatteryChargeStatus.NoSystemBattery)
             {
-                notifyIcon1.Icon = Resources.ico_WithoutBatt;
+                NotifyIcon.Icon = Resources.ico_WithoutBatt;
                 Icon = Resources.ico_WithoutBatt;
                 return;
             }
@@ -127,7 +127,7 @@ namespace BatteryMonitor.Forms
                 Voice?.ChangeCurrentVoice(Settings.Default.VoiceName);
             else
             {
-                Settings.Default.VoiceName = Voice?.CurrenVoice;
+                Settings.Default.VoiceName = Voice?.CurrentVoice;
                 Settings.Default.Save();
             }
         }
@@ -224,8 +224,6 @@ namespace BatteryMonitor.Forms
 
         private void PowerModeChanged(object sender, PowerModeChangedEventArgs e)
         {
-            //TODO: Check if the next method is not necessary.
-            //Battery.PowerModeChanged();
             ShowPowerStatus();
             switch (e.Mode)
             {
@@ -238,7 +236,7 @@ namespace BatteryMonitor.Forms
                         case BatteryChargeStatus.NoSystemBattery:
                             TmCheckPower.Enabled = false;
                             TmWaitForResp.Enabled = false;
-                            notifyIcon1.Icon = Resources.ico_WithoutBatt;
+                            NotifyIcon.Icon = Resources.ico_WithoutBatt;
                             Icon = Resources.ico_WithoutBatt;
                             break;
                         case BatteryChargeStatus.Unknown:
@@ -255,7 +253,7 @@ namespace BatteryMonitor.Forms
                             break;
                         default:
                             var notifyIcon = Battery.IsCharging ? Resources.ico_chargingNormal : Resources.ico_DisconectNormal;
-                            notifyIcon1.Icon = notifyIcon;
+                            NotifyIcon.Icon = notifyIcon;
                             Icon = notifyIcon;
                             if (!TmCheckPower.Enabled)
                                 TmCheckPower.Enabled = true;
@@ -273,7 +271,12 @@ namespace BatteryMonitor.Forms
 
         private void ShowPowerStatus()
         {
-            ChangeCharge();
+            RefreshIconProgBar();
+            var batteryLife = Battery.BatteryLifePercent;
+            var percent = batteryLife.ToString("P0");
+            NotifyIcon.Text = $@"{percent} {Battery.PowerLineStatus}";
+            LbNivelCharge.Text = percent;
+            ProgBarCharge.Value = (int)(batteryLife * 100);
             var chargeStatus = Battery.ChargeStatus;
             TbChargeStatus.Text = chargeStatus == 0 ? "Normal" : chargeStatus.ToString();
             TbFullLifetime.Text = Battery.BatteryFullLifetime;
@@ -281,38 +284,40 @@ namespace BatteryMonitor.Forms
             TbLineStatus.Text = Battery.PowerLineStatus;
         }
 
-        private void ChangeCharge()
+        /// <summary>
+        /// Change the color of the progress bar and the Icons.
+        /// </summary>
+        private void RefreshIconProgBar()
         {
-            var batteryLife = Battery.BatteryLifePercent;
-            var percent = batteryLife.ToString("P0");
-            notifyIcon1.Text = $@"{percent} {Battery.PowerLineStatus}";
-            LbNivelCharge.Text = percent;
-            batteryLife *= 100;
-            PbCharge.Value = (int)batteryLife;
-            if (batteryLife <= Battery.LowBatteryLvl)
+            var color = Colors.Green;
+            var icon = Resources.ico_chargingNormal;
+            switch (Battery.Alert)
             {
-                PbColor = Colors.Red;
-                PbCharge.SetState((int)PbColor);
-                var notifyIcon = Battery.IsCharging ? Resources.ico_chargingLow : Resources.ico_DisconectLow;
-                notifyIcon1.Icon = notifyIcon;
-                Icon = notifyIcon;
+                case LowBattery:
+                    {
+                        color = Colors.Red;
+                        icon = Battery.IsCharging ? Resources.ico_chargingLow : Resources.ico_DisconectLow;
+                        break;
+                    }
+                case HighBattery when Battery.ChargeStatus != BatteryChargeStatus.NoSystemBattery:
+                    {
+                        color = Colors.Yellow;
+                        icon = Battery.IsCharging ? Resources.ico_chargingHigh : Resources.ico_DisconectHigh;
+                        break;
+                    }
+                case Any:
+                    if (PbColor != Colors.Green)
+                    {
+                        color = Colors.Green;
+                        icon = Battery.IsCharging ? Resources.ico_chargingNormal : Resources.ico_DisconectNormal;
+                    }
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
-            else if (batteryLife >= Battery.HighBatteryLvl && Battery.ChargeStatus != BatteryChargeStatus.NoSystemBattery)
-            {
-                PbColor = Colors.Yellow;
-                PbCharge.SetState((int)PbColor);
-                var notifyIcon = Battery.IsCharging ? Resources.ico_chargingHigh : Resources.ico_DisconectHigh;
-                notifyIcon1.Icon = notifyIcon;
-                Icon = notifyIcon;
-            }
-            else if (PbColor != Colors.Green)
-            {
-                PbColor = Colors.Green;
-                PbCharge.SetState((int)PbColor);
-                var notifyIcon = Battery.IsCharging ? Resources.ico_chargingNormal : Resources.ico_DisconectNormal;
-                notifyIcon1.Icon = notifyIcon;
-                Icon = notifyIcon;
-            }
+            ProgBarCharge.SetState((int)(PbColor = color));
+            NotifyIcon.Icon = icon;
+            Icon = icon;
         }
 
         private void TmCheckPower_Tick(object sender, EventArgs e)
@@ -332,6 +337,7 @@ namespace BatteryMonitor.Forms
                 return;
             }
             BtnSpeak.Enabled = false;
+            if (Battery.AuxAlert && (Voice.AuxNotVolume += 10) > 100) Voice.AuxNotVolume = 100;
             NewNotification($"{Settings.Default.PcName}. {Battery.Msg}");
             TmCheckPower.Stop();
             TmWaitForResp.Start();
@@ -352,13 +358,13 @@ namespace BatteryMonitor.Forms
             }
             LbTime.Text = TimeSpan.FromSeconds(AuxAlertTime).ToString(@"mm\:ss");
             //LbTime.Text = time.ToString(@"mm\:ss");
-            PbNextAlert.Value = AuxAlertTime;
+            ProgBarNextAlert.Value = AuxAlertTime;
         }
 
         private void NewNotification(string msg)
         {
             BtnChecked.Enabled = true;
-            if (NotifyWind) notifyIcon1.ShowBalloonTip(2000, "Notificación del estado de batería", msg, ToolTipIcon.Warning);
+            if (NotifyWind) NotifyIcon.ShowBalloonTip(2000, "Notificación del estado de batería", msg, ToolTipIcon.Warning);
             if (!NotifyVoice) return;
             if (!IdleVoiceNotify) return;
             //Wait for NotifyWindow sound.
@@ -377,7 +383,7 @@ namespace BatteryMonitor.Forms
             TmWaitForResp.Enabled = false;
             AuxAlertTime = (int)(AuxTimeBatteryCheck * 60);
             if (hasWarningMsg && NotifyWind)
-                notifyIcon1.ShowBalloonTip(1000, "Notificación del estado de batería", Battery.Msg, ToolTipIcon.Info);
+                NotifyIcon.ShowBalloonTip(1000, "Notificación del estado de batería", Battery.Msg, ToolTipIcon.Info);
             BtnChecked.Enabled = false;
         }
 
@@ -490,7 +496,7 @@ namespace BatteryMonitor.Forms
                 //Changes timer intervals.
                 TmCheckPower.Interval = (int)TimeBatteryCheck * 1000;
                 AuxAlertTime = (int)(AuxTimeBatteryCheck * 60);
-                PbNextAlert.Maximum = AuxAlertTime;
+                ProgBarNextAlert.Maximum = AuxAlertTime;
                 //Restart timers.
                 //TmCheckPower.Enabled = isTmCheckPowerEnabled;
                 TmCheckPower.Start();

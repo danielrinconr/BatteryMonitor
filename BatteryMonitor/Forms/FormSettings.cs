@@ -105,7 +105,7 @@ namespace BatteryMonitor.Forms
             try
             {
                 _voice.ChangeCurrentVoice(CbVoices.SelectedItem.ToString());
-                _voice.ChangeSyntVolume(TbTestVol.Value);
+                _voice.ChangeSynthVolume(TbTestVol.Value);
                 _voice.AddMessage(TbTest.Text);
             }
             catch (Exception exc)
@@ -127,7 +127,7 @@ namespace BatteryMonitor.Forms
             // ReSharper disable once CoVariantArrayConversion
             CbVoices.Items.AddRange(voices.ToArray());
             //Select the spanish voice or the first.
-            CbVoices.SelectedIndex = voices.FindIndex(x => x.Contains(_voice.CurrenVoice));
+            CbVoices.SelectedIndex = voices.FindIndex(x => x.Contains(_voice.CurrentVoice));
             //Concatenate the Numeric Up Down and Track bar value change event.
             NudTestVol.ValueChanged += TestVol_ValueChanged;
             TbTestVol.ValueChanged += TestVol_ValueChanged;

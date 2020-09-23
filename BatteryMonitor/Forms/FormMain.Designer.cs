@@ -47,24 +47,24 @@
             this.TmWaitForResp = new System.Windows.Forms.Timer(this.components);
             this.TbIdleTime = new System.Windows.Forms.TextBox();
             this.LbIdleTime = new System.Windows.Forms.Label();
-            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.ContMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.informeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ShowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.CloseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
+            this.NotifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.ChBAutoRun = new System.Windows.Forms.CheckBox();
             this.MenuStrip = new System.Windows.Forms.MenuStrip();
             this.OptionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.GbBatteryStatus = new System.Windows.Forms.GroupBox();
-            this.PbCharge = new System.Windows.Forms.ProgressBar();
+            this.ProgBarCharge = new System.Windows.Forms.ProgressBar();
             this.LbNivelCharge = new System.Windows.Forms.Label();
             this.GbVoiceBtns = new System.Windows.Forms.GroupBox();
             this.GbNextNot = new System.Windows.Forms.GroupBox();
-            this.PbNextAlert = new System.Windows.Forms.ProgressBar();
+            this.ProgBarNextAlert = new System.Windows.Forms.ProgressBar();
             this.LbTime = new System.Windows.Forms.Label();
-            this.contextMenuStrip1.SuspendLayout();
+            this.ContMenuStrip.SuspendLayout();
             this.MenuStrip.SuspendLayout();
             this.GbBatteryStatus.SuspendLayout();
             this.GbVoiceBtns.SuspendLayout();
@@ -176,7 +176,7 @@
             this.BtnSpeak.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.BtnSpeak.Name = "BtnSpeak";
             this.BtnSpeak.Size = new System.Drawing.Size(75, 30);
-            this.BtnSpeak.TabIndex = 10;
+            this.BtnSpeak.TabIndex = 0;
             this.BtnSpeak.Text = "&Informe";
             this.BtnSpeak.UseVisualStyleBackColor = true;
             this.BtnSpeak.Click += new System.EventHandler(this.BtnSpeak_Click);
@@ -189,7 +189,7 @@
             this.BtnPause.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.BtnPause.Name = "BtnPause";
             this.BtnPause.Size = new System.Drawing.Size(75, 30);
-            this.BtnPause.TabIndex = 11;
+            this.BtnPause.TabIndex = 1;
             this.BtnPause.Text = "&Pausar";
             this.BtnPause.UseVisualStyleBackColor = true;
             this.BtnPause.Click += new System.EventHandler(this.BtnPause_Click);
@@ -202,7 +202,7 @@
             this.BtnResume.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.BtnResume.Name = "BtnResume";
             this.BtnResume.Size = new System.Drawing.Size(80, 30);
-            this.BtnResume.TabIndex = 12;
+            this.BtnResume.TabIndex = 2;
             this.BtnResume.Text = "&Continuar";
             this.BtnResume.UseVisualStyleBackColor = true;
             this.BtnResume.Click += new System.EventHandler(this.BtnResume_Click);
@@ -215,7 +215,7 @@
             this.BtnChecked.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.BtnChecked.Name = "BtnChecked";
             this.BtnChecked.Size = new System.Drawing.Size(85, 30);
-            this.BtnChecked.TabIndex = 13;
+            this.BtnChecked.TabIndex = 0;
             this.BtnChecked.Text = "&Entendido";
             this.BtnChecked.UseVisualStyleBackColor = true;
             this.BtnChecked.Click += new System.EventHandler(this.BtnChecked_Click);
@@ -228,12 +228,13 @@
             // TbIdleTime
             // 
             this.TbIdleTime.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.TbIdleTime.Enabled = false;
             this.TbIdleTime.Location = new System.Drawing.Point(277, 441);
             this.TbIdleTime.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.TbIdleTime.Name = "TbIdleTime";
             this.TbIdleTime.ReadOnly = true;
             this.TbIdleTime.Size = new System.Drawing.Size(56, 22);
-            this.TbIdleTime.TabIndex = 3;
+            this.TbIdleTime.TabIndex = 6;
             this.TbIdleTime.Text = "0";
             this.TbIdleTime.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -244,18 +245,18 @@
             this.LbIdleTime.Location = new System.Drawing.Point(19, 443);
             this.LbIdleTime.Name = "LbIdleTime";
             this.LbIdleTime.Size = new System.Drawing.Size(252, 17);
-            this.LbIdleTime.TabIndex = 2;
+            this.LbIdleTime.TabIndex = 5;
             this.LbIdleTime.Text = "Tiempo de inactividad del equipo (Min)";
             // 
-            // contextMenuStrip1
+            // ContMenuStrip
             // 
-            this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ContMenuStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.ContMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.informeToolStripMenuItem,
             this.ShowToolStripMenuItem,
             this.CloseToolStripMenuItem});
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(131, 76);
+            this.ContMenuStrip.Name = "contextMenuStrip1";
+            this.ContMenuStrip.Size = new System.Drawing.Size(131, 76);
             // 
             // informeToolStripMenuItem
             // 
@@ -278,14 +279,14 @@
             this.CloseToolStripMenuItem.Text = "Cerrar";
             this.CloseToolStripMenuItem.Click += new System.EventHandler(this.CloseToolStripMenuItem_Click);
             // 
-            // notifyIcon1
+            // NotifyIcon
             // 
-            this.notifyIcon1.ContextMenuStrip = this.contextMenuStrip1;
-            this.notifyIcon1.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon1.Icon")));
-            this.notifyIcon1.Text = "Settings";
-            this.notifyIcon1.Visible = true;
-            this.notifyIcon1.Click += new System.EventHandler(this.NotifyIcon1_OnClick);
-            this.notifyIcon1.DoubleClick += new System.EventHandler(this.NotifyIcon1_DoubleClick);
+            this.NotifyIcon.ContextMenuStrip = this.ContMenuStrip;
+            this.NotifyIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("NotifyIcon.Icon")));
+            this.NotifyIcon.Text = "Settings";
+            this.NotifyIcon.Visible = true;
+            this.NotifyIcon.Click += new System.EventHandler(this.NotifyIcon1_OnClick);
+            this.NotifyIcon.DoubleClick += new System.EventHandler(this.NotifyIcon1_DoubleClick);
             // 
             // ChBAutoRun
             // 
@@ -295,7 +296,7 @@
             this.ChBAutoRun.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.ChBAutoRun.Name = "ChBAutoRun";
             this.ChBAutoRun.Size = new System.Drawing.Size(301, 21);
-            this.ChBAutoRun.TabIndex = 4;
+            this.ChBAutoRun.TabIndex = 2;
             this.ChBAutoRun.Text = "Cargar &automáticamente al iniciar Windows";
             this.ChBAutoRun.UseVisualStyleBackColor = true;
             this.ChBAutoRun.CheckedChanged += new System.EventHandler(this.ChBAutoRun_CheckedChanged);
@@ -310,7 +311,7 @@
             this.MenuStrip.Name = "MenuStrip";
             this.MenuStrip.Padding = new System.Windows.Forms.Padding(5, 2, 0, 2);
             this.MenuStrip.Size = new System.Drawing.Size(442, 28);
-            this.MenuStrip.TabIndex = 5;
+            this.MenuStrip.TabIndex = 7;
             this.MenuStrip.Text = "menuStrip1";
             // 
             // OptionsToolStripMenuItem
@@ -339,7 +340,7 @@
             // 
             this.GbBatteryStatus.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.GbBatteryStatus.Controls.Add(this.PbCharge);
+            this.GbBatteryStatus.Controls.Add(this.ProgBarCharge);
             this.GbBatteryStatus.Controls.Add(this.LbNivelCharge);
             this.GbBatteryStatus.Controls.Add(this.LbChargeStatus);
             this.GbBatteryStatus.Controls.Add(this.TbChargeStatus);
@@ -355,20 +356,20 @@
             this.GbBatteryStatus.Name = "GbBatteryStatus";
             this.GbBatteryStatus.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.GbBatteryStatus.Size = new System.Drawing.Size(418, 217);
-            this.GbBatteryStatus.TabIndex = 0;
+            this.GbBatteryStatus.TabIndex = 3;
             this.GbBatteryStatus.TabStop = false;
             this.GbBatteryStatus.Text = "Estado de la batería";
             // 
-            // PbCharge
+            // ProgBarCharge
             // 
-            this.PbCharge.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.ProgBarCharge.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.PbCharge.Location = new System.Drawing.Point(177, 103);
-            this.PbCharge.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.PbCharge.Name = "PbCharge";
-            this.PbCharge.Size = new System.Drawing.Size(235, 22);
-            this.PbCharge.TabIndex = 14;
-            this.PbCharge.Value = 50;
+            this.ProgBarCharge.Location = new System.Drawing.Point(177, 103);
+            this.ProgBarCharge.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.ProgBarCharge.Name = "ProgBarCharge";
+            this.ProgBarCharge.Size = new System.Drawing.Size(235, 22);
+            this.ProgBarCharge.TabIndex = 14;
+            this.ProgBarCharge.Value = 50;
             // 
             // LbNivelCharge
             // 
@@ -401,7 +402,7 @@
             // 
             this.GbNextNot.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.GbNextNot.Controls.Add(this.PbNextAlert);
+            this.GbNextNot.Controls.Add(this.ProgBarNextAlert);
             this.GbNextNot.Controls.Add(this.LbTime);
             this.GbNextNot.Enabled = false;
             this.GbNextNot.Location = new System.Drawing.Point(12, 290);
@@ -409,21 +410,21 @@
             this.GbNextNot.Name = "GbNextNot";
             this.GbNextNot.Padding = new System.Windows.Forms.Padding(4);
             this.GbNextNot.Size = new System.Drawing.Size(425, 69);
-            this.GbNextNot.TabIndex = 14;
+            this.GbNextNot.TabIndex = 4;
             this.GbNextNot.TabStop = false;
             this.GbNextNot.Text = "Próxima notificacion";
             // 
-            // PbNextAlert
+            // ProgBarNextAlert
             // 
-            this.PbNextAlert.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.ProgBarNextAlert.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.PbNextAlert.Location = new System.Drawing.Point(11, 41);
-            this.PbNextAlert.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.PbNextAlert.Maximum = 60;
-            this.PbNextAlert.Name = "PbNextAlert";
-            this.PbNextAlert.Size = new System.Drawing.Size(406, 22);
-            this.PbNextAlert.TabIndex = 16;
-            this.PbNextAlert.Value = 60;
+            this.ProgBarNextAlert.Location = new System.Drawing.Point(11, 41);
+            this.ProgBarNextAlert.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.ProgBarNextAlert.Maximum = 60;
+            this.ProgBarNextAlert.Name = "ProgBarNextAlert";
+            this.ProgBarNextAlert.Size = new System.Drawing.Size(406, 22);
+            this.ProgBarNextAlert.TabIndex = 16;
+            this.ProgBarNextAlert.Value = 60;
             // 
             // LbTime
             // 
@@ -460,7 +461,7 @@
             this.Load += new System.EventHandler(this.FormMain_Load);
             this.Shown += new System.EventHandler(this.FrmMain_Shown);
             this.Move += new System.EventHandler(this.FrmMain_Move);
-            this.contextMenuStrip1.ResumeLayout(false);
+            this.ContMenuStrip.ResumeLayout(false);
             this.MenuStrip.ResumeLayout(false);
             this.MenuStrip.PerformLayout();
             this.GbBatteryStatus.ResumeLayout(false);
@@ -492,10 +493,10 @@
         private System.Windows.Forms.Timer TmWaitForResp;
         private System.Windows.Forms.TextBox TbIdleTime;
         private System.Windows.Forms.Label LbIdleTime;
-        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ContextMenuStrip ContMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem ShowToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem CloseToolStripMenuItem;
-        private System.Windows.Forms.NotifyIcon notifyIcon1;
+        private System.Windows.Forms.NotifyIcon NotifyIcon;
         private System.Windows.Forms.CheckBox ChBAutoRun;
         private System.Windows.Forms.MenuStrip MenuStrip;
         private System.Windows.Forms.GroupBox GbBatteryStatus;
@@ -503,10 +504,10 @@
         private System.Windows.Forms.GroupBox GbVoiceBtns;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem informeToolStripMenuItem;
-        private System.Windows.Forms.ProgressBar PbCharge;
+        private System.Windows.Forms.ProgressBar ProgBarCharge;
         private System.Windows.Forms.Label LbNivelCharge;
         private System.Windows.Forms.GroupBox GbNextNot;
-        private System.Windows.Forms.ProgressBar PbNextAlert;
+        private System.Windows.Forms.ProgressBar ProgBarNextAlert;
         private System.Windows.Forms.Label LbTime;
         private System.Windows.Forms.ToolStripMenuItem SettingsToolStripMenuItem;
     }
