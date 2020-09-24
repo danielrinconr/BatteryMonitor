@@ -85,7 +85,6 @@ namespace BatteryMonitor.Utilities
             if (AlertStatus == null)
                 AlertStatus = new[] { true, true };
         }
-        public Battery(bool[] enableAlert) => AlertStatus = enableAlert;
 
         public void ChangeAlertStatus(bool[] newAlertStatus)
         {
@@ -104,6 +103,7 @@ namespace BatteryMonitor.Utilities
 
         public bool CheckPowerLevel()
         {
+            Alert = Any;
             if (AlertStatus[(int)LowBattery])
             {
                 if (!IsCharging && Status.BatteryLifePercent <= (double)LowBatteryLvl / 100)
@@ -147,12 +147,14 @@ namespace BatteryMonitor.Utilities
             var alert = false;
             switch (Alert)
             {
-                case HighBattery when IsCharging:
+                case HighBattery:
+                    if (!IsCharging) break;
                     Msg = @"Recuerde que la vida de la batería podría verse afectada";
                     alert = true;
                     break;
 
-                case LowBattery when !IsCharging:
+                case LowBattery:
+                    if (IsCharging) break;
                     Msg = @"No se ha detectado la conexión, puede perder información no guardada";
                     alert = true;
                     break;
@@ -168,6 +170,6 @@ namespace BatteryMonitor.Utilities
 
         public void ResetAlert() => Alert = Any;
 
-        public void AddPowerModeChanged(PowerModeChangedEventHandler powerModeChanged) => SystemEvents.PowerModeChanged += powerModeChanged;
+        //public void AddPowerModeChanged(PowerModeChangedEventHandler powerModeChanged) => SystemEvents.PowerModeChanged += powerModeChanged;
     }
 }

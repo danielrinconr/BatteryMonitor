@@ -297,7 +297,7 @@
             // SettingsToolStripMenuItem
             // 
             this.SettingsToolStripMenuItem.Name = "SettingsToolStripMenuItem";
-            this.SettingsToolStripMenuItem.Size = new System.Drawing.Size(185, 26);
+            this.SettingsToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.SettingsToolStripMenuItem.Text = "Configuración";
             this.SettingsToolStripMenuItem.Click += new System.EventHandler(this.SettingsToolStripMenuItem_Click);
             // 

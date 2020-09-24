@@ -30,6 +30,7 @@ namespace BatteryMonitor.Forms
         #endregion
 
         private readonly Voice _voice;
+        private bool _autoRun;
         public string CurrentVoice => CbVoices.SelectedItem.ToString();
         public uint NotifyVolume => (uint)NudNotVol.Value;
 
@@ -89,14 +90,18 @@ namespace BatteryMonitor.Forms
 
             Reg = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true);
             ApplicationPath = Assembly.GetEntryAssembly()?.Location;
-            var autoRun = Reg?.GetValue(AppName);
-            if (ApplicationPath != null && autoRun != null) ChBAutoRun.Checked = autoRun.ToString() == ApplicationPath;
+            var regPath = Reg?.GetValue(AppName);
+
+            if (ApplicationPath == null || regPath == null || regPath.ToString() != ApplicationPath) return;
+            _autoRun = true;
+            ChBAutoRun.Checked = _autoRun;
         }
 
         public void ChangeAutoRun()
         {
             try
             {
+                if(_autoRun == ChBAutoRun.Checked) return;
                 var ans = MessageBox.Show(
                     $@"Está seguro de que quiere {(ChBAutoRun.Checked ? "Activar" : "Desactivar")} el inicio automático", @"Confirmación cambio de inicio automático", MessageBoxButtons.OKCancel);
                 if (ans==DialogResult.Cancel) return;

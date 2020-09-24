@@ -76,8 +76,6 @@ namespace BatteryMonitor.Utilities
 
         //public bool IsSpeaking => _synth.State == SynthesizerState.Speaking;
 
-        //public event EventHandler<StateChangedEventArgs> SpeechSynthesizer;
-
         public Voice(Action speakCompleted)
         {
             try
