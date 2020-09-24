@@ -2,16 +2,23 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Reflection;
 using System.Windows.Forms;
+using Microsoft.Win32;
 
 namespace BatteryMonitor.Forms
 {
     public partial class FormSettings : Form
     {
+
+        private string AppName { get; set; }
+        private string ApplicationPath { get; set; }
+        private RegistryKey Reg { get; set; }
+
         #region Access to this Controls.
         public bool HasChanges { get; private set; }
-        public uint TimeBattChk => (uint)NudTimeChk.Value;
-        public uint AuxTimeBattChk => (uint)NudTimeNot.Value;
+        public uint TimeBatChk => (uint)NudTimeChk.Value;
+        public uint AuxTimeBatChk => (uint)NudTimeNot.Value;
         public uint LowBattery => (uint)NudLowBattLevel.Value;
         public uint HighBattery => (uint)NudHighBattLevel.Value;
         public uint IdleTime => (uint)NudIdleTime.Value;
@@ -49,6 +56,62 @@ namespace BatteryMonitor.Forms
             TbPcName.Text = voice.PcName;
             TbPcName.Text = PcName;
         }
+
+        private void FormSettings_Load(object sender, EventArgs e)
+        {
+            var voices = _voice.Voices;
+
+            //Fill the Combo Box with available voices.
+            // ReSharper disable once CoVariantArrayConversion
+            CbVoices.Items.AddRange(voices.ToArray());
+            //Select the spanish voice or the first.
+            CbVoices.SelectedIndex = voices.FindIndex(x => x.Contains(_voice.CurrentVoice));
+
+            //Concatenate the Numeric Up Down and Track bar value change event.
+            NudTestVol.ValueChanged += TestVol_ValueChanged;
+            TbTestVol.ValueChanged += TestVol_ValueChanged;
+            NudNotVol.ValueChanged += NotVol_ValueChanged;
+            TbNotVol.ValueChanged += NotVol_ValueChanged;
+            //Set the Notification volume.
+            NudNotVol.Value = _voice.NotVolume;
+            AutoRunLoad();
+        }
+
+
+        #region AutoRun
+        /// <summary>
+        /// Load the AutoRun status.
+        /// </summary>
+        private void AutoRunLoad()
+        {
+            // Get App Name to search in the System Register for and AutoRun.
+            AppName = Assembly.GetExecutingAssembly().GetName().Name;
+
+            Reg = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true);
+            ApplicationPath = Assembly.GetEntryAssembly()?.Location;
+            var autoRun = Reg?.GetValue(AppName);
+            if (ApplicationPath != null && autoRun != null) ChBAutoRun.Checked = autoRun.ToString() == ApplicationPath;
+        }
+
+        public void ChangeAutoRun()
+        {
+            try
+            {
+                var ans = MessageBox.Show(
+                    $@"Está seguro de que quiere {(ChBAutoRun.Checked ? "Activar" : "Desactivar")} el inicio automático", @"Confirmación cambio de inicio automático", MessageBoxButtons.OKCancel);
+                if (ans==DialogResult.Cancel) return;
+                if (ChBAutoRun.Checked)
+                    Reg.SetValue(AppName, ApplicationPath);
+                else
+                    Reg?.DeleteValue(AppName);
+            }
+            catch (Exception exc)
+            {
+                MessageBox.Show(exc.Message, @"Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        #endregion AutoRun
+
 
         private void NotVol_ValueChanged(object sender, EventArgs e)
         {
@@ -114,28 +177,8 @@ namespace BatteryMonitor.Forms
             }
         }
 
-        private void TbTest_TextChanged(object sender, EventArgs e) => BtnRead.Enabled = TbTest.Text.Length > 0;
+        private void TbTest_TextChanged(object sender, EventArgs e) => BtnSpeak.Enabled = TbTest.Text.Length > 0;
 
-        private void FormSettings_Load(object sender, EventArgs e)
-        {
-            var voices = _voice.Voices;
-            if (voices == null) return;
-            var tbTestText = TbTest.Text;
-            TbTest.Text = "";
-            TbTest.Text = tbTestText;
-            //Fill the Combo Box with available voices.
-            // ReSharper disable once CoVariantArrayConversion
-            CbVoices.Items.AddRange(voices.ToArray());
-            //Select the spanish voice or the first.
-            CbVoices.SelectedIndex = voices.FindIndex(x => x.Contains(_voice.CurrentVoice));
-            //Concatenate the Numeric Up Down and Track bar value change event.
-            NudTestVol.ValueChanged += TestVol_ValueChanged;
-            TbTestVol.ValueChanged += TestVol_ValueChanged;
-            NudNotVol.ValueChanged += NotVol_ValueChanged;
-            TbNotVol.ValueChanged += NotVol_ValueChanged;
-            //Set the Notification volume.
-            NudNotVol.Value = _voice.NotVolume;
-        }
 
         private void TbPcName_Validating(object sender, CancelEventArgs e)
         {
@@ -171,6 +214,7 @@ namespace BatteryMonitor.Forms
 
         private void BtnSave_Click(object sender, EventArgs e)
         {
+            ChangeAutoRun();
             HasChanges = true;
             Close();
         }

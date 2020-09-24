@@ -50,27 +50,26 @@
             this.ShowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.CloseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.NotifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
-            this.ChBAutoRun = new System.Windows.Forms.CheckBox();
             this.MenuStrip = new System.Windows.Forms.MenuStrip();
             this.OptionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.GbBatteryStatus = new System.Windows.Forms.GroupBox();
+            this.tabLayPanelBatteryInfo = new System.Windows.Forms.TableLayoutPanel();
             this.ProgBarCharge = new System.Windows.Forms.ProgressBar();
             this.LbNivelCharge = new System.Windows.Forms.Label();
             this.GbVoiceBtns = new System.Windows.Forms.GroupBox();
             this.GbNextNot = new System.Windows.Forms.GroupBox();
-            this.ProgBarNextAlert = new System.Windows.Forms.ProgressBar();
-            this.LbTime = new System.Windows.Forms.Label();
-            this.tabLayPanelBatteryInfo = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.LbTime = new System.Windows.Forms.Label();
+            this.ProgBarNextAlert = new System.Windows.Forms.ProgressBar();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.ContMenuStrip.SuspendLayout();
             this.MenuStrip.SuspendLayout();
             this.GbBatteryStatus.SuspendLayout();
+            this.tabLayPanelBatteryInfo.SuspendLayout();
             this.GbVoiceBtns.SuspendLayout();
             this.GbNextNot.SuspendLayout();
-            this.tabLayPanelBatteryInfo.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
@@ -274,19 +273,6 @@
             this.NotifyIcon.Click += new System.EventHandler(this.NotifyIcon1_OnClick);
             this.NotifyIcon.DoubleClick += new System.EventHandler(this.NotifyIcon1_DoubleClick);
             // 
-            // ChBAutoRun
-            // 
-            this.ChBAutoRun.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.ChBAutoRun.AutoSize = true;
-            this.ChBAutoRun.Location = new System.Drawing.Point(12, 466);
-            this.ChBAutoRun.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.ChBAutoRun.Name = "ChBAutoRun";
-            this.ChBAutoRun.Size = new System.Drawing.Size(301, 21);
-            this.ChBAutoRun.TabIndex = 2;
-            this.ChBAutoRun.Text = "Cargar &automáticamente al iniciar Windows";
-            this.ChBAutoRun.UseVisualStyleBackColor = true;
-            this.ChBAutoRun.CheckedChanged += new System.EventHandler(this.ChBAutoRun_CheckedChanged);
-            // 
             // MenuStrip
             // 
             this.MenuStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
@@ -296,7 +282,7 @@
             this.MenuStrip.Location = new System.Drawing.Point(0, 0);
             this.MenuStrip.Name = "MenuStrip";
             this.MenuStrip.Padding = new System.Windows.Forms.Padding(5, 2, 0, 2);
-            this.MenuStrip.Size = new System.Drawing.Size(442, 30);
+            this.MenuStrip.Size = new System.Drawing.Size(442, 28);
             this.MenuStrip.TabIndex = 7;
             this.MenuStrip.Text = "menuStrip1";
             // 
@@ -311,7 +297,7 @@
             // SettingsToolStripMenuItem
             // 
             this.SettingsToolStripMenuItem.Name = "SettingsToolStripMenuItem";
-            this.SettingsToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.SettingsToolStripMenuItem.Size = new System.Drawing.Size(185, 26);
             this.SettingsToolStripMenuItem.Text = "Configuración";
             this.SettingsToolStripMenuItem.Click += new System.EventHandler(this.SettingsToolStripMenuItem_Click);
             // 
@@ -333,6 +319,31 @@
             this.GbBatteryStatus.TabIndex = 3;
             this.GbBatteryStatus.TabStop = false;
             this.GbBatteryStatus.Text = "Estado de la batería";
+            // 
+            // tabLayPanelBatteryInfo
+            // 
+            this.tabLayPanelBatteryInfo.ColumnCount = 2;
+            this.tabLayPanelBatteryInfo.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 44F));
+            this.tabLayPanelBatteryInfo.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 56F));
+            this.tabLayPanelBatteryInfo.Controls.Add(this.LineStatus, 0, 4);
+            this.tabLayPanelBatteryInfo.Controls.Add(this.LifeRemaining, 0, 3);
+            this.tabLayPanelBatteryInfo.Controls.Add(this.TbLineStatus, 1, 4);
+            this.tabLayPanelBatteryInfo.Controls.Add(this.ProgBarCharge, 1, 2);
+            this.tabLayPanelBatteryInfo.Controls.Add(this.TbLifeRemaining, 1, 3);
+            this.tabLayPanelBatteryInfo.Controls.Add(this.TbChargeStatus, 1, 0);
+            this.tabLayPanelBatteryInfo.Controls.Add(this.LbNivelCharge, 1, 1);
+            this.tabLayPanelBatteryInfo.Controls.Add(this.LbChargeStatus, 0, 0);
+            this.tabLayPanelBatteryInfo.Controls.Add(this.LbCharge, 0, 1);
+            this.tabLayPanelBatteryInfo.Location = new System.Drawing.Point(10, 20);
+            this.tabLayPanelBatteryInfo.Name = "tabLayPanelBatteryInfo";
+            this.tabLayPanelBatteryInfo.RowCount = 5;
+            this.tabLayPanelBatteryInfo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tabLayPanelBatteryInfo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 17F));
+            this.tabLayPanelBatteryInfo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tabLayPanelBatteryInfo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tabLayPanelBatteryInfo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tabLayPanelBatteryInfo.Size = new System.Drawing.Size(400, 144);
+            this.tabLayPanelBatteryInfo.TabIndex = 8;
             // 
             // ProgBarCharge
             // 
@@ -383,53 +394,6 @@
             this.GbNextNot.TabStop = false;
             this.GbNextNot.Text = "Próxima notificacion";
             // 
-            // ProgBarNextAlert
-            // 
-            this.ProgBarNextAlert.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.ProgBarNextAlert.Location = new System.Drawing.Point(3, 28);
-            this.ProgBarNextAlert.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.ProgBarNextAlert.Maximum = 60;
-            this.ProgBarNextAlert.Name = "ProgBarNextAlert";
-            this.ProgBarNextAlert.Size = new System.Drawing.Size(394, 22);
-            this.ProgBarNextAlert.TabIndex = 16;
-            this.ProgBarNextAlert.Value = 60;
-            // 
-            // LbTime
-            // 
-            this.LbTime.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.LbTime.AutoSize = true;
-            this.LbTime.BackColor = System.Drawing.Color.Transparent;
-            this.LbTime.Location = new System.Drawing.Point(178, 4);
-            this.LbTime.Name = "LbTime";
-            this.LbTime.Size = new System.Drawing.Size(44, 17);
-            this.LbTime.TabIndex = 17;
-            this.LbTime.Text = "01:00";
-            // 
-            // tabLayPanelBatteryInfo
-            // 
-            this.tabLayPanelBatteryInfo.ColumnCount = 2;
-            this.tabLayPanelBatteryInfo.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 44F));
-            this.tabLayPanelBatteryInfo.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 56F));
-            this.tabLayPanelBatteryInfo.Controls.Add(this.LineStatus, 0, 4);
-            this.tabLayPanelBatteryInfo.Controls.Add(this.LifeRemaining, 0, 3);
-            this.tabLayPanelBatteryInfo.Controls.Add(this.TbLineStatus, 1, 4);
-            this.tabLayPanelBatteryInfo.Controls.Add(this.ProgBarCharge, 1, 2);
-            this.tabLayPanelBatteryInfo.Controls.Add(this.TbLifeRemaining, 1, 3);
-            this.tabLayPanelBatteryInfo.Controls.Add(this.TbChargeStatus, 1, 0);
-            this.tabLayPanelBatteryInfo.Controls.Add(this.LbNivelCharge, 1, 1);
-            this.tabLayPanelBatteryInfo.Controls.Add(this.LbChargeStatus, 0, 0);
-            this.tabLayPanelBatteryInfo.Controls.Add(this.LbCharge, 0, 1);
-            this.tabLayPanelBatteryInfo.Location = new System.Drawing.Point(10, 20);
-            this.tabLayPanelBatteryInfo.Name = "tabLayPanelBatteryInfo";
-            this.tabLayPanelBatteryInfo.RowCount = 5;
-            this.tabLayPanelBatteryInfo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tabLayPanelBatteryInfo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 17F));
-            this.tabLayPanelBatteryInfo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tabLayPanelBatteryInfo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tabLayPanelBatteryInfo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tabLayPanelBatteryInfo.Size = new System.Drawing.Size(400, 144);
-            this.tabLayPanelBatteryInfo.TabIndex = 8;
-            // 
             // tableLayoutPanel2
             // 
             this.tableLayoutPanel2.ColumnCount = 1;
@@ -444,6 +408,28 @@
             this.tableLayoutPanel2.Size = new System.Drawing.Size(400, 53);
             this.tableLayoutPanel2.TabIndex = 8;
             // 
+            // LbTime
+            // 
+            this.LbTime.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.LbTime.AutoSize = true;
+            this.LbTime.BackColor = System.Drawing.Color.Transparent;
+            this.LbTime.Location = new System.Drawing.Point(178, 4);
+            this.LbTime.Name = "LbTime";
+            this.LbTime.Size = new System.Drawing.Size(44, 17);
+            this.LbTime.TabIndex = 17;
+            this.LbTime.Text = "01:00";
+            // 
+            // ProgBarNextAlert
+            // 
+            this.ProgBarNextAlert.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.ProgBarNextAlert.Location = new System.Drawing.Point(3, 28);
+            this.ProgBarNextAlert.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.ProgBarNextAlert.Maximum = 60;
+            this.ProgBarNextAlert.Name = "ProgBarNextAlert";
+            this.ProgBarNextAlert.Size = new System.Drawing.Size(394, 22);
+            this.ProgBarNextAlert.TabIndex = 16;
+            this.ProgBarNextAlert.Value = 60;
+            // 
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.ColumnCount = 2;
@@ -451,7 +437,7 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 50F));
             this.tableLayoutPanel1.Controls.Add(this.LbIdleTime, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.TbIdleTime, 1, 0);
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(12, 426);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(12, 437);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
@@ -468,7 +454,6 @@
             this.Controls.Add(this.GbVoiceBtns);
             this.Controls.Add(this.GbBatteryStatus);
             this.Controls.Add(this.MenuStrip);
-            this.Controls.Add(this.ChBAutoRun);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.MenuStrip;
@@ -485,10 +470,10 @@
             this.MenuStrip.ResumeLayout(false);
             this.MenuStrip.PerformLayout();
             this.GbBatteryStatus.ResumeLayout(false);
-            this.GbVoiceBtns.ResumeLayout(false);
-            this.GbNextNot.ResumeLayout(false);
             this.tabLayPanelBatteryInfo.ResumeLayout(false);
             this.tabLayPanelBatteryInfo.PerformLayout();
+            this.GbVoiceBtns.ResumeLayout(false);
+            this.GbNextNot.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
             this.tableLayoutPanel1.ResumeLayout(false);
@@ -519,7 +504,6 @@
         private System.Windows.Forms.ToolStripMenuItem ShowToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem CloseToolStripMenuItem;
         private System.Windows.Forms.NotifyIcon NotifyIcon;
-        private System.Windows.Forms.CheckBox ChBAutoRun;
         private System.Windows.Forms.MenuStrip MenuStrip;
         private System.Windows.Forms.GroupBox GbBatteryStatus;
         private System.Windows.Forms.ToolStripMenuItem OptionsToolStripMenuItem;

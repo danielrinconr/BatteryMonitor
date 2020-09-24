@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Runtime.CompilerServices;
 using System.Windows.Forms;
+using Microsoft.Win32;
 using static BatteryMonitor.Utilities.Battery.Alerts;
 
 namespace BatteryMonitor.Utilities
@@ -8,6 +8,12 @@ namespace BatteryMonitor.Utilities
     public class Battery
     {
         #region Properties
+
+        /// <summary>
+        /// Object to check the Battery Status.
+        /// </summary>
+        private PowerStatus Status { get; } = SystemInformation.PowerStatus;
+
 
         /// <summary>
         /// Pc charging status.
@@ -38,11 +44,6 @@ namespace BatteryMonitor.Utilities
         /// Alert Message.
         /// </summary>
         public string Msg { get; private set; }
-
-        /// <summary>
-        /// Object to check the Battery Status.
-        /// </summary>
-        private PowerStatus Status { get; } = SystemInformation.PowerStatus;
 
         /// <summary>
         /// Available alerts
@@ -86,7 +87,7 @@ namespace BatteryMonitor.Utilities
         }
         public Battery(bool[] enableAlert) => AlertStatus = enableAlert;
 
-        public void changeAlertStatus(bool[] newAlertStatus)
+        public void ChangeAlertStatus(bool[] newAlertStatus)
         {
             if (newAlertStatus.Length != AlertStatus.Length)
                 throw new Exception($"El arreglo debe tener tamaño {AlertStatus.Length}");
@@ -101,7 +102,6 @@ namespace BatteryMonitor.Utilities
         public void ChangePrevAlert(Alerts alert) => PrevAlert = alert;
         #endregion
 
-        //TODO: Add condition to each alert
         public bool CheckPowerLevel()
         {
             if (AlertStatus[(int)LowBattery])
@@ -129,9 +129,9 @@ namespace BatteryMonitor.Utilities
             return true;
         }
 
-        /// <summary>
-        /// Check if the alert was checked.
-        /// </summary>
+        ///// <summary>
+        ///// Check if the alert was checked.
+        ///// </summary>
         //public void WaitForResp()
         //{
         //    if (!ChkAlert)
@@ -167,5 +167,7 @@ namespace BatteryMonitor.Utilities
         }
 
         public void ResetAlert() => Alert = Any;
+
+        public void AddPowerModeChanged(PowerModeChangedEventHandler powerModeChanged) => SystemEvents.PowerModeChanged += powerModeChanged;
     }
 }

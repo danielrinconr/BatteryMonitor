@@ -4,14 +4,15 @@ using System.Drawing;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading;
-//using System.Threading.Tasks;
 using System.Windows.Forms;
 using BatteryMonitor.Properties;
 using BatteryMonitor.Utilities;
 using Microsoft.Win32;
 //using Squirrel;
+#region StaticEnums
 using static BatteryMonitor.Forms.ModifyProgressBarColor;
-using static BatteryMonitor.Utilities.Battery.Alerts;
+using static BatteryMonitor.Utilities.Battery.Alerts; 
+#endregion
 
 namespace BatteryMonitor.Forms
 {
@@ -23,14 +24,12 @@ namespace BatteryMonitor.Forms
         public Battery Battery { get; set; }
 
         public PcIdle PcIdle { get; set; }
-
-        private RegistryKey Reg { get; set; }
         #endregion
 
+        #region AutoRun
         private string AppName { get; set; }
         private string AppVersion { get; set; }
-
-        private string ApplicationPath { get; set; }
+        #endregion
 
         /// <summary>
         /// Check idle time for voice notification.
@@ -59,6 +58,7 @@ namespace BatteryMonitor.Forms
         {
             InitializeComponent();
 #if DEBUG
+            // ReSharper disable once VirtualMemberCallInConstructor
             Text += @" (Debug)";
 #endif
             _startMinimized = startMinimized;
@@ -77,14 +77,15 @@ namespace BatteryMonitor.Forms
 
         private void FormMain_Load(object sender, EventArgs e)
         {
-            AutoRunLoad();
             Battery = new Battery();
             PcIdle = new PcIdle();
-            //TODO: Move to Battery Class.
-            SystemEvents.PowerModeChanged += PowerModeChanged;
+            Battery.AddPowerModeChanged(PowerModeChanged);
             ShowPowerStatus();
             BtnChecked.EnabledChanged += BtnChecked_EnabledChanged;
-
+            // Get App Name to show in the Form about and to search in the System Register for and AutoRun.
+            AppName = Assembly.GetExecutingAssembly().GetName().Name;
+            // Get App Version to show in the Form about.
+            AppVersion = ApplicationDeployment.IsNetworkDeployed ? $@"v{ApplicationDeployment.CurrentDeployment.CurrentVersion.ToString(4)}" : Assembly.GetExecutingAssembly().GetName().Version.ToString();
             try
             {
                 Voice = new Voice(VoiceCompleted);
@@ -117,7 +118,7 @@ namespace BatteryMonitor.Forms
             NotifyVoice = Settings.Default.NotifyVoice;
             Battery.ChangeHighBatteryLvl(Settings.Default.BatteryHigh);
             Battery.ChangeLowBatteryLvl(Settings.Default.BatteryLow);
-            Battery.changeAlertStatus(Array.ConvertAll(Settings.Default.AlertStatus.Split(','), bool.Parse));
+            Battery.ChangeAlertStatus(Array.ConvertAll(Settings.Default.AlertStatus.Split(','), bool.Parse));
             PcIdle.ChangeMaxIdleTime(Settings.Default.PcIdleTime);
             TimeBatteryCheck = Settings.Default.TimeBattChk;
             AuxTimeBatteryCheck = Settings.Default.TimeAuxBattChk;
@@ -186,40 +187,6 @@ namespace BatteryMonitor.Forms
         }
 
         #endregion FormEvents
-
-        #region AutoRun
-        /// <summary>
-        /// Load the AutoRun status.
-        /// </summary>
-        private void AutoRunLoad()
-        {
-            AppName = Assembly.GetExecutingAssembly().GetName().Name;
-            AppVersion = ApplicationDeployment.IsNetworkDeployed ? $@"v{ApplicationDeployment.CurrentDeployment.CurrentVersion.ToString(4)}" : Assembly.GetExecutingAssembly().GetName().Version.ToString();
-            Reg = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true);
-            ApplicationPath = Assembly.GetEntryAssembly()?.Location;
-            var autoRun = Reg?.GetValue(AppName);
-            if (ApplicationPath != null && autoRun != null) ChBAutoRun.Checked = autoRun.ToString() == ApplicationPath;
-            ChBAutoRun.CheckStateChanged += ChBAutoRun_CheckStateChanged;
-        }
-
-        private void ChBAutoRun_CheckStateChanged(object sender, EventArgs e) => ChangeAutoRun(((CheckBox)sender).Checked);
-
-        public void ChangeAutoRun(bool autoRun)
-        {
-            try
-            {
-                if (autoRun)
-                    Reg.SetValue(AppName, ApplicationPath);
-                else
-                    Reg?.DeleteValue(AppName);
-            }
-            catch (Exception exc)
-            {
-                MessageBox.Show(exc.Message, @"Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        #endregion AutoRun
 
         private void PowerModeChanged(object sender, PowerModeChangedEventArgs e)
         {
@@ -471,14 +438,14 @@ namespace BatteryMonitor.Forms
                 BtnChecked.Enabled = false;
                 BtnSpeak.Enabled = true;
                 //
-                Battery.changeAlertStatus(new[] { formSettings.ChBoxLowBat, formSettings.ChBoxHighBat });
+                Battery.ChangeAlertStatus(new[] { formSettings.ChBoxLowBat, formSettings.ChBoxHighBat });
                 Battery.ChangePrevAlert(Any);
                 Battery.ResetAlert();
                 //Get formSettings values.
                 NotifyWind = formSettings.NotifyWind;
                 NotifyVoice = formSettings.NotifyVoice;
-                TimeBatteryCheck = formSettings.TimeBattChk;
-                AuxTimeBatteryCheck = formSettings.AuxTimeBattChk;
+                TimeBatteryCheck = formSettings.TimeBatChk;
+                AuxTimeBatteryCheck = formSettings.AuxTimeBatChk;
                 Battery.ChangeLowBatteryLvl(formSettings.LowBattery);
                 Battery.ChangeHighBatteryLvl(formSettings.HighBattery);
                 PcIdle.ChangeMaxIdleTime(formSettings.IdleTime);
@@ -542,10 +509,6 @@ namespace BatteryMonitor.Forms
 
         private void NotifyIcon1_DoubleClick(object sender, EventArgs e) => ShowForm();
 
-        private void ChBAutoRun_CheckedChanged(object sender, EventArgs e)
-        {
-
-        }
     }
 
     public static class ModifyProgressBarColor

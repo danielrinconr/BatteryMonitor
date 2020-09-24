@@ -60,7 +60,7 @@
             this.GbTestVolume = new System.Windows.Forms.GroupBox();
             this.NudTestVol = new System.Windows.Forms.NumericUpDown();
             this.TbTestVol = new System.Windows.Forms.TrackBar();
-            this.BtnRead = new System.Windows.Forms.Button();
+            this.BtnSpeak = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
             this.TbTest = new System.Windows.Forms.TextBox();
             this.CbVoices = new System.Windows.Forms.ComboBox();
@@ -69,6 +69,7 @@
             this.BtnSave = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
+            this.ChBAutoRun = new System.Windows.Forms.CheckBox();
             this.TbCtrl.SuspendLayout();
             this.TpNotification.SuspendLayout();
             this.GbTimeSettings.SuspendLayout();
@@ -483,7 +484,7 @@
             // GbVoiceSettings
             // 
             this.GbVoiceSettings.Controls.Add(this.GbTestVolume);
-            this.GbVoiceSettings.Controls.Add(this.BtnRead);
+            this.GbVoiceSettings.Controls.Add(this.BtnSpeak);
             this.GbVoiceSettings.Controls.Add(this.label6);
             this.GbVoiceSettings.Controls.Add(this.TbTest);
             this.GbVoiceSettings.Controls.Add(this.CbVoices);
@@ -535,17 +536,16 @@
             this.TbTestVol.TabIndex = 1;
             this.TbTestVol.Value = 100;
             // 
-            // BtnRead
+            // BtnSpeak
             // 
-            this.BtnRead.Enabled = false;
-            this.BtnRead.Location = new System.Drawing.Point(5, 206);
-            this.BtnRead.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.BtnRead.Name = "BtnRead";
-            this.BtnRead.Size = new System.Drawing.Size(83, 34);
-            this.BtnRead.TabIndex = 4;
-            this.BtnRead.Text = "&Hablar";
-            this.BtnRead.UseVisualStyleBackColor = true;
-            this.BtnRead.Click += new System.EventHandler(this.BtnRead_Click);
+            this.BtnSpeak.Location = new System.Drawing.Point(5, 206);
+            this.BtnSpeak.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.BtnSpeak.Name = "BtnSpeak";
+            this.BtnSpeak.Size = new System.Drawing.Size(83, 34);
+            this.BtnSpeak.TabIndex = 4;
+            this.BtnSpeak.Text = "&Hablar";
+            this.BtnSpeak.UseVisualStyleBackColor = true;
+            this.BtnSpeak.Click += new System.EventHandler(this.BtnRead_Click);
             // 
             // label6
             // 
@@ -613,7 +613,7 @@
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.Controls.Add(this.BtnSave);
             this.panel1.Controls.Add(this.BtnCancel);
-            this.panel1.Location = new System.Drawing.Point(291, 446);
+            this.panel1.Location = new System.Drawing.Point(417, 447);
             this.panel1.Margin = new System.Windows.Forms.Padding(4);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(215, 46);
@@ -623,11 +623,24 @@
             // 
             this.errorProvider1.ContainerControl = this;
             // 
+            // ChBAutoRun
+            // 
+            this.ChBAutoRun.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.ChBAutoRun.AutoSize = true;
+            this.ChBAutoRun.Location = new System.Drawing.Point(20, 460);
+            this.ChBAutoRun.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.ChBAutoRun.Name = "ChBAutoRun";
+            this.ChBAutoRun.Size = new System.Drawing.Size(301, 21);
+            this.ChBAutoRun.TabIndex = 3;
+            this.ChBAutoRun.Text = "Cargar &automáticamente al iniciar Windows";
+            this.ChBAutoRun.UseVisualStyleBackColor = true;
+            // 
             // FormSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(755, 500);
+            this.Controls.Add(this.ChBAutoRun);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.TbCtrl);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
@@ -666,6 +679,7 @@
             this.panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -695,7 +709,7 @@
         private System.Windows.Forms.GroupBox GbTestVolume;
         private System.Windows.Forms.NumericUpDown NudTestVol;
         private System.Windows.Forms.TrackBar TbTestVol;
-        private System.Windows.Forms.Button BtnRead;
+        private System.Windows.Forms.Button BtnSpeak;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox TbTest;
         private System.Windows.Forms.ComboBox CbVoices;
@@ -711,5 +725,6 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.CheckBox ChBoxLowBattery;
         private System.Windows.Forms.CheckBox ChhBoxHighBattery;
+        private System.Windows.Forms.CheckBox ChBAutoRun;
     }
 }
