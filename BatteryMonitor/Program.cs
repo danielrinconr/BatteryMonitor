@@ -14,7 +14,7 @@ namespace BatteryMonitor
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new FormMain(args.Length == 0));
+            Application.Run(new FormMain(args.Length > 0));
         }
     }
 }

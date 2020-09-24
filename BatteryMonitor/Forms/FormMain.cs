@@ -59,10 +59,9 @@ namespace BatteryMonitor.Forms
         {
             InitializeComponent();
 #if DEBUG
-            _startMinimized = false;
-#else
-            _startMinimized = startMinimized;
+            Text += @" (Debug)";
 #endif
+            _startMinimized = startMinimized;
             //CheckForUpdates();
         }
 
@@ -279,7 +278,7 @@ namespace BatteryMonitor.Forms
             ProgBarCharge.Value = (int)(batteryLife * 100);
             var chargeStatus = Battery.ChargeStatus;
             TbChargeStatus.Text = chargeStatus == 0 ? "Normal" : chargeStatus.ToString();
-            TbFullLifetime.Text = Battery.BatteryFullLifetime;
+            //TbFullLifetime.Text = Battery.BatteryFullLifetime;
             TbLifeRemaining.Text = Battery.BatteryLifeRemaining;
             TbLineStatus.Text = Battery.PowerLineStatus;
         }
