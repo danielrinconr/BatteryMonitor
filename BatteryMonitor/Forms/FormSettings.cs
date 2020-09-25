@@ -92,7 +92,7 @@ namespace BatteryMonitor.Forms
             ApplicationPath = Assembly.GetEntryAssembly()?.Location;
             var regPath = Reg?.GetValue(AppName);
 
-            if (ApplicationPath == null || regPath == null || regPath.ToString() != ApplicationPath) return;
+            if (ApplicationPath == null || regPath == null || regPath.ToString() != $"{ApplicationPath} auto") return;
             _autoRun = true;
             ChBAutoRun.Checked = _autoRun;
         }
@@ -106,7 +106,7 @@ namespace BatteryMonitor.Forms
                     $@"Está seguro de que quiere {(ChBAutoRun.Checked ? "Activar" : "Desactivar")} el inicio automático", @"Confirmación cambio de inicio automático", MessageBoxButtons.OKCancel);
                 if (ans==DialogResult.Cancel) return;
                 if (ChBAutoRun.Checked)
-                    Reg.SetValue(AppName, ApplicationPath);
+                    Reg.SetValue(AppName, $"{ApplicationPath} auto");
                 else
                     Reg?.DeleteValue(AppName);
             }
