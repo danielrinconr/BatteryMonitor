@@ -108,7 +108,9 @@ namespace BatteryMonitor.Forms
                 Icon = Resources.ico_WithoutBatt;
                 return;
             }
-
+#if !DEBUG
+            Height = 390;
+#endif
             TmCheckPower.Start();
         }
 
@@ -174,7 +176,7 @@ namespace BatteryMonitor.Forms
                 {
                     e.Cancel = true;
                     return;
-                } 
+                }
 #endif
             Voice?.Close();
         }
@@ -244,6 +246,10 @@ namespace BatteryMonitor.Forms
         private void ShowPowerStatus()
         {
             RefreshIconProgBar();
+            var vol = (int)(Voice?.Volume ?? 0);
+            TbVolume.Text = vol.ToString();
+            //TODO: Update when it changes.
+            LbAudioDevName.Text = Voice?.AudioDeviceName;
             var batteryLife = Battery.BatteryLifePercent;
             var percent = batteryLife.ToString("P0");
             NotifyIcon.Text = $@"{percent} {Battery.PowerLineStatus}";
@@ -358,6 +364,7 @@ namespace BatteryMonitor.Forms
                 ProgBarNextAlert.Value = AuxAlertTime;
                 LbTime.Text = TimeSpan.FromSeconds(AuxAlertTime).ToString(@"mm\:ss");
                 TmWaitForResp.Stop();
+                Battery.AuxAlert = false;
                 if (!TmCheckPower.Enabled) TmCheckPower.Start();
                 GbNextNot.Enabled = false;
             }

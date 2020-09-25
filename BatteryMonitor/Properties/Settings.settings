@@ -35,5 +35,8 @@
     <Setting Name="AlertStatus" Type="System.String" Scope="User">
       <Value Profile="(Default)">True,True</Value>
     </Setting>
+    <Setting Name="TimeBatChk" Type="System.String" Scope="User">
+      <Value Profile="(Default)">1</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

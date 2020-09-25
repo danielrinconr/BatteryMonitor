@@ -13,7 +13,7 @@ namespace BatteryMonitor.Utilities
     public class Voice
     {
         private readonly SpeechSynthesizer _synth;
-        
+
         /// <summary>
         /// List of available voices in the computer.
         /// </summary>
@@ -27,7 +27,7 @@ namespace BatteryMonitor.Utilities
         /// <summary>
         /// Notifications queue.
         /// </summary>
-        private readonly Queue<string> _msgs;
+        private Queue<string> Msgs { get; }
 
         /// <summary>
         /// Task for dequeue and trigger notifications.
@@ -42,27 +42,35 @@ namespace BatteryMonitor.Utilities
         /// <summary>
         /// Action when the synth completed a notification.
         /// </summary>
-        private readonly Action _spkCompleted;
+        private Action SpkCompleted { get; }
 
         /// <summary>
         /// Object to control de computer volume.
         /// </summary>
-        private CoreAudioDevice _defaultPlaybackDevice;
+        private CoreAudioDevice DefaultPlaybackDevice { get; set; }
+
+        public double Volume  => DefaultPlaybackDevice.Volume;
+        public string AudioDeviceName  => DefaultPlaybackDevice.FullName;
 
         /// <summary>
-        /// Current volume for return when the notification was ended.
+        /// Save if the volume was muted.
         /// </summary>
-        private double _prevVol;
+        private bool WasMuted { get; set; }
+
+        /// <summary>
+        /// Volume previous to trigger alert to return when the notification was ended.
+        /// </summary>
+        private double PrevVol { get; set; }
 
         /// <summary>
         /// Default notification volume.
         /// </summary>
-        public uint NotVolume = 60;
+        public uint NotVolume { get; set; } = 60;
 
         /// <summary>
         /// Auxiliary copy of the NotVolume to increase in each repetition.
         /// </summary>
-        public uint AuxNotVolume;
+        public uint AuxNotVolume { get; set; }
 
         /// <summary>
         /// To load the volume controller in an independent thread and could cancel.
@@ -84,8 +92,8 @@ namespace BatteryMonitor.Utilities
                 GetVoices();
                 // Load an spanish voice or the first.
                 ChangeCurrentVoice(Voices.FirstOrDefault(x => x.Contains("Spanish")) ?? Voices[0]);
-                _msgs = new Queue<string>();
-                _spkCompleted = speakCompleted;
+                Msgs = new Queue<string>();
+                SpkCompleted = speakCompleted;
                 _synth.StateChanged += SynthStateChanged;
                 TskLoadVolController = Task.Run(LoadVolumeSett);
             }
@@ -172,7 +180,8 @@ namespace BatteryMonitor.Utilities
         {
             try
             {
-                _defaultPlaybackDevice = new CoreAudioController().DefaultPlaybackDevice;
+                DefaultPlaybackDevice = new CoreAudioController().DefaultPlaybackDevice;
+                Debug.WriteLine(DefaultPlaybackDevice.FullName);
             }
             catch (ArgumentNullException exp)
             {
@@ -187,7 +196,7 @@ namespace BatteryMonitor.Utilities
             // Before destruct the object, delete the event handler.
             _synth.StateChanged -= SynthStateChanged;
             // Clear the notification queue.
-            _msgs.Clear();
+            Msgs.Clear();
         }
 
         public void ChangePcName(string pcName) => PcName = pcName;
@@ -209,13 +218,18 @@ namespace BatteryMonitor.Utilities
                 // Wait until the Volume Controller is loaded.
                 if (TskLoadVolController.Status == TaskStatus.Running)
                     TskLoadVolController.Wait();
-                _msgs.Enqueue(msg);
-                if (_defaultPlaybackDevice != null)
-                {
-                    _prevVol = _defaultPlaybackDevice.Volume;
-                    if (_prevVol <= 5) _prevVol = 5;
-                    await _defaultPlaybackDevice.SetVolumeAsync(AuxNotVolume);
-                }
+                Msgs.Enqueue(msg);
+                if (DefaultPlaybackDevice == null)
+                    throw new Exception("There is no device to play alert.");
+
+                // ReSharper disable once AssignmentInConditionalExpression
+                if (WasMuted = DefaultPlaybackDevice.IsMuted)
+                    await DefaultPlaybackDevice.SetMuteAsync(false);
+
+                PrevVol = DefaultPlaybackDevice.Volume;
+                if (PrevVol <= 5) PrevVol = 5;
+                await DefaultPlaybackDevice.SetVolumeAsync(AuxNotVolume);
+
                 await SpeakMsgs();
                 Debug.WriteLine($"Launching new thread with the message: {msg}");
             }
@@ -236,9 +250,9 @@ namespace BatteryMonitor.Utilities
                 {
                     if (_synth.State != SynthesizerState.Paused)
                     {
-                        while (_msgs.Count > 0)
+                        while (Msgs.Count > 0)
                         {
-                            prompt = _synth.SpeakAsync(_msgs.Dequeue());
+                            prompt = _synth.SpeakAsync(Msgs.Dequeue());
                             Thread.Sleep(100);
                             while (_synth.State == SynthesizerState.Speaking)
                             {
@@ -246,9 +260,11 @@ namespace BatteryMonitor.Utilities
                                 Thread.Sleep(100);
                             }
                         }
-                        _spkCompleted();
+                        SpkCompleted();
                     }
-                    _defaultPlaybackDevice?.SetVolumeAsync(_prevVol, token);
+                    DefaultPlaybackDevice?.SetVolumeAsync(PrevVol, token);
+                    if (WasMuted)
+                        DefaultPlaybackDevice?.SetMuteAsync(true, token);
                 }
                 catch (Exception canceledException)
                 {

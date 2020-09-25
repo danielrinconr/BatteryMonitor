@@ -154,5 +154,17 @@ namespace BatteryMonitor.Properties {
                 this["AlertStatus"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public string TimeBatChk {
+            get {
+                return ((string)(this["TimeBatChk"]));
+            }
+            set {
+                this["TimeBatChk"] = value;
+            }
+        }
     }
 }

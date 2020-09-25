@@ -25,6 +25,7 @@ namespace BatteryMonitor.Utilities
         /// </summary>
         public bool ChkAlert { get; private set; }
 
+        //TODO: Change to private set.
         /// <summary>
         /// Alert emitted.
         /// </summary>
@@ -104,25 +105,17 @@ namespace BatteryMonitor.Utilities
         public bool CheckPowerLevel()
         {
             Alert = Any;
-            if (AlertStatus[(int)LowBattery])
+            if (AlertStatus[(int)LowBattery] && !IsCharging && Status.BatteryLifePercent <= (double)LowBatteryLvl / 100)
             {
-                if (!IsCharging && Status.BatteryLifePercent <= (double)LowBatteryLvl / 100)
-                {
-                    Msg = $@"Batería al {BatteryLifePercent:P0}. Conecte la fuente de poder.";
-                    Alert = LowBattery;
-                }
+                Msg = $@"Batería al {BatteryLifePercent:P0}. Conecte la fuente de poder.";
+                Alert = LowBattery;
             }
-            if (AlertStatus[(int)HighBattery])
+            if (AlertStatus[(int)HighBattery] && IsCharging && Status.BatteryLifePercent >= (double)HighBatteryLvl / 100)
             {
-                if (IsCharging && Status.BatteryLifePercent >= (double)HighBatteryLvl / 100)
-                {
-                    Msg = $@"Batería al {BatteryLifePercent:P0}. Desconecte la fuente de poder.";
-                    Alert = HighBattery;
-                }
+                Msg = $@"Batería al {BatteryLifePercent:P0}. Desconecte la fuente de poder.";
+                Alert = HighBattery;
             }
-            else
-                Alert = Any;
-
+            //TODO: check this condition to turn off AuxAlert only here.
             if (Alert == Any || PrevAlert == Alert && AuxAlert) return false;
             PrevAlert = Alert;
             AuxAlert = true;
