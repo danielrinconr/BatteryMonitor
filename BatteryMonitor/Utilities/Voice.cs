@@ -49,8 +49,8 @@ namespace BatteryMonitor.Utilities
         /// </summary>
         private CoreAudioDevice DefaultPlaybackDevice { get; set; }
 
-        public double Volume  => DefaultPlaybackDevice.Volume;
-        public string AudioDeviceName  => DefaultPlaybackDevice.FullName;
+        public double Volume => DefaultPlaybackDevice?.Volume ?? 0;
+        public string AudioDeviceName => DefaultPlaybackDevice?.FullName;
 
         /// <summary>
         /// Save if the volume was muted.

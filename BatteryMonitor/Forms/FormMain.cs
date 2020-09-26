@@ -245,11 +245,13 @@ namespace BatteryMonitor.Forms
 
         private void ShowPowerStatus()
         {
-            RefreshIconProgBar();
+#if DEBUG
             var vol = (int)(Voice?.Volume ?? 0);
             TbVolume.Text = vol.ToString();
             //TODO: Update when it changes.
             LbAudioDevName.Text = Voice?.AudioDeviceName;
+#endif
+            RefreshIconProgBar();
             var batteryLife = Battery.BatteryLifePercent;
             var percent = batteryLife.ToString("P0");
             NotifyIcon.Text = $@"{percent} {Battery.PowerLineStatus}";
