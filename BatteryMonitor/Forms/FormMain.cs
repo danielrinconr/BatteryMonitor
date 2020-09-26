@@ -220,13 +220,15 @@ namespace BatteryMonitor.Forms
                             TmWaitForResp.Stop();
                             TmCheckPower.Start();
                             break;
+                        // ReSharper disable RedundantCaseLabel
                         case BatteryChargeStatus.Unknown:
                         case BatteryChargeStatus.High:
                         case BatteryChargeStatus.Low:
                         case BatteryChargeStatus.Critical:
+                        // ReSharper restore RedundantCaseLabel
                         default:
                             //
-                            //notifyIcon = Battery.IsCharging ? Resources.ico_chargingNormal : Resources.ico_DisconectNormal;
+                            //notifyIcon = Battery.IsCharging ? Resources.ico_chargingNormal : Resources.ico_DisconnectNormal;
                             //
                             if (!TmWaitForResp.Enabled) break;
                             TmWaitForResp.Stop();
@@ -276,20 +278,20 @@ namespace BatteryMonitor.Forms
                 case LowBattery:
                     {
                         color = Colors.Red;
-                        icon = Battery.IsCharging ? Resources.ico_chargingLow : Resources.ico_DisconectLow;
+                        icon = Battery.IsCharging ? Resources.ico_chargingLow : Resources.ico_DisconnectLow;
                         break;
                     }
                 case HighBattery when Battery.ChargeStatus != BatteryChargeStatus.NoSystemBattery:
                     {
                         color = Colors.Yellow;
-                        icon = Battery.IsCharging ? Resources.ico_chargingHigh : Resources.ico_DisconectHigh;
+                        icon = Battery.IsCharging ? Resources.ico_chargingHigh : Resources.ico_DisconnectHigh;
                         break;
                     }
                 case Any:
                     if (PbColor != Colors.Green)
                     {
                         color = Colors.Green;
-                        icon = Battery.IsCharging ? Resources.ico_chargingNormal : Resources.ico_DisconectNormal;
+                        icon = Battery.IsCharging ? Resources.ico_chargingNormal : Resources.ico_DisconnectNormal;
                     }
                     break;
                 default:
@@ -343,7 +345,7 @@ namespace BatteryMonitor.Forms
         private void NewNotification(string msg)
         {
             BtnChecked.Enabled = true;
-            if (NotifyWind) NotifyIcon.ShowBalloonTip(2000, "Notificación del estado de batería", msg, ToolTipIcon.Warning);
+            if (NotifyWind) NotifyIcon.ShowBalloonTip(2000, @"Notificación del estado de batería", msg, ToolTipIcon.Warning);
             if (!NotifyVoice) return;
             if (!IdleVoiceNotify) return;
             //Wait for NotifyWindow sound.
@@ -361,7 +363,7 @@ namespace BatteryMonitor.Forms
             {
                 if (NotifyVoice && cancelVoice) Voice.Checked();
                 if (Battery.Checked() && NotifyWind)
-                    NotifyIcon.ShowBalloonTip(1000, "Notificación del estado de batería", Battery.Msg, ToolTipIcon.Info);
+                    NotifyIcon.ShowBalloonTip(1000, @"Notificación del estado de batería", Battery.Msg, ToolTipIcon.Info);
                 AuxAlertTime = (int)(AuxTimeBatteryCheck * 60);
                 ProgBarNextAlert.Value = AuxAlertTime;
                 LbTime.Text = TimeSpan.FromSeconds(AuxAlertTime).ToString(@"mm\:ss");
@@ -385,7 +387,7 @@ namespace BatteryMonitor.Forms
         {
             try
             {
-                var msg = $@"Batería al {LbNivelCharge.Text}.";
+                var msg = $"Batería al {LbNivelCharge.Text}.";
                 if (TbLifeRemaining.Text != @"--")
                     msg += SpeakLifeRemaining(@" Tiempo restante:");
                 Voice.AddMessage(msg);

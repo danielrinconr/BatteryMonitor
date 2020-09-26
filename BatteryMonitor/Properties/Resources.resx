@@ -127,13 +127,13 @@
   <data name="ico_chargingNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Imgs\ico\ico_chargingNormal.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="ico_DisconectHigh" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="ico_DisconnectHigh" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Imgs\ico\ico_DisconectHigh.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="ico_DisconectLow" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="ico_DisconnectLow" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Imgs\ico\ico_DisconectLow.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="ico_DisconectNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="ico_DisconnectNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Imgs\ico\ico_DisconectNormal.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="ico_WithoutBatt" type="System.Resources.ResXFileRef, System.Windows.Forms">
