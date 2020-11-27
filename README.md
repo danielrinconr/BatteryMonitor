@@ -5,7 +5,7 @@
 - [Configuration](#configuration)
 - [Uso](#uso)
 - [Acerca de](#acerca-de)
-	- [Actualizaciones automáticas](#actualizaciones-automáticas)
+  - [Actualizaciones automáticas](#actualizaciones-automáticas)
 
 -*BatteryMonitor** revisa periódicamente el nivel de carga de la batería de su computador portatil y le alertará cuando conectar o desconectar su cargador para mantener en los límites recomentados (20 %- 80%).
 
