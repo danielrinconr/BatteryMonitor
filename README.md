@@ -7,7 +7,7 @@
 - [Acerca de](#acerca-de)
   - [Actualizaciones automáticas](#actualizaciones-automáticas)
 
--*BatteryMonitor** revisa periódicamente el nivel de carga de la batería de su computador portatil y le alertará cuando conectar o desconectar su cargador para mantener en los límites recomentados (20 %- 80%).
+**BatteryMonitor** revisa periódicamente el nivel de carga de la batería de su computador portatil y le alertará cuando conectar o desconectar su cargador para mantener en los límites recomentados (20 %- 80%).
 
 Nuestra novedad, la aplicación detecta el tiempo de inactividad del equipo, si surge una alerta, se producirá una notificación usando el sintetizador de voz de Windows.
 
@@ -23,8 +23,8 @@ Nuestra novedad, la aplicación detecta el tiempo de inactividad del equipo, si 
 
 ## Configuration
 
-- En la pantalla principal, seleccione -*Opciones** -> -*Configuración**.
-- En la pestaña -*Notificaciones** puede configurar:
+- En la pantalla principal, seleccione **Opciones** -> **Configuración**.
+- En la pestaña **Notificaciones** puede configurar:
   - Los niveles de advertencia para la batería.
   - El periodo en que se mide el nivel de batería.
   - El periodo en que se repite la advertencia de no haber sido atendida o desactivada.
@@ -34,7 +34,7 @@ Nuestra novedad, la aplicación detecta el tiempo de inactividad del equipo, si 
 
 ![FormSettings](http://gg.gg/BattMonFormSettings)
 
-- En la pestaña -*Sintetizador de voz** puede configurar:
+- En la pestaña **Sintetizador de voz** puede configurar:
 - La voz que usará el sintetizador.
 - El volumen al que cambiará a la hora de emitirse una notificación.
 
