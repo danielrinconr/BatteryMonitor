@@ -62,13 +62,16 @@
             this.GbNextNot = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.LbTime = new System.Windows.Forms.Label();
-            this.ProgBarNextAlert = new System.Windows.Forms.ProgressBar();
+            this.ProgBarWaitResponse = new System.Windows.Forms.ProgressBar();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.GbDebugInfo = new System.Windows.Forms.GroupBox();
             this.label1 = new System.Windows.Forms.Label();
             this.TbVolume = new System.Windows.Forms.TextBox();
             this.LbAudioDevName = new System.Windows.Forms.Label();
-            this.LbDeviceType = new System.Windows.Forms.Label();
+            this.BtnTest1 = new System.Windows.Forms.Button();
+            this.BtnTest2 = new System.Windows.Forms.Button();
+            this.BtnTest3 = new System.Windows.Forms.Button();
+            this.GbDebugInfo = new System.Windows.Forms.GroupBox();
+            this.TbDeviceType = new System.Windows.Forms.TextBox();
             this.ContMenuStrip.SuspendLayout();
             this.MenuStrip.SuspendLayout();
             this.GbBatteryStatus.SuspendLayout();
@@ -220,7 +223,7 @@
             // 
             this.TbIdleTime.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.TbIdleTime.Enabled = false;
-            this.TbIdleTime.Location = new System.Drawing.Point(267, 4);
+            this.TbIdleTime.Location = new System.Drawing.Point(268, 4);
             this.TbIdleTime.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.TbIdleTime.Name = "TbIdleTime";
             this.TbIdleTime.ReadOnly = true;
@@ -288,8 +291,8 @@
             this.MenuStrip.Location = new System.Drawing.Point(0, 0);
             this.MenuStrip.Name = "MenuStrip";
             this.MenuStrip.Padding = new System.Windows.Forms.Padding(5, 2, 0, 2);
-            this.MenuStrip.Size = new System.Drawing.Size(442, 28);
-            this.MenuStrip.TabIndex = 7;
+            this.MenuStrip.Size = new System.Drawing.Size(480, 28);
+            this.MenuStrip.TabIndex = 4;
             this.MenuStrip.Text = "menuStrip1";
             // 
             // OptionsToolStripMenuItem
@@ -303,7 +306,7 @@
             // SettingsToolStripMenuItem
             // 
             this.SettingsToolStripMenuItem.Name = "SettingsToolStripMenuItem";
-            this.SettingsToolStripMenuItem.Size = new System.Drawing.Size(185, 26);
+            this.SettingsToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.SettingsToolStripMenuItem.Text = "Configuración";
             this.SettingsToolStripMenuItem.Click += new System.EventHandler(this.SettingsToolStripMenuItem_Click);
             // 
@@ -322,7 +325,7 @@
             this.GbBatteryStatus.Name = "GbBatteryStatus";
             this.GbBatteryStatus.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.GbBatteryStatus.Size = new System.Drawing.Size(420, 174);
-            this.GbBatteryStatus.TabIndex = 3;
+            this.GbBatteryStatus.TabIndex = 0;
             this.GbBatteryStatus.TabStop = false;
             this.GbBatteryStatus.Text = "Estado de la batería";
             // 
@@ -382,7 +385,7 @@
             this.GbVoiceBtns.Name = "GbVoiceBtns";
             this.GbVoiceBtns.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.GbVoiceBtns.Size = new System.Drawing.Size(420, 66);
-            this.GbVoiceBtns.TabIndex = 1;
+            this.GbVoiceBtns.TabIndex = 2;
             this.GbVoiceBtns.TabStop = false;
             this.GbVoiceBtns.Text = "Control de voz";
             // 
@@ -396,7 +399,7 @@
             this.GbNextNot.Name = "GbNextNot";
             this.GbNextNot.Padding = new System.Windows.Forms.Padding(4);
             this.GbNextNot.Size = new System.Drawing.Size(420, 125);
-            this.GbNextNot.TabIndex = 4;
+            this.GbNextNot.TabIndex = 1;
             this.GbNextNot.TabStop = false;
             this.GbNextNot.Text = "Próxima notificacion";
             // 
@@ -405,7 +408,7 @@
             this.tableLayoutPanel2.ColumnCount = 1;
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel2.Controls.Add(this.LbTime, 0, 0);
-            this.tableLayoutPanel2.Controls.Add(this.ProgBarNextAlert, 0, 1);
+            this.tableLayoutPanel2.Controls.Add(this.ProgBarWaitResponse, 0, 1);
             this.tableLayoutPanel2.Location = new System.Drawing.Point(9, 61);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 2;
@@ -425,46 +428,40 @@
             this.LbTime.TabIndex = 17;
             this.LbTime.Text = "01:00";
             // 
-            // ProgBarNextAlert
+            // ProgBarWaitResponse
             // 
-            this.ProgBarNextAlert.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.ProgBarNextAlert.Location = new System.Drawing.Point(3, 28);
-            this.ProgBarNextAlert.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.ProgBarNextAlert.Maximum = 60;
-            this.ProgBarNextAlert.Name = "ProgBarNextAlert";
-            this.ProgBarNextAlert.Size = new System.Drawing.Size(394, 22);
-            this.ProgBarNextAlert.TabIndex = 16;
-            this.ProgBarNextAlert.Value = 60;
+            this.ProgBarWaitResponse.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.ProgBarWaitResponse.Location = new System.Drawing.Point(3, 28);
+            this.ProgBarWaitResponse.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.ProgBarWaitResponse.Maximum = 60;
+            this.ProgBarWaitResponse.Name = "ProgBarWaitResponse";
+            this.ProgBarWaitResponse.Size = new System.Drawing.Size(394, 22);
+            this.ProgBarWaitResponse.TabIndex = 16;
+            this.ProgBarWaitResponse.Value = 60;
             // 
             // tableLayoutPanel1
             // 
-            this.tableLayoutPanel1.ColumnCount = 2;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 129F));
+            this.tableLayoutPanel1.ColumnCount = 3;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 60F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutPanel1.Controls.Add(this.TbDeviceType, 1, 2);
+            this.tableLayoutPanel1.Controls.Add(this.BtnTest3, 2, 2);
             this.tableLayoutPanel1.Controls.Add(this.TbIdleTime, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.LbIdleTime, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.LbAudioDevName, 0, 2);
             this.tableLayoutPanel1.Controls.Add(this.label1, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.TbVolume, 1, 1);
-            this.tableLayoutPanel1.Controls.Add(this.LbAudioDevName, 0, 2);
-            this.tableLayoutPanel1.Controls.Add(this.LbDeviceType, 1, 2);
+            this.tableLayoutPanel1.Controls.Add(this.BtnTest1, 2, 0);
+            this.tableLayoutPanel1.Controls.Add(this.BtnTest2, 2, 1);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(9, 21);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 4;
+            this.tableLayoutPanel1.RowCount = 3;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 27F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 13F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(393, 92);
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(442, 89);
             this.tableLayoutPanel1.TabIndex = 9;
-            // 
-            // GbDebugInfo
-            // 
-            this.GbDebugInfo.Controls.Add(this.tableLayoutPanel1);
-            this.GbDebugInfo.Location = new System.Drawing.Point(12, 423);
-            this.GbDebugInfo.Name = "GbDebugInfo";
-            this.GbDebugInfo.Size = new System.Drawing.Size(418, 130);
-            this.GbDebugInfo.TabIndex = 10;
-            this.GbDebugInfo.TabStop = false;
             // 
             // label1
             // 
@@ -480,7 +477,7 @@
             // 
             this.TbVolume.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.TbVolume.Enabled = false;
-            this.TbVolume.Location = new System.Drawing.Point(267, 34);
+            this.TbVolume.Location = new System.Drawing.Point(268, 34);
             this.TbVolume.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.TbVolume.Name = "TbVolume";
             this.TbVolume.ReadOnly = true;
@@ -493,27 +490,65 @@
             // 
             this.LbAudioDevName.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.LbAudioDevName.AutoSize = true;
-            this.tableLayoutPanel1.SetColumnSpan(this.LbAudioDevName, 2);
-            this.LbAudioDevName.Location = new System.Drawing.Point(3, 65);
+            this.LbAudioDevName.Location = new System.Drawing.Point(3, 66);
             this.LbAudioDevName.Name = "LbAudioDevName";
             this.LbAudioDevName.Size = new System.Drawing.Size(86, 17);
             this.LbAudioDevName.TabIndex = 5;
             this.LbAudioDevName.Text = "Tipo de disp";
             // 
-            // LbDeviceType
+            // BtnTest1
             // 
-            this.LbDeviceType.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.LbDeviceType.AutoSize = true;
-            this.LbDeviceType.Location = new System.Drawing.Point(3, 87);
-            this.LbDeviceType.Name = "LbDeviceType";
-            this.LbDeviceType.Size = new System.Drawing.Size(0, 13);
-            this.LbDeviceType.TabIndex = 5;
+            this.BtnTest1.Location = new System.Drawing.Point(356, 3);
+            this.BtnTest1.Name = "BtnTest1";
+            this.BtnTest1.Size = new System.Drawing.Size(75, 23);
+            this.BtnTest1.TabIndex = 7;
+            this.BtnTest1.Text = "BtnTest1";
+            this.BtnTest1.UseVisualStyleBackColor = true;
+            this.BtnTest1.Click += new System.EventHandler(this.BtnTest1_Click);
+            // 
+            // BtnTest2
+            // 
+            this.BtnTest2.Location = new System.Drawing.Point(356, 33);
+            this.BtnTest2.Name = "BtnTest2";
+            this.BtnTest2.Size = new System.Drawing.Size(75, 23);
+            this.BtnTest2.TabIndex = 8;
+            this.BtnTest2.Text = "BtnTest2";
+            this.BtnTest2.UseVisualStyleBackColor = true;
+            // 
+            // BtnTest3
+            // 
+            this.BtnTest3.Location = new System.Drawing.Point(356, 63);
+            this.BtnTest3.Name = "BtnTest3";
+            this.BtnTest3.Size = new System.Drawing.Size(75, 23);
+            this.BtnTest3.TabIndex = 9;
+            this.BtnTest3.Text = "BtnTest3";
+            this.BtnTest3.UseVisualStyleBackColor = true;
+            // 
+            // GbDebugInfo
+            // 
+            this.GbDebugInfo.Controls.Add(this.tableLayoutPanel1);
+            this.GbDebugInfo.Location = new System.Drawing.Point(12, 423);
+            this.GbDebugInfo.Name = "GbDebugInfo";
+            this.GbDebugInfo.Size = new System.Drawing.Size(458, 117);
+            this.GbDebugInfo.TabIndex = 0;
+            this.GbDebugInfo.TabStop = false;
+            this.GbDebugInfo.Text = "Debug Info";
+            this.GbDebugInfo.Visible = false;
+            // 
+            // TbDeviceType
+            // 
+            this.TbDeviceType.Location = new System.Drawing.Point(268, 63);
+            this.TbDeviceType.Name = "TbDeviceType";
+            this.TbDeviceType.Size = new System.Drawing.Size(82, 22);
+            this.TbDeviceType.TabIndex = 10;
+            this.TbDeviceType.Text = "SpkerDevice";
             // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(442, 557);
+            this.AutoSize = true;
+            this.ClientSize = new System.Drawing.Size(480, 550);
             this.Controls.Add(this.GbDebugInfo);
             this.Controls.Add(this.GbNextNot);
             this.Controls.Add(this.GbVoiceBtns);
@@ -579,7 +614,7 @@
         private System.Windows.Forms.ProgressBar ProgBarCharge;
         private System.Windows.Forms.Label LbNivelCharge;
         private System.Windows.Forms.GroupBox GbNextNot;
-        private System.Windows.Forms.ProgressBar ProgBarNextAlert;
+        private System.Windows.Forms.ProgressBar ProgBarWaitResponse;
         private System.Windows.Forms.Label LbTime;
         private System.Windows.Forms.ToolStripMenuItem SettingsToolStripMenuItem;
         private System.Windows.Forms.TableLayoutPanel tabLayPanelBatteryInfo;
@@ -589,7 +624,10 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox TbVolume;
         private System.Windows.Forms.Label LbAudioDevName;
-        private System.Windows.Forms.Label LbDeviceType;
+        private System.Windows.Forms.Button BtnTest1;
+        private System.Windows.Forms.Button BtnTest2;
+        private System.Windows.Forms.Button BtnTest3;
+        private System.Windows.Forms.TextBox TbDeviceType;
     }
 }
 
