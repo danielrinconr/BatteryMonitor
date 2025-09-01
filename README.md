@@ -58,3 +58,29 @@ This is one of the interesting feature, the auto-updater. Every 24h SoundSwitch 
 ![UpdateWindow2](http://gg.gg/BattMonUpdateWindow2)
 
 ![RunAfterUpdate](http://gg.gg/BattMonRunAfeterUpdate)
+
+## CI / Secrets
+
+This project can read an `ENCRYPTION_CODE` at runtime when the environment variable is present. GitHub Actions and other CI systems expose repository secrets to workflows but they are write-only — the running process can read the value while the job runs, but the secret will never be returned by the GitHub API.
+
+To set the secret in GitHub repository settings:
+
+- Go to the repo -> Settings -> Secrets and variables -> Actions -> New repository secret.
+- Name: ENCRYPTION_CODE
+- Value: (your secret)
+
+Example workflow is provided in `.github/workflows/ci-windows.yml` showing how to map the secret into the job environment.
+
+Local testing (PowerShell):
+
+```powershell
+# Temporarily set the environment variable for the current process (PowerShell)
+$env:ENCRYPTION_CODE = 'your-test-value'
+
+# Run the app or dotnet build/run in this session
+dotnet run --project BatteryMonitor/BatteryMonitor.csproj
+
+# Remove when done
+Remove-Item Env:\ENCRYPTION_CODE
+```
+

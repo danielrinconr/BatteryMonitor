@@ -170,6 +170,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\Battery.cs" />
     <Compile Include="Utilities\PcIdle.cs" />
+    <Compile Include="Utilities\SecretManager.cs" />
     <Compile Include="Utilities\Voice.cs" />
     <EmbeddedResource Include="Forms\FormPcName.resx">
       <DependentUpon>FormPcName.cs</DependentUpon>

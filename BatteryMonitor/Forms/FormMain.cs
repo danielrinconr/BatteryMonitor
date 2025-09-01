@@ -128,7 +128,7 @@ namespace BatteryMonitor.Forms
 
             // Get App Name and Version to show in the Form About.
 
-            // This works only for Project Name (wich is only in English).
+            // This works only for Project Name (which is only in English).
             // AppName = Assembly.GetExecutingAssembly().GetName().Name;
 
             AppVersion = ApplicationDeployment.IsNetworkDeployed ? $@"v{ApplicationDeployment.CurrentDeployment.CurrentVersion.ToString(4)}" : Assembly.GetExecutingAssembly().GetName().Version.ToString();
@@ -157,6 +157,10 @@ namespace BatteryMonitor.Forms
             {
                 MessageBox.Show(exc.Message, @"Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+
+            // Initialize secret manager to read runtime secret (keeps value only in memory).
+            // This reads ENCRYPTION_CODE from environment variables if present.
+            SecretManager.Initialize();
 
             //Load User Settings.
             LoadProperties();
@@ -305,7 +309,6 @@ namespace BatteryMonitor.Forms
             switch (e.Mode)
             {
                 case PowerModes.Resume:
-                    //TODO:¿?
                     Battery.AuxAlert = false;
                     break;
                 case PowerModes.StatusChange:
@@ -336,7 +339,6 @@ namespace BatteryMonitor.Forms
                         case BatteryChargeStatus.Critical:
                         // ReSharper restore RedundantCaseLabel
                         default:
-                            //TODO: When this case happen?
                             if (!TmWaitForResp.Enabled) break;
                             TmWaitForResp.Stop();
                             TmCheckPower.Start();
